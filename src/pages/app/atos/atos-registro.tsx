@@ -39,24 +39,24 @@ export function NovoRegistro () {
         <form onSubmit={handleSubmit(handleNovoRegistro)} className="grid grid-cols-4 gap-4">
           <div className="space-y-2">
             <Label htmlFor="numero">Número:</Label>
-            <Input id="numero" type="text" placeholder="Número" className="h-8" {...register('numero')} />
+            <Input id="numero" type="text" placeholder="Número" {...register('numero')} />
           </div>
           <div className="col-span-3 space-y-2">
             <Label htmlFor="titulo">Título:</Label>
-            <Input id="titulo" type="text" placeholder="Título" className="h-8" {...register('titulo')}/>
+            <Input id="titulo" type="text" placeholder="Título" {...register('titulo')}/>
           </div>
           <div className="col-span-4 space-y-2">
             <Label htmlFor="ementa">Ementa:</Label>
-            <Textarea id="ementa" placeholder="Ementa" className="h-8" {...register('ementa')}/>
+            <Textarea id="ementa" placeholder="Ementa" {...register('ementa')}/>
           </div>
           <div className="space-y-2">
             <Label htmlFor="tipo">Tipo:</Label>          
             <Select defaultValue="default">
-              <SelectTrigger className="h-8">
+              <SelectTrigger>
                 <SelectValue id="tipo"/>
               </SelectTrigger>
               <SelectContent>
-              <SelectItem value="default">Escolha uma opção</SelectItem>
+                <SelectItem value="default">Escolha uma opção</SelectItem>
                 <SelectItem value="constituicaoEstadual">Constituição Estadual</SelectItem>
                 <SelectItem value="decretoLegislativo">Decreto Legislativo</SelectItem>
                 <SelectItem value="decretoLei">Decreto Lei</SelectItem>
@@ -77,7 +77,7 @@ export function NovoRegistro () {
           <div className="space-y-2">
             <Label htmlFor="situacao">Situação:</Label>          
             <Select defaultValue="default">
-              <SelectTrigger className="h-8">
+              <SelectTrigger>
                 <SelectValue id="situacao" />
               </SelectTrigger>
               <SelectContent>
@@ -96,7 +96,7 @@ export function NovoRegistro () {
 
           <div className="col-span-2 space-y-2">
             <Label htmlFor="fonte">Fonte:</Label>
-            <Input id="fonte" placeholder="Fonte" className="h-8"/>
+            <Input id="fonte" placeholder="Fonte"/>
           </div>
 
           <div className=" flex flex-col gap-4">
@@ -111,12 +111,12 @@ export function NovoRegistro () {
 
           <div className="col-span-2 space-y-2">
             <Label htmlFor="descritores">Descritores:</Label>
-            <Input id="descritores" placeholder="Descritores" className="h-8"/>
+            <Input id="descritores" placeholder="Descritores"/>
           </div>
 
           <div className="col-span-4 space-y-2">
             <Label htmlFor="observacao">Observação:</Label>
-            <Textarea id="observacao" placeholder="Observação" className="h-8"/>
+            <Textarea id="observacao" placeholder="Observação"/>
           </div>
 
           <div id="editor" className="col-span-4">
