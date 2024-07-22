@@ -16,7 +16,7 @@ const novoRegistroForm = z.object({
   numero: z.string(),
   titulo: z.string(),
   ementa: z.string(),
-  tipo_id: z.string(),
+  tipo: z.string(),
   situacao: z.string(),
   fonte: z.string(),
   dataDoAto: z.date().nullable(),
@@ -67,7 +67,7 @@ export function NovoRegistro() {
           <div className="space-y-2">
             <Label htmlFor="tipo">Tipo:</Label>
             <Controller
-              name="tipo_id"
+              name="tipo"
               control={control}
               defaultValue=""
               render={({ field }) => (
