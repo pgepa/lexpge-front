@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import JoditEditor from 'jodit-react';
 
-const Editor: React.FC<{ onSave: (content: string) => void }> = ({ onSave }) => {
+const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> = ({ value = '', onChange }) => {
   const editor = useRef(null);
-  const [content, setContent] = useState(' ');
+  const [content, setContent] = useState(value);
 
   const config = {
     readonly: false, // All options from https://xdsoft.net/jodit/doc/
@@ -40,21 +40,22 @@ const Editor: React.FC<{ onSave: (content: string) => void }> = ({ onSave }) => 
     }
   };
 
-  const handleSave = () => {
-    onSave(content);
+  const handleContentChange = (newContent: string) => {
+    setContent(newContent);
+    if (onChange) {
+      onChange(newContent);
+    }
   };
 
+
   return (
-    <div className="App">
       <JoditEditor
         ref={editor}
         value={content}
         config={config}
-        onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-        onChange={(newContent) => {}}
+        onBlur={handleContentChange} // preferred to use only this option to update the content for performance reasons
+        onChange={() => {}}
       />
-      <button onClick={handleSave}>Salvar</button>
-    </div>
   );
 };
 

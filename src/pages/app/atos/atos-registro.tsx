@@ -16,7 +16,7 @@ const novoRegistroForm = z.object({
   numero: z.string(),
   titulo: z.string(),
   ementa: z.string(),
-  tipo: z.string(),
+  tipo_id: z.string(),
   situacao: z.string(),
   fonte: z.string(),
   dataDoAto: z.date().nullable(),
@@ -67,7 +67,7 @@ export function NovoRegistro() {
           <div className="space-y-2">
             <Label htmlFor="tipo">Tipo:</Label>
             <Controller
-              name="tipo"
+              name="tipo_id"
               control={control}
               defaultValue=""
               render={({ field }) => (
@@ -112,8 +112,8 @@ export function NovoRegistro() {
                     <SelectItem value="Revogado">Revogado(a)</SelectItem>
                     <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
                     <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
-                    <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
-                    <SelectItem value="Vetado">Vetado(a)</SelectItem>
+                    <SelectItem value="Sem RevogacaoExpressa">Sem Revogação Expressa</SelectItem>
+                    <SelectItem value="vetado">Vetado(a)</SelectItem>
                   </SelectContent>
                 </Select>
               )}
@@ -159,13 +159,15 @@ export function NovoRegistro() {
             <Textarea id="observacao" placeholder="Observação" {...register('observacao')} />
           </div>
 
-          <div id="editor" className="col-span-4">
+          <div className="col-span-4">
             <Controller
               name="editor"
               control={control}
               defaultValue=""
-              render={({ field }) => <Editor {...field} />}
-            />
+              render={({ field }) => (
+              <Editor value={field.value} onChange={field.onChange} />
+              )}
+              />
           </div>
 
           <div className="flex gap-4 justify-center col-span-4">
