@@ -76,19 +76,19 @@ export function NovoRegistro() {
                     <SelectValue placeholder="Escolha uma opção" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="constituicaoEstadual">Constituição Estadual</SelectItem>
-                    <SelectItem value="decretoLegislativo">Decreto Legislativo</SelectItem>
-                    <SelectItem value="decretoLei">Decreto Lei</SelectItem>
-                    <SelectItem value="decretoNumerado">Decreto Numerado</SelectItem>
-                    <SelectItem value="decretoNaoNumerado">Decreto Não Numerado</SelectItem>
-                    <SelectItem value="emendaConsitucional">Emenda Constitucional</SelectItem>
-                    <SelectItem value="instrucaoNormativa">Instrução Normativa</SelectItem>
-                    <SelectItem value="leiComplementar">Lei Complementar</SelectItem>
-                    <SelectItem value="leiOrdinaria">Lei Ordinária</SelectItem>
-                    <SelectItem value="mensagemDoGovernador">Mensagem do Governador</SelectItem>
-                    <SelectItem value="portaria">Portaria</SelectItem>
-                    <SelectItem value="portariaConjunta">Portaria Conjunta</SelectItem>
-                    <SelectItem value="resolucao">Resolução</SelectItem>
+                    <SelectItem value="Constituição Estadual">Constituição Estadual</SelectItem>
+                    <SelectItem value="Decreto Legislativo">Decreto Legislativo</SelectItem>
+                    <SelectItem value="Decreto Lei">Decreto Lei</SelectItem>
+                    <SelectItem value="Decreto Numerado">Decreto Numerado</SelectItem>
+                    <SelectItem value="Decreto Não Numerado">Decreto Não Numerado</SelectItem>
+                    <SelectItem value="Emenda Consitucional">Emenda Constitucional</SelectItem>
+                    <SelectItem value="Instrução Normativa">Instrução Normativa</SelectItem>
+                    <SelectItem value="Lei Complementar">Lei Complementar</SelectItem>
+                    <SelectItem value="Lei Ordinária">Lei Ordinária</SelectItem>
+                    <SelectItem value="Mensagem do Governador">Mensagem do Governador</SelectItem>
+                    <SelectItem value="Portaria">Portaria</SelectItem>
+                    <SelectItem value="Portaria Conjunta">Portaria Conjunta</SelectItem>
+                    <SelectItem value="Resolução">Resolução</SelectItem>
                   </SelectContent>
                 </Select>
               )}
@@ -106,14 +106,14 @@ export function NovoRegistro() {
                     <SelectValue placeholder="Escolha uma opção" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="inconstitucional">Declarado(a) Inconstitucional</SelectItem>
-                    <SelectItem value="suspensa">Eficácia Suspensa</SelectItem>
-                    <SelectItem value="vigente">Vigente</SelectItem>
-                    <SelectItem value="revogado">Revogado(a)</SelectItem>
-                    <SelectItem value="revogadoParcialmente">Revogado(a) Parcialmente</SelectItem>
-                    <SelectItem value="semEfeito">Sem Efeito</SelectItem>
-                    <SelectItem value="semRevogacaoExpressa">Sem Revogação Expressa</SelectItem>
-                    <SelectItem value="vetado">Vetado(a)</SelectItem>
+                    <SelectItem value="Inconstitucional">Declarado(a) Inconstitucional</SelectItem>
+                    <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
+                    <SelectItem value="Vigente">Vigente</SelectItem>
+                    <SelectItem value="Revogado">Revogado(a)</SelectItem>
+                    <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
+                    <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
+                    <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
+                    <SelectItem value="Vetado">Vetado(a)</SelectItem>
                   </SelectContent>
                 </Select>
               )}

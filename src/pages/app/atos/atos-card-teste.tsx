@@ -22,7 +22,7 @@ export function Atos() {
         <div className="flex justify-between">
           <h1 className="text-3xl font-bold tracking-tight">Atos Normativos</h1>
           <NavLink to="/registro">
-              <Button type="submit" variant="default" size="xs">
+              <Button type="submit" variant="default" size="sm">
                 <CirclePlus className="h-4 w-4 mr-2" />
                 Novo Registro
               </Button>

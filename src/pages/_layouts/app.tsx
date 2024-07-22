@@ -11,7 +11,7 @@ export function AppLayout() {
 
         <Outlet />
 
-        <footer className="text-sm text-muted-foreground text-center">
+        <footer className="text-sm text-muted-foreground text-center mt-8">
           Copyright &copy; PGE-PA {new Date().getFullYear()} | DTIGD - Todos os direitos reservados. 
         </footer>
 
