@@ -16,7 +16,7 @@ const novoRegistroForm = z.object({
   numero: z.string(),
   titulo: z.string(),
   ementa: z.string(),
-  tipo: z.string(),
+  tipo_id: z.string(),
   situacao: z.string(),
   fonte: z.string(),
   dataDoAto: z.date().nullable(),
@@ -51,8 +51,6 @@ export function NovoRegistro() {
         observacao: data.observacao,
         conteudo: data.editor,
       };
-
-      console.log("Payload being sent:", payload);
 
       const response = await fetch('http://localhost:5000/atos/', {
         method: 'POST',
@@ -98,7 +96,7 @@ export function NovoRegistro() {
           <div className="space-y-2">
             <Label htmlFor="tipo">Tipo:</Label>
             <Controller
-              name="tipo"
+              name="tipo_id"
               control={control}
               defaultValue=""
               render={({ field }) => (
