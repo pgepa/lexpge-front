@@ -52,7 +52,7 @@ export function NovoRegistro() {
         conteudo: data.editor,
       };
 
-      const response = await fetch('http://localhost:5000/atos/', {
+      const response = await fetch('http://10.96.5.67:5000/atos/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

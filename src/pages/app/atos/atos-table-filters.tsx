@@ -7,12 +7,12 @@ export function AtosTableFilters() {
   return (
     <form className="flex items-center gap-2">
           <span className="text-sm font-semibold">Filtros:</span>
-          <Input placeholder="Busca por termos" className="h-8 w-[320px]"/>
-          <Input placeholder="Número" className="h-8 w-auto"/>
-          <Input placeholder="Ano" className="h-8 w-auto"/>
+          <Input placeholder="Busca por termos" className="w-[320px]"/>
+          <Input placeholder="Número" className="w-auto"/>
+          <Input placeholder="Ano" className="w-auto"/>
     
           <Select defaultValue="todos">
-            <SelectTrigger className="h-8 w-[220px]">
+            <SelectTrigger className="w-[220px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -33,12 +33,12 @@ export function AtosTableFilters() {
             </SelectContent>
           </Select>
 
-          <Button type="submit" variant="secondary" size="xs">
+          <Button type="submit" variant="secondary" size="default">
             <Search className="h-4 w-4 mr-2" />
             Filtrar resultados
           </Button>
 
-          <Button type="button" variant="outline" size="xs">
+          <Button type="button" variant="outline" size="default">
             <X className="h-4 w-4 mr-2" />
             Remover filtros
           </Button>
