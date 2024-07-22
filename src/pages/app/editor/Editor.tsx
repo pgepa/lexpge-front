@@ -8,6 +8,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
   const config = {
     readonly: false, // All options from https://xdsoft.net/jodit/doc/
     height: 500,
+    language: 'pt_br',
     uploader: {
       insertImageAsBase64URI: true, // Insert image as base64
     },
