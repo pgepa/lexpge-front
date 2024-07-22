@@ -35,13 +35,44 @@ export function NovoRegistro() {
 
   async function handleNovoRegistro(data: NovoRegistroForm) {
     try {
-      console.log(data);
+      console.log("Data being sent:", data);
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Prepare data to be sent to the backend
+      const payload = {
+        numero: data.numero,
+        titulo: data.titulo,
+        ementa: data.ementa,
+        tipo_id: data.tipo_id,
+        situacao: data.situacao,
+        fonte: data.fonte,
+        data_ato: data.dataDoAto ? data.dataDoAto.toISOString().split('T')[0] : null,
+        data_publicacao: data.dataDaPublicacao ? data.dataDaPublicacao.toISOString().split('T')[0] : null,
+        descritores: data.descritores,
+        observacao: data.observacao,
+        conteudo: data.editor,
+      };
 
-      toast.success('Novo registro cadastrado com sucesso.');
-    } catch {
-      toast.error('Cadastro inválido, favor verificar todos os campos.');
+      console.log("Payload being sent:", payload);
+
+      const response = await fetch('http://localhost:5000/atos/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      console.log("Response from backend:", result);
+
+      if (response.ok) {
+        toast.success('Novo registro cadastrado com sucesso.');
+      } else {
+        toast.error(result.error || 'Cadastro inválido, favor verificar todos os campos.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Erro ao cadastrar, favor tentar novamente.');
     }
   }
 
