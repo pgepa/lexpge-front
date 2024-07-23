@@ -35,13 +35,7 @@ export function Atos() {
 
         <AtosTableFilters />
 
-               
-          {Array.from({length: 10}).map((_, i) => {
-             return (
-                <AtosCard key={i}/>
-              )
-          })}
-        
+        <AtosCard />
                        
 
         <Pagination pageIndex={0} totalCount={18750} perPage={10}/>
