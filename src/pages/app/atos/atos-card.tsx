@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, PencilLine, SquareArrowOutUpRight, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface AtoCard {
     id: number;
@@ -12,19 +12,22 @@ interface AtoCard {
 }
 
 export function AtosCard() {
-
-    const [atos, setAtos] = useState<AtoCard[]>([])
+    const [atos, setAtos] = useState<AtoCard[]>([]);
+    const navigate = useNavigate();
 
     async function loadAtosCard() {
-        const response = await fetch('http://10.96.5.67:5000/atos')
+        const response = await fetch('http://10.96.5.67:5000/atos');
         const data = await response.json();
-
-        setAtos(data)
+        setAtos(data);
     }
 
     useEffect(() => {
         loadAtosCard();
-    }, [])
+    }, []);
+
+    const handleFichaClick = (ato: AtoCard) => {
+        navigate(`/ficha/${ato.id}`, { state: { ato } });
+    };
 
     return (
         <>
@@ -43,13 +46,11 @@ export function AtosCard() {
                     </CardContent>
                     <CardFooter className="flex justify-start gap-2">
                         <div className="flex flex-row items-center justify-center relative gap-2">
-                            <NavLink to="/ficha">
-                                <Button variant="outline" size="xs" className="gap-2 text-amber-500 font-normal  border-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300">
-                                    <Eye className="h-3 w-3" />
-                                    Ficha
-                                    <span className="sr-only">Ficha do ato normativo</span>
-                                </Button>
-                            </NavLink>
+                            <Button variant="outline" size="xs" className="gap-2 text-amber-500 font-normal border-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300" onClick={() => handleFichaClick(ato)}>
+                                <Eye className="h-3 w-3" />
+                                Ficha
+                                <span className="sr-only">Ficha do ato normativo</span>
+                            </Button>
                             <Button variant="outline" size="xs" className="gap-2 text-amber-500 font-normal border-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300">
                                 <SquareArrowOutUpRight className="h-3 w-3" />
                                 Texto Integral
@@ -70,5 +71,5 @@ export function AtosCard() {
                 </Card>
             ))}
         </>
-    )
+    );
 }

@@ -1,65 +1,87 @@
-import { Table, TableBody, TableRow, TableCell, TableFooter } from "@/components/ui/table";
-
 import { Helmet } from "react-helmet-async";
+import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+interface AtoCard {
+    id: number;
+    numero: string;
+    titulo: string;
+    ementa: string;
+    tipo: string;
+    fonte: string;
+    situacao: string;
+    data_ato: string;
+    data_publicacao: string;
+    observacao: string;
+}
+
+function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
 
 export function Ficha() {
-  return (
-    <>
-      <Helmet title="Ficha"/>
+    const location = useLocation<{ ato?: AtoCard }>();
+    const { id } = useParams<{ id: string }>();
 
-      <div className="space-y-6">
+    const [ato, setAto] = useState<AtoCard>({ id: 0, numero: '', titulo: '', ementa: '', tipo: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao:'' });
 
-        <h1 className="text-3xl font-bold tracking-tight text-center">Constituição Estadual de 05 de Outubro de 1989</h1>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Número:</TableCell>
-              <TableCell className="flex justify-start">123456</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Título:</TableCell>
-              <TableCell className="flex justify-start">Constituição Estadual de 05 de Outubro de 1989</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Ementa:</TableCell>
-              <TableCell className="flex justify-start">CONSTITUIÇÃO DO ESTADO DO PARÁ</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Tipo:</TableCell>
-              <TableCell className="flex justify-start">Constituição Estadual</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Fonte:</TableCell>
-              <TableCell className="flex justify-start">DOE</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Situação:</TableCell>
-              <TableCell className="flex justify-start">Vigente</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Data do ato:</TableCell>
-              <TableCell className="flex justify-start">05/10/1989</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Data de publicação:</TableCell>
-              <TableCell className="flex justify-start">06/10/1989</TableCell>
-            </TableRow>
-            
-          </TableBody>
-          
-          <TableFooter>
-          <TableRow>
-              <TableCell className="text-muted-foreground">Observação:</TableCell>
-              <TableCell className="flex text-justify font-medium">Publicada em encarte do DOE nº 26.573, de 06/10/1989; Republicada no DOE nº 26.587, de 27/10/1989. Atualizada até a Emenda Constitucional nº 91, de 21/05/2024, publicada no DOE nº 35.838, de 29/05/2024.</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="text-muted-foreground">Descritores:</TableCell>
-              <TableCell className="flex text-justify font-medium">LISTA PRÉ-APROVADA, PROCESSO JUDICIAIS, IGEPREV, PGE.</TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </div>
+    useEffect(() => {
+        async function loadAto() {
+            if (location.state && location.state.ato) {
+                setAto(location.state.ato);
+            } else {
+                const response = await fetch(`http://10.96.5.67:5000/atos/${id}`);
+                const data = await response.json();
+                setAto(data);
+            }
+        }
+        loadAto();
+    }, [id, location.state]);
 
-    </>
-  )
+    return (
+        <>
+            <Helmet title="Ficha" />
+            <div className="space-y-6 p-4">
+                <h1 className="text-3xl font-bold tracking-tight text-center">{ato.titulo}</h1>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Número:</span>
+                        <span className="flex-1">{ato.numero}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Ementa:</span>
+                        <span className="flex-1">{ato.ementa}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Tipo:</span>
+                        <span className="flex-1">{ato.tipo}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Fonte:</span>
+                        <span className="flex-1">{ato.fonte}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Situação:</span>
+                        <span className="flex-1">{ato.situacao}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Data do ato:</span>
+                        <span className="flex-1">{formatDate(ato.data_ato)}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Data da publicação:</span>
+                        <span className="flex-1">{formatDate(ato.data_publicacao)}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                        <span className="text-muted-foreground font-semibold w-32">Observação:</span>
+                        <span className="flex-1">{ato.observacao}</span>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
 }
