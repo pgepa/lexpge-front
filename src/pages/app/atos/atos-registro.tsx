@@ -11,6 +11,7 @@ import { Save, SquareX } from 'lucide-react';
 import { z } from "zod";
 import { toast } from 'sonner';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { NavLink } from "@/components/nav-link";
 
 const novoRegistroForm = z.object({
   numero: z.string(),
@@ -207,10 +208,13 @@ export function NovoRegistro() {
               Salvar
             </Button>
 
-            <Button variant="destructive">
-              <SquareX className="mr-2 h-4 w-4" />
-              Cancelar
-            </Button>
+            <NavLink to="/atos">
+              <Button variant="destructive">
+                <SquareX className="mr-2 h-4 w-4" />
+                Cancelar
+              </Button>
+            </NavLink>
+
           </div>
         </form>
       </div>
