@@ -39,7 +39,7 @@ export function Ficha() {
             if (location.state && location.state.ato) {
                 setAto(location.state.ato);
             } else {
-                const response = await fetch(`http://10.96.5.67:5000/atos/${id}`);
+                const response = await fetch(`http://10.96.20.14:4000/atos/${id}`);
                 const data = await response.json();
                 setAto(data);
             }

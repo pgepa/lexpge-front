@@ -16,7 +16,7 @@ export function AtosCard() {
     const navigate = useNavigate();
 
     async function loadAtosCard() {
-        const response = await fetch('http://10.96.5.67:5000/atos');
+        const response = await fetch('http://10.96.20.14:4000/atos');
         const data = await response.json();
         setAtos(data);
     }

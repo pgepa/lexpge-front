@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+import logo from '@/assets/logo.svg'
 
 interface TextoIntegral {
     id: number;
@@ -28,7 +29,7 @@ export function TextoIntegral() {
                     throw new Error("ID do ato não encontrado");
                 }
 
-                const response = await fetch(`http://10.96.5.67:5000/atos/${atoId}`);
+                const response = await fetch(`http://10.96.20.14:4000/atos/${atoId}`);
                 
                 if (!response.ok) {
                     throw new Error(`Erro ao buscar o ato: ${response.status}`);
@@ -70,7 +71,13 @@ export function TextoIntegral() {
                     <ArrowLeft className="h-4 w-4" />
                     Voltar
                 </Button>
-                <h1 className="text-3xl font-bold tracking-tight text-center">Texto Integral</h1>
+
+                <div className="flex flex-col gap-4 items-center">
+                    <img className="w-24 h-24" src={logo} alt="Logo" />
+                    <h6 className="font-bold tracking-tight text-justify font-calibri" >GOVERNO DO ESTADO DO PARÁ</h6>
+                </div>
+
+
                 <div className="flex flex-wrap items-center gap-2 p-2">
                  <div className="flex-1" dangerouslySetInnerHTML={{ __html: ato.conteudo }} />
                 </div>
