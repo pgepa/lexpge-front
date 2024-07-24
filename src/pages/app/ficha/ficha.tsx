@@ -7,7 +7,7 @@ interface AtoCard {
     numero: string;
     titulo: string;
     ementa: string;
-    tipo: string;
+    tipo_id: string;
     fonte: string;
     situacao: string;
     data_ato: string;
@@ -27,7 +27,7 @@ export function Ficha() {
     const location = useLocation<{ ato?: AtoCard }>();
     const { id } = useParams<{ id: string }>();
 
-    const [ato, setAto] = useState<AtoCard>({ id: 0, numero: '', titulo: '', ementa: '', tipo: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao:'' });
+    const [ato, setAto] = useState<AtoCard>({ id: 0, numero: '', titulo: '', ementa: '', tipo_id: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao:'' });
 
     useEffect(() => {
         async function loadAto() {
@@ -58,7 +58,7 @@ export function Ficha() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Tipo:</span>
-                        <span className="flex-1">{ato.tipo}</span>
+                        <span className="flex-1">{ato.tipo_id}</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Fonte:</span>

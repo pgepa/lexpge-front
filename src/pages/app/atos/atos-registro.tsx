@@ -29,13 +29,14 @@ const novoRegistroForm = z.object({
 type NovoRegistroForm = z.infer<typeof novoRegistroForm>;
 
 export function NovoRegistro() {
-  const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<NovoRegistroForm>({
+  const { register, handleSubmit, reset, control, formState: { isSubmitting } } = useForm<NovoRegistroForm>({
     resolver: zodResolver(novoRegistroForm),
   });
 
   async function handleNovoRegistro(data: NovoRegistroForm) {
     try {
       console.log("Data being sent:", data);
+      reset();
 
       // Prepare data to be sent to the backend
       const payload = {
@@ -58,6 +59,7 @@ export function NovoRegistro() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
+        
       });
 
       const result = await response.json();
