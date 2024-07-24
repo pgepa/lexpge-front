@@ -29,6 +29,10 @@ export function AtosCard() {
         navigate(`/ficha/${ato.id}`, { state: { ato } });
     };
 
+    const handleTextoIntegralClick = (ato: AtoCard) => {
+        navigate(`/texto-integral/${ato.id}`, { state: { ato } });
+    };
+
     return (
         <>
             {atos.map((ato) => (
@@ -51,7 +55,7 @@ export function AtosCard() {
                                 Ficha
                                 <span className="sr-only">Ficha do ato normativo</span>
                             </Button>
-                            <Button variant="outline" size="xs" className="gap-2 text-amber-500 font-normal border-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300">
+                            <Button variant="outline" size="xs" className="gap-2 text-amber-500 font-normal border-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300" onClick={() => handleTextoIntegralClick(ato)}>
                                 <SquareArrowOutUpRight className="h-3 w-3" />
                                 Texto Integral
                                 <span className="sr-only">Visualizar texto integral do ato normativo</span>

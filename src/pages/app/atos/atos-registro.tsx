@@ -201,6 +201,8 @@ export function NovoRegistro() {
             </div>
           </div>
 
+          <div className="col-span-4 space-y-2">
+          <Label>Conteúdo do Ato Normativo:</Label>
           <div className="col-span-4">
             <Controller
               name="editor"
@@ -211,6 +213,9 @@ export function NovoRegistro() {
               )}
               />
           </div>
+
+          </div>
+
 
           <div className="flex gap-4 justify-center col-span-4 mt-4">
             <Button disabled={isSubmitting} type="submit">
