@@ -30,7 +30,9 @@ export function Ficha() {
     const location = useLocation<{ ato?: AtoCard }>();
     const { id } = useParams<{ id: string }>();
 
-    const [ato, setAto] = useState<AtoCard>({ id: 0, numero: '', titulo: '', ementa: '', tipo_id: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao:'' });
+    const [ato, setAto] = useState<AtoCard>({ 
+        id: 0, numero: '', titulo: '', ementa: '', tipo_id: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao: ''
+    });
 
     useEffect(() => {
         async function loadAto() {
@@ -49,15 +51,12 @@ export function Ficha() {
         <>
             <Helmet title="Ficha" />
             <div className="space-y-6 p-4">
-
-            <Button variant={'ghost'}>
                 <NavLink to="/atos">
-                    <ArrowLeft className="h-4 w-4"/>                
-                    Voltar
+                    <Button variant={'ghost'}>
+                        <ArrowLeft className="mr-1 h-4 w-4"/>                
+                        Voltar
+                    </Button>
                 </NavLink>
-            </Button>
-
-
                 <h1 className="text-3xl font-bold tracking-tight text-center">{ato.titulo}</h1>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
