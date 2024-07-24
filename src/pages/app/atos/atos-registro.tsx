@@ -12,6 +12,7 @@ import { z } from "zod";
 import { toast } from 'sonner';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NavLink } from "@/components/nav-link";
+import EditorObservacao from "../editor/editor-observacao";
 
 const novoRegistroForm = z.object({
   numero: z.string(),
@@ -97,7 +98,7 @@ export function NovoRegistro() {
             <Textarea id="ementa" placeholder="Ementa" {...register('ementa')} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="tipo">Tipo:</Label>
+            <Label htmlFor="tipo_id">Tipo:</Label>
             <Controller
               name="tipo_id"
               control={control}
@@ -187,8 +188,17 @@ export function NovoRegistro() {
           </div>
 
           <div className="col-span-4 space-y-2">
-            <Label htmlFor="observacao">Observação:</Label>
-            <Textarea id="observacao" placeholder="Observação" {...register('observacao')} />
+            <Label>Observação:</Label>
+              <div className="col-span-4">
+              <Controller
+                name="observacao"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                <EditorObservacao value={field.value} onChange={field.onChange} />
+                )}
+                />
+            </div>
           </div>
 
           <div className="col-span-4">
