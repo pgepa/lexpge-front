@@ -13,7 +13,7 @@ const EditorObservacao: React.FC<{ value?: string, onChange?: (value: string) =>
       insertImageAsBase64URI: true, // Insert image as base64
     },
     buttons: [
-      'link', '|',
+      'link',  'brush', 'underline', '|',
     ],
     defaultFont: 'Calibri',
     style: {

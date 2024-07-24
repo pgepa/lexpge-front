@@ -53,7 +53,7 @@ export function Ficha() {
             <div className="space-y-6 p-4">
                 <NavLink to="/atos">
                     <Button variant={'ghost'}>
-                        <ArrowLeft className="mr-1 h-4 w-4"/>                
+                        <ArrowLeft className="h-4 w-4"/>                
                         Voltar
                     </Button>
                 </NavLink>
@@ -89,7 +89,7 @@ export function Ficha() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Observação:</span>
-                        <span className="flex-1">{ato.observacao}</span>
+                        <div className="flex-1" dangerouslySetInnerHTML={{ __html: ato.observacao }} />
                     </div>
                 </div>
             </div>
