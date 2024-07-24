@@ -199,7 +199,7 @@ export function NovoRegistro() {
               />
           </div>
 
-          <div className="flex gap-4 justify-center col-span-4">
+          <div className="flex gap-4 justify-center col-span-4 mt-4">
             <Button disabled={isSubmitting} type="submit">
               <Save className="mr-2 h-4 w-4" />
               Salvar
