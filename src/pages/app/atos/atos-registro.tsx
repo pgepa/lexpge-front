@@ -146,7 +146,7 @@ export function NovoRegistro() {
                     <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
                     <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
                     <SelectItem value="Sem RevogacaoExpressa">Sem Revogação Expressa</SelectItem>
-                    <SelectItem value="vetado">Vetado(a)</SelectItem>
+                    <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
                   </SelectContent>
                 </Select>
               )}
