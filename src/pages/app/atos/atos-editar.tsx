@@ -20,8 +20,8 @@ const editRegistroForm = z.object({
   tipo_id: z.string(),
   situacao: z.string(),
   fonte: z.string(),
-  dataDoAto: z.date().nullable(),
-  dataDaPublicacao: z.date().nullable(),
+  data_ato: z.date().nullable(),
+  data_publicacao: z.date().nullable(),
   descritores: z.string(),
   observacao: z.string(),
   conteudo: z.string(),
@@ -43,8 +43,8 @@ export function EditarRegistro() {
     try {
       const payload = {
         ...data,
-        data_ato: data.dataDoAto ? data.dataDoAto.toISOString().split('T')[0] : null,
-        data_publicacao: data.dataDaPublicacao ? data.dataDaPublicacao.toISOString().split('T')[0] : null,
+        data_ato: data.data_ato ? data.data_ato.toISOString().split('T')[0] : null,
+        data_publicacao: data.data_publicacao ? data.data_publicacao.toISOString().split('T')[0] : null,
       };
 
       const response = await fetch(`http://10.96.20.14:4000/atos/${ato.id}`, {
@@ -67,6 +67,7 @@ export function EditarRegistro() {
       toast.error('Erro ao atualizar, favor tentar novamente.');
     }
   }
+  
 
   return (
     <div className="flex flex-col gap-4">
@@ -147,7 +148,7 @@ export function EditarRegistro() {
         <div className="flex flex-col gap-4">
           <Label htmlFor="dataDoAto">Data do ato:</Label>
           <Controller
-            name="dataDoAto"
+            name="data_ato"
             control={control}
             defaultValue={null}
             render={({ field }) => (
@@ -158,7 +159,7 @@ export function EditarRegistro() {
         <div className="flex flex-col gap-4">
           <Label htmlFor="dataDaPublicacao">Data de publicação:</Label>
           <Controller
-            name="dataDaPublicacao"
+            name="data_publicacao"
             control={control}
             defaultValue={null}
             render={({ field }) => (

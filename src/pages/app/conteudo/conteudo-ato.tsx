@@ -68,7 +68,7 @@ export function TextoIntegral() {
             <Helmet title="Texto Integral" />
             <div className="space-y-6 p-4">
                 <Button variant={"ghost"} onClick={() => navigate(-1)}> {/* Navegação de volta */}
-                    <ArrowLeft className="mr-1 h-4 w-4" />
+                    <ArrowLeft className="mr-1 h-4 w-4" />  
                     Voltar
                 </Button>
 
