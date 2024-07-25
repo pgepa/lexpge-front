@@ -145,8 +145,8 @@ export function EditarRegistro() {
           <Label htmlFor="fonte">Fonte:</Label>
           <Input id="fonte" placeholder="Fonte" {...register('fonte')} />
         </div>
-        <div className="flex flex-col gap-4">
-          <Label htmlFor="dataDoAto">Data do ato:</Label>
+        <div className="flex flex-col gap-4" id="data_ato">
+          <Label htmlFor="data_ato">Data do ato:</Label>
           <Controller
             name="data_ato"
             control={control}
@@ -156,8 +156,8 @@ export function EditarRegistro() {
             )}
           />
         </div>
-        <div className="flex flex-col gap-4">
-          <Label htmlFor="dataDaPublicacao">Data de publicação:</Label>
+        <div className="flex flex-col gap-4" id="data_publicacao">
+          <Label htmlFor="data_publicacao">Data de publicação:</Label>
           <Controller
             name="data_publicacao"
             control={control}
