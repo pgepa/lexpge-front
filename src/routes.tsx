@@ -11,6 +11,7 @@ import { Inicio } from "./inicio"
 import { Ficha } from "./pages/app/ficha/ficha"
 import { NovoRegistro } from "./pages/app/atos/atos-registro"
 import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato'
+import { EditarRegistro } from "./pages/app/atos/atos-editar"
 
 
 export const router = createBrowserRouter([
@@ -25,8 +26,8 @@ export const router = createBrowserRouter([
       { path: '/atos', element: <Atos />},
       { path: '/ficha/:id', element: <Ficha />},
       { path: '/registro', element: <NovoRegistro />},
-      { path: '/texto-integral/:id', element: <TextoIntegral />}
-      
+      { path: '/texto-integral/:id', element: <TextoIntegral />},
+      { path: '/editar/:id', element: <EditarRegistro />}     
       
     ]
   },

@@ -68,13 +68,13 @@ export function TextoIntegral() {
             <Helmet title="Texto Integral" />
             <div className="space-y-6 p-4">
                 <Button variant={"ghost"} onClick={() => navigate(-1)}> {/* Navegação de volta */}
-                    <ArrowLeft className="h-4 w-4" />
+                    <ArrowLeft className="mr-1 h-4 w-4" />
                     Voltar
                 </Button>
 
-                <div className="flex flex-col gap-4 items-center">
+                <div className="flex flex-col gap-1 items-center">
                     <img className="w-24 h-24" src={logo} alt="Logo" />
-                    <h6 className="font-bold tracking-tight text-justify font-calibri" >GOVERNO DO ESTADO DO PARÁ</h6>
+                    <h5 className="font-bold text-xs tracking-tight text-justify font-calibri" >GOVERNO DO ESTADO DO PARÁ</h5>
                 </div>
 
 

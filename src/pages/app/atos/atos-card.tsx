@@ -33,6 +33,30 @@ export function AtosCard() {
         navigate(`/texto-integral/${ato.id}`, { state: { ato } });
     };
 
+    const handleEditClick = (ato: AtoCard) => {
+        navigate(`/editar/${ato.id}`, { state: { ato } });
+    };
+
+    const handleDeleteClick = async (id: number) => {
+        if (window.confirm('Tem certeza de que deseja excluir este registro?')) {
+            try {
+                const response = await fetch(`http://10.96.20.14:4000/atos/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    setAtos(atos.filter(ato => ato.id !== id));
+                    alert('Registro excluído com sucesso.');
+                } else {
+                    alert('Erro ao excluir o registro.');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir o registro:', error);
+                alert('Erro ao excluir o registro.');
+            }
+        }
+    };
+
     return (
         <>
             {atos.map((ato) => (
@@ -60,12 +84,12 @@ export function AtosCard() {
                                 Texto Integral
                                 <span className="sr-only">Visualizar texto integral do ato normativo</span>
                             </Button>
-                            <Button variant="default" size="xs" className="gap-2">
+                            <Button variant="default" size="xs" className="gap-2" onClick={() => handleEditClick(ato)}>
                                 <PencilLine className="h-3 w-3" />
                                 Editar
                                 <span className="sr-only">Editar ato normativo</span>
                             </Button>
-                            <Button variant="destructive" size="xs" className="gap-2">
+                            <Button variant="destructive" size="xs" className="gap-2" onClick={() => handleDeleteClick(ato.id)}>
                                 <Trash2 className="h-3 w-3" />
                                 Excluir
                                 <span className="sr-only">Excluir ato normativo</span>
