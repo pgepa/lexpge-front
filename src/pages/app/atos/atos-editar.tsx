@@ -59,7 +59,7 @@ export function EditarRegistro() {
         conteudo: data.conteudo,
       };
 
-      const response = await fetch(`http://10.96.5.67:4000/atos/${ato.id}`, {
+      const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${ato.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

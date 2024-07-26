@@ -29,7 +29,7 @@ export function TextoIntegral() {
                     throw new Error("ID do ato não encontrado");
                 }
 
-                const response = await fetch(`http://10.96.5.67:4000/atos/${atoId}`);
+                const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${atoId}`);
                 
                 if (!response.ok) {
                     throw new Error(`Erro ao buscar o ato: ${response.status}`);

@@ -19,7 +19,7 @@ const EditorContainer: React.FC = () => {
       descritores: null
     };
 
-    fetch('http://10.96.5.67:4000/atos/', {
+    fetch(import.meta.env.VITE_API_URL + '/atos/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
