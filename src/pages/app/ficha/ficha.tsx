@@ -53,7 +53,7 @@ export function Ficha() {
             <div className="space-y-6 p-4">
                 <NavLink to="/atos">
                     <Button variant={'ghost'}>
-                        <ArrowLeft className="mr-1 h-4 w-4"/>                
+                        <ArrowLeft />
                         Voltar
                     </Button>
                 </NavLink>
