@@ -31,14 +31,14 @@ const novoRegistroForm = z.object({
 type NovoRegistroForm = z.infer<typeof novoRegistroForm>;
 
 export function NovoRegistro() {
-  const { register, handleSubmit, reset, control, formState: { isSubmitting } } = useForm<NovoRegistroForm>({
+  const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<NovoRegistroForm>({
     resolver: zodResolver(novoRegistroForm),
   });
 
   async function handleNovoRegistro(data: NovoRegistroForm) {
     try {
       console.log("Data being sent:", data);
-      reset();
+      
 
       // Prepare data to be sent to the backend
       const payload = {
@@ -220,7 +220,7 @@ export function NovoRegistro() {
           <div className="flex gap-4 justify-center col-span-4 mt-4">
             <Button disabled={isSubmitting} type="submit">
               <Save className="mr-2 h-4 w-4" />
-              Salvar
+              {isSubmitting ? 'Salvando...' : 'Salvar'}
             </Button>
 
             <NavLink to="/atos">

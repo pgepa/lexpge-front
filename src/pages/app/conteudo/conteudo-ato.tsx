@@ -72,12 +72,6 @@ export function TextoIntegral() {
                     Voltar
                 </Button>
 
-                <div className="flex flex-col gap-1 items-center">
-                    <img className="w-24 h-24" src={logo} alt="Logo" />
-                    <h5 className="font-bold text-xs tracking-tight text-justify font-calibri" >GOVERNO DO ESTADO DO PARÁ</h5>
-                </div>
-
-
                 <div className="flex flex-wrap items-center gap-2 p-2">
                  <div className="flex-1" dangerouslySetInnerHTML={{ __html: ato.conteudo }} />
                 </div>

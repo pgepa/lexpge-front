@@ -14,6 +14,7 @@ import { Save, SquareX } from 'lucide-react';
 import { toast } from 'sonner';
 
 const editRegistroForm = z.object({
+    id: z.number(),
   numero: z.string(),
   titulo: z.string(),
   ementa: z.string(),
@@ -34,7 +35,7 @@ export function EditarRegistro() {
   const navigate = useNavigate();
   const ato = location.state?.ato as EditRegistroForm;
 
-  const { register, handleSubmit, control } = useForm<EditRegistroForm>({
+  const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<EditRegistroForm>({
     resolver: zodResolver(editRegistroForm),
     defaultValues: {
       ...ato,
@@ -46,20 +47,12 @@ export function EditarRegistro() {
   async function handleEditRegistro(data: EditRegistroForm) {
     try {
       const payload = {
-        numero: data.numero,
-        titulo: data.titulo,
-        ementa: data.ementa,
-        tipo_id: data.tipo_id,
-        situacao: data.situacao,
-        fonte: data.fonte,
+        ...data,
         data_ato: data.data_ato ? data.data_ato.toISOString().split('T')[0] : null,
         data_publicacao: data.data_publicacao ? data.data_publicacao.toISOString().split('T')[0] : null,
-        descritores: data.descritores,
-        observacao: data.observacao,
-        conteudo: data.conteudo,
       };
 
-      const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${ato.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/atos/${ato.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -199,9 +192,9 @@ export function EditarRegistro() {
           />
         </div>
         <div className="flex gap-4 justify-center col-span-4 mt-4">
-          <Button type="submit">
+          <Button type="submit" disabled={isSubmitting}>
             <Save className="mr-2 h-4 w-4" />
-            Salvar
+            {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
           <Button variant="destructive" onClick={() => navigate('/atos')}>
             <SquareX className="mr-2 h-4 w-4" />
