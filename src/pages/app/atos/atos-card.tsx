@@ -16,7 +16,7 @@ export const AtosCard = () => {
   const navigate = useNavigate();
 
   async function loadAtosCard() {
-    const response = await fetch("http://10.96.20.14:4000/atos");
+    const response = await fetch("http://10.96.5.67:4000/atos");
     const data = await response.json();
     setAtos(data);
   }
@@ -40,7 +40,7 @@ export const AtosCard = () => {
   const handleDeleteClick = async (id: number) => {
     if (window.confirm("Tem certeza de que deseja excluir este registro?")) {
       try {
-        const response = await fetch(`http://10.96.20.14:4000/atos/${id}`, {
+        const response = await fetch(`http://10.96.5.67:4000/atos/${id}`, {
           method: "DELETE",
         });
 

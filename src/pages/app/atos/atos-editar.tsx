@@ -32,22 +32,34 @@ type EditRegistroForm = z.infer<typeof editRegistroForm>;
 export function EditarRegistro() {
   const location = useLocation();
   const navigate = useNavigate();
-  const ato = location.state?.ato as AtoCard;
+  const ato = location.state?.ato as EditRegistroForm;
 
-  const { register, handleSubmit, reset, control, formState: { isSubmitting } } = useForm<EditRegistroForm>({
+  const { register, handleSubmit, control } = useForm<EditRegistroForm>({
     resolver: zodResolver(editRegistroForm),
-    defaultValues: ato,
+    defaultValues: {
+      ...ato,
+      data_ato: ato?.data_ato ? new Date(ato.data_ato) : null,
+      data_publicacao: ato?.data_publicacao ? new Date(ato.data_publicacao) : null,
+    },
   });
 
   async function handleEditRegistro(data: EditRegistroForm) {
     try {
       const payload = {
-        ...data,
+        numero: data.numero,
+        titulo: data.titulo,
+        ementa: data.ementa,
+        tipo_id: data.tipo_id,
+        situacao: data.situacao,
+        fonte: data.fonte,
         data_ato: data.data_ato ? data.data_ato.toISOString().split('T')[0] : null,
         data_publicacao: data.data_publicacao ? data.data_publicacao.toISOString().split('T')[0] : null,
+        descritores: data.descritores,
+        observacao: data.observacao,
+        conteudo: data.conteudo,
       };
 
-      const response = await fetch(`http://10.96.20.14:4000/atos/${ato.id}`, {
+      const response = await fetch(`http://10.96.5.67:4000/atos/${ato.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +79,6 @@ export function EditarRegistro() {
       toast.error('Erro ao atualizar, favor tentar novamente.');
     }
   }
-  
 
   return (
     <div className="flex flex-col gap-4">
@@ -91,7 +102,6 @@ export function EditarRegistro() {
           <Controller
             name="tipo_id"
             control={control}
-            defaultValue=""
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger>
@@ -121,7 +131,6 @@ export function EditarRegistro() {
           <Controller
             name="situacao"
             control={control}
-            defaultValue=""
             render={({ field }) => (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger>
@@ -150,7 +159,6 @@ export function EditarRegistro() {
           <Controller
             name="data_ato"
             control={control}
-            defaultValue={null}
             render={({ field }) => (
               <DatePicker date={field.value} onChange={field.onChange} />
             )}
@@ -161,7 +169,6 @@ export function EditarRegistro() {
           <Controller
             name="data_publicacao"
             control={control}
-            defaultValue={null}
             render={({ field }) => (
               <DatePicker date={field.value} onChange={field.onChange} />
             )}
@@ -176,7 +183,6 @@ export function EditarRegistro() {
           <Controller
             name="observacao"
             control={control}
-            defaultValue=""
             render={({ field }) => (
               <EditorObservacao value={field.value} onChange={field.onChange} />
             )}
@@ -187,14 +193,13 @@ export function EditarRegistro() {
           <Controller
             name="conteudo"
             control={control}
-            defaultValue=""
             render={({ field }) => (
               <Editor value={field.value} onChange={field.onChange} />
             )}
           />
         </div>
         <div className="flex gap-4 justify-center col-span-4 mt-4">
-          <Button disabled={isSubmitting} type="submit">
+          <Button type="submit">
             <Save className="mr-2 h-4 w-4" />
             Salvar
           </Button>

@@ -19,7 +19,7 @@ const EditorContainer: React.FC = () => {
       descritores: null
     };
 
-    fetch('http://10.96.5.67:5000/atos/', {
+    fetch('http://10.96.5.67:4000/atos/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
