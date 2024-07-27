@@ -46,6 +46,7 @@ export function EditarRegistro() {
 
   async function handleEditRegistro(data: EditRegistroForm) {
     try {
+        
       const payload = {
         ...data,
         data_ato: data.data_ato ? data.data_ato.toISOString().split('T')[0] : null,
@@ -153,7 +154,7 @@ export function EditarRegistro() {
             name="data_ato"
             control={control}
             render={({ field }) => (
-              <DatePicker date={field.value} onChange={field.onChange} />
+              <DatePicker date={field.value!} onChange={field.onChange} />
             )}
           />
         </div>
@@ -163,7 +164,7 @@ export function EditarRegistro() {
             name="data_publicacao"
             control={control}
             render={({ field }) => (
-              <DatePicker date={field.value} onChange={field.onChange} />
+              <DatePicker date={field.value!} onChange={field.onChange} />
             )}
           />
         </div>

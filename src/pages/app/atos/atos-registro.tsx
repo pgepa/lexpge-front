@@ -11,8 +11,8 @@ import { Save, SquareX } from 'lucide-react';
 import { z } from "zod";
 import { toast } from 'sonner';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NavLink } from "@/components/nav-link";
 import EditorObservacao from "../editor/editor-observacao";
+import { useNavigate } from "react-router-dom";
 
 const novoRegistroForm = z.object({
   numero: z.string(),
@@ -31,6 +31,7 @@ const novoRegistroForm = z.object({
 type NovoRegistroForm = z.infer<typeof novoRegistroForm>;
 
 export function NovoRegistro() {
+    const navigate = useNavigate();
   const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<NovoRegistroForm>({
     resolver: zodResolver(novoRegistroForm),
   });
@@ -69,6 +70,7 @@ export function NovoRegistro() {
 
       if (response.ok) {
         toast.success('Novo registro cadastrado com sucesso.');
+        navigate('/atos');
       } else {
         toast.error(result.error || 'Cadastro inválido, favor verificar todos os campos.');
       }
@@ -165,7 +167,7 @@ export function NovoRegistro() {
               control={control}
               defaultValue={null}
               render={({ field }) => (
-                <DatePicker date={field.value} onChange={field.onChange} />
+                <DatePicker date={field.value!} onChange={field.onChange} />
               )}
             />
           </div>
@@ -177,7 +179,7 @@ export function NovoRegistro() {
               control={control}
               defaultValue={null}
               render={({ field }) => (
-                <DatePicker date={field.value} onChange={field.onChange} />
+                <DatePicker date={field.value!} onChange={field.onChange} />
               )}
             />
           </div>
@@ -223,12 +225,12 @@ export function NovoRegistro() {
               {isSubmitting ? 'Salvando...' : 'Salvar'}
             </Button>
 
-            <NavLink to="/atos">
-              <Button variant="destructive">
+            
+              <Button variant="destructive" onClick={() => navigate('/atos')}>
                 <SquareX className="mr-2 h-4 w-4" />
                 Cancelar
               </Button>
-            </NavLink>
+        
 
           </div>
         </form>
