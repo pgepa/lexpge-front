@@ -8,22 +8,22 @@ import { toast } from "@/components/ui/use-toast";
 
 interface TextoIntegral {
     id: number;
-    conteudo: string; // Usando 'conteudo' para armazenar o HTML
+    conteudo: string; 
 }
 
 export function TextoIntegral() {
-    const location = useLocation() as Location<{ ato?: TextoIntegral }>; // Usando a interface correta
+    const location = useLocation() as Location<{ ato?: TextoIntegral }>; 
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate(); // Adiciona o hook useNavigate
+    const navigate = useNavigate(); 
 
-    const [ato, setAto] = useState<TextoIntegral | null>(null); // Inicializa como null
-    const [isLoading, setIsLoading] = useState<boolean>(true); // Renomeia a variável
+    const [ato, setAto] = useState<TextoIntegral | null>(null); 
+    const [isLoading, setIsLoading] = useState<boolean>(true); 
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         async function loadTextoIntegral() {
             try {
-                const atoId = location.state?.ato?.id ?? parseInt(id!, 10); // Obter o ID do ato
+                const atoId = location.state?.ato?.id ?? parseInt(id!, 10); 
 
                 if (!atoId) {
                     throw new Error("ID do ato não encontrado");
