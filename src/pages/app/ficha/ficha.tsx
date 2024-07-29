@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, Location, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/nav-link";
@@ -7,7 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 
 interface AtoCard {
     id: number;
-    numero: string;
+    numero_formatado: string;
     titulo: string;
     ementa: string;
     tipo_id: string;
@@ -27,11 +27,11 @@ function formatDate(dateString: string): string {
 }
 
 export function Ficha() {
-    const location = useLocation<{ ato?: AtoCard }>();
+    const location = useLocation() as Location<{ ato?: AtoCard }>; 
     const { id } = useParams<{ id: string }>();
 
     const [ato, setAto] = useState<AtoCard>({ 
-        id: 0, numero: '', titulo: '', ementa: '', tipo_id: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao: ''
+        id: 0, numero_formatado: '', titulo: '', ementa: '', tipo_id: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao: ''
     });
 
     useEffect(() => {
@@ -53,7 +53,7 @@ export function Ficha() {
             <div className="space-y-6 p-4">
                 <NavLink to="/atos">
                     <Button variant={'ghost'}>
-                        <ArrowLeft />
+                        <ArrowLeft className="mr-1 h-4 w-4"/>
                         Voltar
                     </Button>
                 </NavLink>
@@ -61,7 +61,7 @@ export function Ficha() {
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Número:</span>
-                        <span className="flex-1">{ato.numero}</span>
+                        <span className="flex-1">{ato.numero_formatado}</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Ementa:</span>

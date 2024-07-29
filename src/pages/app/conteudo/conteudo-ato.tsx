@@ -1,10 +1,10 @@
 import { Helmet } from "react-helmet-async";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, Location, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import logo from '@/assets/logo.svg'
+
 
 interface TextoIntegral {
     id: number;
@@ -12,7 +12,7 @@ interface TextoIntegral {
 }
 
 export function TextoIntegral() {
-    const location = useLocation<{ ato?: TextoIntegral }>(); // Usando a interface correta
+    const location = useLocation() as Location<{ ato?: TextoIntegral }>; // Usando a interface correta
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate(); // Adiciona o hook useNavigate
 
