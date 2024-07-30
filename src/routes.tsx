@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom"
+import { createHashRouter } from "react-router-dom"
 import { Dashboard } from "./pages/app/dashboard/dashboard"
 import { SignIn } from "./pages/auth/sign-in"
 import { AppLayout } from "./pages/_layouts/app"
@@ -14,7 +14,7 @@ import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato'
 import { EditarRegistro } from "./pages/app/atos/atos-editar"
 
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <AppLayout/>,
