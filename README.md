@@ -6,14 +6,20 @@ O lexpge é o frontend da Base de Atos Normativo da Procuradoria Geral do Estado
 
 Utilize o gerenciador de pacotes npm
 
-```npm install```
+```bash
+npm install
+```
 
 ## Configuração
 
-1. É necessário criar um arquivo .env na raiz do projeto, para identificar o endereço do servidor de backend
+1. É necessário criar um arquivo **.env** na raiz do projeto, para identificar o endereço do servidor de backend
    Servidor de desenvolvimento:
    
-   ```VITE_API_URL=localhost:4000```
+   ```bash
+   VITE_API_URL=localhost:4000
+   ```
 3. Para iniciar a aplicação:
 
-   ```npm run dev```
+   ```bash
+   npm run dev
+   ```
