@@ -37,7 +37,7 @@ export function EditarRegistro() {
 
   const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<EditRegistroForm>({
     resolver: zodResolver(editRegistroForm),
-    defaultValues: {
+    defaultValues: {    
       ...ato,
       data_ato: ato?.data_ato ? new Date(ato.data_ato) : null,
       data_publicacao: ato?.data_publicacao ? new Date(ato.data_publicacao) : null,
@@ -197,6 +197,7 @@ export function EditarRegistro() {
             <Save className="mr-2 h-4 w-4" />
             {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
+          
           <Button variant="destructive" onClick={() => navigate('/atos')}>
             <SquareX className="mr-2 h-4 w-4" />
             Cancelar

@@ -1,29 +1,29 @@
 import { Helmet } from "react-helmet-async";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, Location, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import logo from '@/assets/logo.svg'
+
 
 interface TextoIntegral {
     id: number;
-    conteudo: string; // Usando 'conteudo' para armazenar o HTML
+    conteudo: string; 
 }
 
 export function TextoIntegral() {
-    const location = useLocation<{ ato?: TextoIntegral }>(); // Usando a interface correta
+    const location = useLocation() as Location<{ ato?: TextoIntegral }>; 
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate(); // Adiciona o hook useNavigate
+    const navigate = useNavigate(); 
 
-    const [ato, setAto] = useState<TextoIntegral | null>(null); // Inicializa como null
-    const [isLoading, setIsLoading] = useState<boolean>(true); // Renomeia a variável
+    const [ato, setAto] = useState<TextoIntegral | null>(null); 
+    const [isLoading, setIsLoading] = useState<boolean>(true); 
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         async function loadTextoIntegral() {
             try {
-                const atoId = location.state?.ato?.id ?? parseInt(id!, 10); // Obter o ID do ato
+                const atoId = location.state?.ato?.id ?? parseInt(id!, 10); 
 
                 if (!atoId) {
                     throw new Error("ID do ato não encontrado");
