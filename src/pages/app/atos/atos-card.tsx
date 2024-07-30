@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Eye, PencilLine, SquareArrowOutUpRight, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '@/lib/axios'
 
 export type AtoCard = {
   id: number;
@@ -16,9 +17,10 @@ export const AtosCard = () => {
   const navigate = useNavigate();
 
   async function loadAtosCard() {
-    const response = await fetch(import.meta.env.VITE_API_URL + "/atos");
-    const data = await response.json();
-    setAtos(data);
+    const response = await api.get('/atos');
+    
+    //const data = await response.json();
+    setAtos(response.data);
   }
 
   useEffect(() => {
