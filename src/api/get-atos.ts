@@ -1,11 +1,16 @@
 import { api } from "@/lib/axios"
 
+export interface GetAtosQuery {
+    pageIndex?: number | null
+    
+}
+
 export interface GetAtosResponse {
   atos: {
-    id: number
-    titulo: string
-    ementa: string
-    situacao: string
+    id: number;
+    titulo: string;
+    situacao: string;
+    ementa: string;
   }[]
   meta: {
     pageIndex: number

@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { useLocation, Location, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
 
@@ -68,7 +68,7 @@ export function TextoIntegral() {
             <Helmet title="Texto Integral" />
             <div className="space-y-6 p-4">
                 <Button variant={"ghost"} onClick={() => navigate(-1)}> {/* Navegação de volta */}
-                    <ArrowLeft className="mr-1 h-4 w-4" />  
+                <ChevronLeft className=" mr-1 h-4 w-4" />  
                     Voltar
                 </Button>
 

@@ -3,7 +3,7 @@ import { useLocation, Location, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/nav-link";
-import { ArrowLeft } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 
 interface AtoCard {
     id: number;
@@ -53,7 +53,7 @@ export function Ficha() {
             <div className="space-y-6 p-4">
                 <NavLink to="/atos">
                     <Button variant={'ghost'}>
-                        <ArrowLeft className="mr-1 h-4 w-4"/>
+                    <ChevronLeft className=" mr-1 h-4 w-4" />
                         Voltar
                     </Button>
                 </NavLink>
