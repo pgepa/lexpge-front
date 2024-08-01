@@ -1,10 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 import { AtosCard } from './atos-card';
 import { AtosTableFilters } from './atos-table-filters';
-import { Pagination } from '@/components/pagination';
 import { NavLink } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { CirclePlus } from 'lucide-react';
+  
 
 export const Atos = () => (
   <>
@@ -20,8 +20,11 @@ export const Atos = () => (
         </NavLink>
       </div>
       <AtosTableFilters />
+
       <AtosCard />
-      <Pagination pageIndex={0} totalCount={18750} perPage={10} />
+
+      
+
     </div>
   </>
 );

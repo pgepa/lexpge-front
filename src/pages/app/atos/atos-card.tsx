@@ -3,29 +3,63 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Eye, PencilLine, SquareArrowOutUpRight, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '@/lib/axios'
+import { api } from '@/lib/axios';
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export type AtoCard = {
   id: number;
   titulo: string;
   situacao: string;
   ementa: string;
-}
+};
 
 export const AtosCard = () => {
   const [atos, setAtos] = useState<AtoCard[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const limit = 10; // Número de registros por página
 
-  async function loadAtosCard() {
-    const response = await api.get('/atos');
-    
-    //const data = await response.json();
-    setAtos(response.data);
+  async function loadAtosCard(pagina = 1) {
+    setLoading(true);
+    try {
+      const response = await api.get('/atos', {
+        params: {
+          pagina,
+          limite: limit,
+        },
+      });
+
+      const fetchedAtos = response.data;
+      setAtos(fetchedAtos);
+
+      if (fetchedAtos.length < limit) {
+        setTotalPages(pagina);
+      } else if (fetchedAtos.length === limit) {
+        setTotalPages(pagina + 1);
+      }
+      
+      setCurrentPage(pagina);
+    } catch (error) {
+      console.error('Erro ao carregar atos:', error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
-    loadAtosCard();
-  }, []);
+    loadAtosCard(currentPage);
+  }, [currentPage]);
 
   const handleFichaClick = (ato: AtoCard) => {
     navigate(`/ficha/${ato.id}`, { state: { ato } });
@@ -42,11 +76,9 @@ export const AtosCard = () => {
   const handleDeleteClick = async (id: number) => {
     if (window.confirm("Tem certeza de que deseja excluir este registro?")) {
       try {
-        const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${id}`, {
-          method: "DELETE",
-        });
+        const response = await api.delete(`/atos/${id}`);
 
-        if (response.ok) {
+        if (response.status === 204) {
           setAtos(atos.filter((ato) => ato.id !== id));
           alert("Registro excluído com sucesso.");
         } else {
@@ -59,8 +91,15 @@ export const AtosCard = () => {
     }
   };
 
+  const handlePageChange = (pagina: number) => {
+    if (pagina > 0 && pagina <= totalPages) {
+      setCurrentPage(pagina);
+    }
+  };
+
   return (
     <>
+      {loading && <p>Carregando...</p>}
       {atos.map((ato) => (
         <Card key={ato.id}>
           <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
@@ -126,6 +165,23 @@ export const AtosCard = () => {
           </CardFooter>
         </Card>
       ))}
+      <Pagination>
+        <PaginationContent>
+          <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
+          {[...Array(totalPages)].map((_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                isActive={index + 1 === currentPage}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationEllipsis />
+          <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+        </PaginationContent>
+      </Pagination>
     </>
   );
-}
+};
