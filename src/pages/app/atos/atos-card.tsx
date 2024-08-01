@@ -1,10 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, PencilLine, SquareArrowOutUpRight, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/axios';
-
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Eye, PencilLine, SquareArrowOutUpRight, Trash2 } from 'lucide-react';
 import {
   Pagination,
   PaginationContent,
@@ -14,6 +13,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { AtosTableFilters } from '@/pages/app/atos/atos-table-filters';
 
 export type AtoCard = {
   id: number;
@@ -27,16 +27,25 @@ export const AtosCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({
+    conteudo: "",
+    numero: "",
+    ano: "",
+    tipo: "todos",
+  });
+  const [isFiltering, setIsFiltering] = useState(false); // Novo estado para rastrear se está filtrando
+  const limit = 10;
   const navigate = useNavigate();
-  const limit = 10; // Número de registros por página
 
-  async function loadAtosCard(pagina = 1) {
+  async function loadAtosCard(pagina = 1, filters = {}) {
     setLoading(true);
     try {
-      const response = await api.get('/atos', {
+      const route = isFiltering ? '/atos/busca' : '/atos'; // Escolha a rota com base no estado isFiltering
+      const response = await api.get(route, {
         params: {
           pagina,
           limite: limit,
+          ...filters,
         },
       });
 
@@ -58,8 +67,8 @@ export const AtosCard = () => {
   }
 
   useEffect(() => {
-    loadAtosCard(currentPage);
-  }, [currentPage]);
+    loadAtosCard(currentPage, filters);
+  }, [currentPage, filters]);
 
   const handleFichaClick = (ato: AtoCard) => {
     navigate(`/ficha/${ato.id}`, { state: { ato } });
@@ -97,8 +106,27 @@ export const AtosCard = () => {
     }
   };
 
+  const handleFilter = (newFilters: any) => {
+    setFilters(newFilters);
+    setIsFiltering(true); // Indicando que estamos aplicando filtros
+    setCurrentPage(1); // Resetar para a primeira página quando os filtros são alterados
+  };
+
+  const handleClearFilters = () => {
+    const resetFilters = {
+      conteudo: "",
+      numero: "",
+      ano: "",
+      tipo: "todos",
+    };
+    setFilters(resetFilters);
+    setIsFiltering(false); // Indicando que não estamos aplicando filtros
+    setCurrentPage(1); // Voltar para a primeira página
+  };
+
   return (
     <>
+      <AtosTableFilters onFilter={handleFilter} onClearFilters={handleClearFilters} />
       {loading && <p>Carregando...</p>}
       {atos.map((ato) => (
         <Card key={ato.id}>
@@ -170,15 +198,14 @@ export const AtosCard = () => {
           <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
           {[...Array(totalPages)].map((_, index) => (
             <PaginationItem key={index}>
-              <PaginationLink
-                isActive={index + 1 === currentPage}
-                onClick={() => handlePageChange(index + 1)}
-              >
+              <PaginationLink onClick={() => handlePageChange(index + 1)} isActive={currentPage === index + 1}>
                 {index + 1}
               </PaginationLink>
             </PaginationItem>
           ))}
-          <PaginationEllipsis />
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
           <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
         </PaginationContent>
       </Pagination>

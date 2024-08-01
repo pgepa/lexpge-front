@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { AtosCard } from './atos-card';
-import { AtosTableFilters } from './atos-table-filters';
 import { NavLink } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { CirclePlus } from 'lucide-react';
@@ -19,7 +18,7 @@ export const Atos = () => (
           </Button>
         </NavLink>
       </div>
-      <AtosTableFilters />
+      
 
       <AtosCard />
 
