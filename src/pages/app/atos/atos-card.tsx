@@ -7,7 +7,6 @@ import { Eye, PencilLine, SquareArrowOutUpRight, Trash2 } from 'lucide-react';
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -33,14 +32,15 @@ export const AtosCard = () => {
     ano: "",
     tipo: "todos",
   });
-  const [isFiltering, setIsFiltering] = useState(false); // Novo estado para rastrear se está filtrando
+  const [isFiltering, setIsFiltering] = useState(false);
   const limit = 10;
   const navigate = useNavigate();
+  const paginationRange = 5;
 
   async function loadAtosCard(pagina = 1, filters = {}) {
     setLoading(true);
     try {
-      const route = isFiltering ? '/atos/busca' : '/atos'; // Escolha a rota com base no estado isFiltering
+      const route = isFiltering ? '/atos/busca' : '/atos';
       const response = await api.get(route, {
         params: {
           pagina,
@@ -108,8 +108,8 @@ export const AtosCard = () => {
 
   const handleFilter = (newFilters: any) => {
     setFilters(newFilters);
-    setIsFiltering(true); // Indicando que estamos aplicando filtros
-    setCurrentPage(1); // Resetar para a primeira página quando os filtros são alterados
+    setIsFiltering(true);
+    setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
@@ -120,8 +120,30 @@ export const AtosCard = () => {
       tipo: "todos",
     };
     setFilters(resetFilters);
-    setIsFiltering(false); // Indicando que não estamos aplicando filtros
-    setCurrentPage(1); // Voltar para a primeira página
+    setIsFiltering(false);
+    setCurrentPage(1);
+  };
+
+  const renderPaginationItems = () => {
+    let startPage = Math.max(currentPage - Math.floor(paginationRange / 2), 1);
+    const endPage = Math.min(startPage + paginationRange - 1, totalPages);
+    
+    if (endPage - startPage + 1 < paginationRange) {
+      startPage = Math.max(endPage - paginationRange + 1, 1);
+    }
+
+    const pages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <PaginationItem key={i}>
+          <PaginationLink onClick={() => handlePageChange(i)} isActive={currentPage === i}>
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    return pages;
   };
 
   return (
@@ -193,20 +215,19 @@ export const AtosCard = () => {
           </CardFooter>
         </Card>
       ))}
-      <Pagination>
+      <Pagination className="sticky bottom-0 bg-white py-2">
         <PaginationContent>
-          <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
-          {[...Array(totalPages)].map((_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink onClick={() => handlePageChange(index + 1)} isActive={currentPage === index + 1}>
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+          {currentPage > 1 && (
+            <PaginationPrevious
+              onClick={() => handlePageChange(1)} // Navega para a primeira página
+            >
+              {currentPage === 2 ? 'Primeira Página' : 'Anterior'}
+            </PaginationPrevious>
+          )}
+          {renderPaginationItems()}
+          {currentPage < totalPages && (
+            <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+          )}
         </PaginationContent>
       </Pagination>
     </>

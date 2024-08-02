@@ -75,7 +75,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
         <Search className="h-4 w-4 mr-2" />
         Filtrar resultados
       </Button>
-      <Button type="button" variant="outline" size="default" onClick={handleClearFilters}>
+      <Button type="button" variant="outline" size="default" onClick={handleClearFilters} >
         <X className="h-4 w-4 mr-2" />
         Remover filtros
       </Button>
