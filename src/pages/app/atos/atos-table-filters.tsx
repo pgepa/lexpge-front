@@ -7,6 +7,7 @@ import { Search, X } from "lucide-react";
 
 export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => void }) {
   const [conteudo, setConteudo] = useState("");
+  const [descritores, setDescritores] = useState("");
   const [numero, setNumero] = useState("");
   const [ano, setAno] = useState("");
   const [tipo, setTipo] = useState("todos");
@@ -14,7 +15,8 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
   const handleFilter = (event: React.FormEvent) => {
     event.preventDefault();
     onFilter({
-      conteudo: conteudo.trim() || undefined, // Enviar undefined se estiver vazio
+      conteudo: conteudo.trim() || undefined, 
+      descritores: descritores.trim() || undefined,
       numero: numero.trim() || undefined,
       ano: ano.trim() || undefined,
       tipo: tipo !== "todos" ? tipo : undefined, // Enviar undefined se for "todos"
@@ -23,10 +25,11 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
 
   const handleClearFilters = () => {
     setConteudo("");
+    setDescritores("");
     setNumero("");
     setAno("");
     setTipo("todos");
-    onFilter({ conteudo: undefined, numero: undefined, ano: undefined, tipo: undefined });
+    onFilter({ conteudo: undefined, descritores: undefined, numero: undefined, ano: undefined, tipo: undefined });
   };
 
   return (
@@ -37,6 +40,12 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
         value={conteudo}
         onChange={(e) => setConteudo(e.target.value)}
         className="w-[320px]"
+      />
+      <Input
+        placeholder="Busca por descritores"
+        value={descritores}
+        onChange={(e) => setDescritores(e.target.value)}
+        className="w-auto"
       />
       <Input
         placeholder="Número"
