@@ -23,3 +23,21 @@ npm install
    ```bash
    npm run dev
    ```
+4. UPDATE FRONT-END:
+    ```bash  
+
+    git pull
+    npm run build
+    cd dist/
+    tar -zcvf lexpge.tar.gz *
+    sudo mv lexpge.tar.gz /var/www/html/
+    cd /var/www/html
+    sudo rm -rf assets/
+    sudo rm index.html
+    sudo tar -zxvf lexpge.tar.gz
+    sudo rm lexpge.tar.gz
+    cd ..
+    sudo chown root:root -R html/
+    sudo service apache2 restart
+
+    ```
