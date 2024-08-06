@@ -19,6 +19,7 @@ export type AtoCard = {
   titulo: string;
   situacao: string;
   ementa: string;
+  descritores: string;
 };
 
 export const AtosCard = () => {
@@ -28,6 +29,7 @@ export const AtosCard = () => {
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     conteudo: "",
+    descritores: "",
     numero: "",
     ano: "",
     tipo: "todos",
@@ -158,6 +160,7 @@ export const AtosCard = () => {
                 {ato.titulo}
               </CardTitle>
               <CardDescription>{ato.situacao}</CardDescription>
+              
             </div>
           </CardHeader>
           <CardContent className="space-y-1">
@@ -165,6 +168,9 @@ export const AtosCard = () => {
               <p className="leading-7 [&:not(:first-child)]:mt-6">
                 {ato.ementa}
               </p>
+            </span>
+            <span>
+            <CardDescription className='mt-2'>{ato.descritores}</CardDescription>
             </span>
           </CardContent>
           <CardFooter className="flex justify-start gap-2">
