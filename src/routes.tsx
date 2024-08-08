@@ -12,6 +12,7 @@ import { Ficha } from "./pages/app/ficha/ficha"
 import { NovoRegistro } from "./pages/app/atos/atos-registro"
 import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato'
 import { EditarRegistro } from "./pages/app/atos/atos-editar"
+import { ManagementUser } from './pages/app/gestao/gestao-user'
 
 
 export const router = createHashRouter([
@@ -27,7 +28,8 @@ export const router = createHashRouter([
       { path: '/ficha/:id', element: <Ficha />},
       { path: '/registro', element: <NovoRegistro />},
       { path: '/texto-integral/:id', element: <TextoIntegral />},
-      { path: '/editar/:id', element: <EditarRegistro />}     
+      { path: '/editar/:id', element: <EditarRegistro />},     
+      { path: '/usuario', element: <ManagementUser />}     
       
     ]
   },

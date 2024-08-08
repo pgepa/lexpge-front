@@ -1,8 +1,10 @@
-import { Scale, BookOpenText, CircleGauge, List, Home } from "lucide-react"
+import { Scale, BookOpenText, List, Home, Users } from "lucide-react"
 import { Separator} from './ui/separator'
 import { NavLink } from "./nav-link"
 import { ThemeToggle } from "./theme/theme-toggle"
 import { AccountMenu } from "./account-menu"
+import { AreaChart } from "lucide-react";
+
 
 export function Header() {
   return (
@@ -27,8 +29,13 @@ export function Header() {
           </NavLink>
 
           <NavLink to="/dashboard">
-            <CircleGauge className="h-4 w-4" />            
+            <AreaChart  className="h-4 w-4" />            
             Dashboard 
+          </NavLink>
+
+          <NavLink to="/usuario">
+            <Users className="h-4 w-4" />            
+            Usuários
           </NavLink>
 
           <NavLink to="/sobre">
