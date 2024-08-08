@@ -6,12 +6,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { Link, useNavigate } from 'react-router-dom'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const signUpForm = z.object({
-  restaurantName: z.string(),
-  managerName: z.string(),
-  phone: z.string(),
+  nome: z.string(),
+  id_perfil: z.string(),
   email: z.string().email(),
+  senha: z.string(),
 })
 
 type SignUpForm = z.infer<typeof signUpForm>
@@ -62,23 +63,32 @@ export function SignUp() {
 
           <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="restaurantName">Nome do estabelecimento</Label>
-              <Input id="restaurantName" type="text" {...register("restaurantName")}/>
+              <Label htmlFor="nome">Nome Completo:</Label>
+              <Input id="nome" type="text" {...register("nome")}/>
+            </div>
+
+            <div className="col-span-2">
+            <Label htmlFor="id_perfil">Perfil:</Label>
+                <Select>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Administrador</SelectItem>
+                  <SelectItem value="2">Chefia</SelectItem>
+                  <SelectItem value="3">Estagiário</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="managerName">Seu nome</Label>
-              <Input id="managerName" type="text" {...register("managerName")}/>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="email">Seu e-mail</Label>
+              <Label htmlFor="email">E-mail:</Label>
               <Input id="email" type="email" {...register("email")}/>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone">Seu celular</Label>
-              <Input id="phone" type="tel" {...register("phone")}/>
+              <Label htmlFor="senha">Senha:</Label>
+              <Input id="senha" type="password" {...register("senha")}/>
             </div>
 
             <Button disabled={isSubmitting}className="w-full" type="submit">Finalizar cadastro</Button>
