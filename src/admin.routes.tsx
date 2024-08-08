@@ -15,7 +15,7 @@ import { EditarRegistro } from "./pages/app/atos/atos-editar"
 import { ManagementUser } from './pages/app/gestao/gestao-user'
 
 
-export const router = createHashRouter([
+export const AdminRouter = createHashRouter([
   {
     path: '/',
     element: <AppLayout/>,

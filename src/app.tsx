@@ -7,7 +7,7 @@ import { Toaster } from 'sonner';
 
 import { ThemeProvider } from './components/theme/theme-provider';
 import { queryClient } from './lib/react-query';
-import { router } from './routes';
+import { AdminRouter } from './admin.routes';
 
 export const App = () => (
    <HelmetProvider> 
@@ -15,7 +15,7 @@ export const App = () => (
       <Helmet titleTemplate="LEXPGE | %s" />
       <Toaster richColors />
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <RouterProvider router={AdminRouter} />
       </QueryClientProvider>
     </ThemeProvider>
    </HelmetProvider>
