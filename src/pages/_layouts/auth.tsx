@@ -1,7 +1,5 @@
 import { Outlet } from "react-router-dom"
-import { ChevronLeft, Scale } from "lucide-react"
-import { NavLink } from '@/components/nav-link'
-import { Button } from '@/components/ui/button'
+import { Scale } from "lucide-react"
 
 export function AuthLayout() {
   return (
@@ -13,14 +11,7 @@ export function AuthLayout() {
                 <Scale className="h-5 w-5"/>
                 <span className="font-semibold">LEXPGE</span>
             </div>
-            <div>
-            <NavLink to="/usuario">
-                    <Button variant={'ghost'}>
-                    <ChevronLeft className=" mr-1 h-4 w-4" />
-                        Voltar
-                    </Button>
-            </NavLink>
-        </div>
+            
         </div>
         
 

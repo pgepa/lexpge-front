@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { NavLink } from '@/components/nav-link'
+import { ChevronLeft } from 'lucide-react'
 
 const signUpForm = z.object({
   nome: z.string(),
@@ -42,7 +44,9 @@ export function SignUp() {
   return (
     <>
       <Helmet title="Cadastro" />
+      
       <div className="p-8">
+      
 
         <div className="w-[350px] flex flex-col justify-center gap-6">
           <div className="flex flex-col gap-2 text-center">
@@ -50,6 +54,14 @@ export function SignUp() {
             <p className="text-sm text-muted-foreground">Base de Atos Normativos - LEXPGE</p>
 
           </div>
+          
+            <NavLink to="/usuario">
+                    <Button variant={'ghost'}>
+                    <ChevronLeft className=" mr-1 h-4 w-4" />
+                        Voltar
+                    </Button>
+            </NavLink>
+        
 
           <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
             <div className="space-y-2">
