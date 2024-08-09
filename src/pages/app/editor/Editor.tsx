@@ -53,6 +53,9 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
       font: {
         list: {
           Calibri: 'Calibri, sans-serif'
+        },
+        command: (editor, font) => {
+          editor.s.applyFont(font);
         }
       },
     }
