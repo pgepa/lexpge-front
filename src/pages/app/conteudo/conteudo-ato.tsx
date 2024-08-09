@@ -89,7 +89,7 @@ export function TextoIntegral() {
                     }
                 `}</style>
 
-                <div className="flex flex-wrap items-center gap-2 p-2">
+                <div className="flex flex-wrap items-center gap-2 p-2 conteudo-ato">
                     <div className="flex-1" dangerouslySetInnerHTML={{ __html: ato.conteudo }} />
                 </div>
             </div>

@@ -92,5 +92,14 @@
     h6 {
       @apply text-sm;
     }
+    .conteudo-ato a {
+      color: blue;
+      text-decoration: underline;
+    }
+  
+    .conteudo-ato a:hover {
+      color: darkblue;
+      text-decoration: underline;
+    }
     
   }
