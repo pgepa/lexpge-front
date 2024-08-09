@@ -49,17 +49,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
           'Verdana,Geneva,sans-serif': 'Verdana'
         }
       },
-      paragraph: {
-        list: {
-          p: 'Normal',
-          h1: 'Cabeçalho 1',
-          h2: 'Cabeçalho 2',
-          h3: 'Cabeçalho 3',
-          h4: 'Cabeçalho 4',
-          h5: 'Cabeçalho 5',
-          h6: 'Cabeçalho 6'
-        }
-      }
+      
     }
   };
 
