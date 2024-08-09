@@ -114,17 +114,6 @@ export const AtosCard = () => {
     setCurrentPage(1);
   };
 
-  const handleClearFilters = () => {
-    const resetFilters = {
-      conteudo: "",
-      numero: "",
-      ano: "",
-      tipo: "todos",
-    };
-    setFilters(resetFilters);
-    setIsFiltering(false);
-    setCurrentPage(1);
-  };
 
   const renderPaginationItems = () => {
     let startPage = Math.max(currentPage - Math.floor(paginationRange / 2), 1);
@@ -150,7 +139,7 @@ export const AtosCard = () => {
 
   return (
     <>
-      <AtosTableFilters onFilter={handleFilter} onClearFilters={handleClearFilters} />
+      <AtosTableFilters onFilter={handleFilter}  />
       {loading && <p>Carregando...</p>}
       {atos.map((ato) => (
         <Card key={ato.id}>

@@ -1,8 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 
-import { NavLink } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { CirclePlus } from 'lucide-react';
 import { AtosCardPublic } from './atos-card-model';
   
 

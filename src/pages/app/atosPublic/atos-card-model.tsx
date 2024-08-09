@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, PencilLine, SquareArrowOutUpRight, Trash2 } from 'lucide-react';
+import { Eye, SquareArrowOutUpRight} from 'lucide-react';
 import {
   Pagination,
   PaginationContent,
@@ -80,27 +80,6 @@ export const AtosCardPublic = () => {
     navigate(`/texto-integral/${ato.id}`, { state: { ato } });
   };
 
-  const handleEditClick = (ato: AtoCardPublic) => {
-    navigate(`/editar/${ato.id}`, { state: { ato } });
-  };
-
-  const handleDeleteClick = async (id: number) => {
-    if (window.confirm("Tem certeza de que deseja excluir este registro?")) {
-      try {
-        const response = await api.delete(`/atos/${id}`);
-
-        if (response.status === 204) {
-          setAtos(atos.filter((ato) => ato.id !== id));
-          alert("Registro excluído com sucesso.");
-        } else {
-          alert("Erro ao excluir o registro.");
-        }
-      } catch (error) {
-        console.error("Erro ao excluir o registro:", error);
-        alert("Erro ao excluir o registro.");
-      }
-    }
-  };
 
   const handlePageChange = (pagina: number) => {
     if (pagina > 0 && pagina <= totalPages) {
@@ -114,17 +93,6 @@ export const AtosCardPublic = () => {
     setCurrentPage(1);
   };
 
-  const handleClearFilters = () => {
-    const resetFilters = {
-      conteudo: "",
-      numero: "",
-      ano: "",
-      tipo: "todos",
-    };
-    setFilters(resetFilters);
-    setIsFiltering(false);
-    setCurrentPage(1);
-  };
 
   const renderPaginationItems = () => {
     let startPage = Math.max(currentPage - Math.floor(paginationRange / 2), 1);
@@ -150,7 +118,7 @@ export const AtosCardPublic = () => {
 
   return (
     <>
-      <AtosTableFilters onFilter={handleFilter} onClearFilters={handleClearFilters} />
+      <AtosTableFilters onFilter={handleFilter} />
       {loading && <p>Carregando...</p>}
       {atos.map((ato) => (
         <Card key={ato.id}>

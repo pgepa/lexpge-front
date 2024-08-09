@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts"
 import colors from "tailwindcss/colors"

@@ -14,17 +14,9 @@ export function HomePublic() {
   const [tipo, setTipo] = useState("todos");
   const [termosBusca, setTermosBusca] = useState("");
   const [isSearchPerformed, setIsSearchPerformed] = useState(false);
-  const [searchFilters, setSearchFilters] = useState({});
 
   // Função que realiza a busca e define os filtros
   const handleSearch = () => {
-    const filters = {
-      numero,
-      ano,
-      tipo,
-      termosBusca,
-    };
-    setSearchFilters(filters);
     setIsSearchPerformed(true);
   };
 
@@ -114,7 +106,7 @@ export function HomePublic() {
           </div>
         </div>
       ) : (
-        <AtosCardPublic filters={searchFilters} /> // Passando os filtros para o AtosCard
+        <AtosCardPublic /> // Passando os filtros para o AtosCard
       )}
     </>
   );
