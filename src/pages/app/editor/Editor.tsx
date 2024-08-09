@@ -13,11 +13,10 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
     defaultFontSizePoints: "pt",
     disablePlugins: "ai-assistant,focus",
     readonly: false, // All options from https://xdsoft.net/jodit/doc/
-    defaultMode: "1",
+    defaultMode: 1,
     useSearch: false,
     toolbarInlineForSelection: true,
     showPlaceholder: false,
-    enter: "P",
     height: 500,
     toolbarSticky: false,
     language: 'pt_br',
@@ -35,7 +34,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
       'hr', 'eraser', 'copyformat', '|',
       'symbol', 'fullsize', 'print',
     ],
-    defaultFont: 'Calibri',
+    defaultFont: 'Calibri, sans-serif',
     style: {
       font: 'Calibri, sans-serif'
     },
@@ -54,9 +53,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
         list: {
           Calibri: 'Calibri, sans-serif'
         },
-        command: (editor: any, font: any) => {
-          editor.s.applyFont(font);
-        }
+        
       },
     }
   };
