@@ -10,6 +10,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
     showWordsCounter: false,
     showXPathInStatusbar: false,
     askBeforePasteHTML: false,
+    defaultFontSizePoints: "pt",
     disablePlugins: "ai-assistant,focus",
     readonly: false, // All options from https://xdsoft.net/jodit/doc/
     defaultMode: "1",
@@ -41,12 +42,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
     controls: {
       font: {
         list: {
-          Calibri: 'Calibri, sans-serif',
-          'Helvetica,Arial,sans-serif': 'Helvetica',
-          'Georgia,serif': 'Georgia',
-          'Impact,Charcoal,sans-serif': 'Impact',
-          'Tahoma,Geneva,sans-serif': 'Tahoma',
-          'Verdana,Geneva,sans-serif': 'Verdana'
+          Calibri: 'Calibri, sans-serif'
         }
       },
       
