@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
-
 interface TextoIntegral {
     id: number;
     conteudo: string; 
@@ -39,10 +38,8 @@ export function TextoIntegral() {
                 setAto(data);
             } catch (error) {
                 setError((error as Error).message);
-                // Redireciona de volta para a página de atos em caso de erro
                 navigate("/atos"); 
 
-                // Mostra um toast de erro
                 toast({
                   title: "Erro ao carregar o ato",
                   description: "Não foi possível carregar o texto integral do ato selecionado.",
@@ -53,13 +50,13 @@ export function TextoIntegral() {
             }
         }
         loadTextoIntegral();
-    }, [id, location.state?.ato?.id]); // Dependência adicionada
+    }, [id, location.state?.ato?.id]);
 
     if (isLoading) {
         return <p>Carregando...</p>;
     }
 
-    if (error || !ato) { // Verifica se há erro ou se o ato não foi carregado
+    if (error || !ato) { 
         return <p>Erro ao carregar o texto integral.</p>;
     }
 
@@ -67,13 +64,33 @@ export function TextoIntegral() {
         <>
             <Helmet title="Texto Integral" />
             <div className="space-y-6 p-4">
-                <Button variant={"ghost"} onClick={() => navigate(-1)}> {/* Navegação de volta */}
-                <ChevronLeft className=" mr-1 h-4 w-4" />  
+                <Button variant={"ghost"} onClick={() => navigate(-1)}>
+                    <ChevronLeft className=" mr-1 h-4 w-4" />  
                     Voltar
                 </Button>
 
+                <style>{`
+                    .jodit-table-style {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    .jodit-table-style th, .jodit-table-style td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                    }
+                    .jodit-table-style th {
+                        background-color: #f2f2f2;
+                        text-align: left;
+                    }
+                    .jodit-table-style caption {
+                        caption-side: bottom;
+                        padding: 10px;
+                        font-weight: bold;
+                    }
+                `}</style>
+
                 <div className="flex flex-wrap items-center gap-2 p-2">
-                 <div className="flex-1" dangerouslySetInnerHTML={{ __html: ato.conteudo }} />
+                    <div className="flex-1" dangerouslySetInnerHTML={{ __html: ato.conteudo }} />
                 </div>
             </div>
         </>
