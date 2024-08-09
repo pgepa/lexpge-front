@@ -1,4 +1,4 @@
-import { Scale, BookOpenText, List, Home, Users } from "lucide-react"
+import { Scale, BookOpenText, List, Home} from "lucide-react"
 import { Separator} from './ui/separator'
 import { NavLink } from "./nav-link"
 import { ThemeToggle } from "./theme/theme-toggle"
