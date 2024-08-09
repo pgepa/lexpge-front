@@ -17,7 +17,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
     useSearch: false,
     toolbarInlineForSelection: true,
     showPlaceholder: false,
-    enter:"P",
+    enter: "P",
     height: 500,
     toolbarSticky: false,
     language: 'pt_br',
@@ -33,19 +33,28 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
       'image', 'table', 'link', '|',
       'align', 'undo', 'redo', 'paste', '|',
       'hr', 'eraser', 'copyformat', '|',
-      'symbol', 'fullsize', 'print', 
+      'symbol', 'fullsize', 'print',
     ],
     defaultFont: 'Calibri',
     style: {
       font: 'Calibri, sans-serif'
     },
     controls: {
+      paragraph: {
+        list: {
+          p: 'Normal',
+          h1: 'Cabeçalho 1',
+          h2: 'Cabeçalho 2',
+          h3: 'Cabeçalho 3',
+          h4: 'Cabeçalho 4',
+          h5: 'Cabeçalho 5'
+        }
+      },
       font: {
         list: {
           Calibri: 'Calibri, sans-serif'
         }
       },
-      
     }
   };
 
