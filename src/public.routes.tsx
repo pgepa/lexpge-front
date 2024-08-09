@@ -1,26 +1,28 @@
 import { createHashRouter } from "react-router-dom"
 import { SignIn } from "./pages/auth/sign-in"
-import { AppLayout } from "./pages/_layouts/app"
 import { AuthLayout } from "./pages/_layouts/auth"
 import { SignUp } from "./pages/auth/sign-up"
-import { Atos } from "./pages/app/atos/atos-card-teste"
+
 import { NotFound } from "./pages/404"
 import { Sobre } from "./pages/sobre"
-import { Inicio } from "./inicio"
+
 import { TextoIntegral } from './pages/app/conteudo/conteudo-ato'
 import { Ficha } from './pages/app/ficha/ficha'
+import { AtosPublic } from './pages/app/atosPublic/atos-card-public'
+import { HomePublic } from './pages/home-public'
+import { AppLayoutPublic } from './pages/_layouts/app-public'
 
 
 
-export const router = createHashRouter([
+export const PublicRouter = createHashRouter([
   {
     path: '/',
-    element: <AppLayout/>,
+    element: <AppLayoutPublic/>,
     errorElement: <NotFound />,
     children: [
-      { path: '/', element: <Inicio />},
+      { path: '/', element: <HomePublic />},
       { path: '/sobre', element: <Sobre/>},
-      { path: '/atos', element: <Atos />},
+      { path: '/atos', element: <AtosPublic />},
       { path: '/ficha/:id', element: <Ficha />},
       { path: '/texto-integral/:id', element: <TextoIntegral />},         
       

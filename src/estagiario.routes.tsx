@@ -14,7 +14,7 @@ import { EditarRegistro } from "./pages/app/atos/atos-editar"
 
 
 
-export const router = createHashRouter([
+export const EstagiarioRouter = createHashRouter([
   {
     path: '/',
     element: <AppLayout/>,

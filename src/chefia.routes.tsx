@@ -13,7 +13,7 @@ import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato'
 
 
 
-export const router = createHashRouter([
+export const ChefiaRoutes = createHashRouter([
   {
     path: '/',
     element: <AppLayout/>,
