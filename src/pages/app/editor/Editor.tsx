@@ -7,7 +7,7 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
 
   const config = {
     readonly: false, // All options from https://xdsoft.net/jodit/doc/
-    defaultMode: "3",
+    defaultMode: "1",
     height: 500,
     language: 'pt_br',
     uploader: {
