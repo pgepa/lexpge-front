@@ -6,9 +6,19 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
   const [content, setContent] = useState(value);
 
   const config = {
+    showCharsCounter: false,
+    showWordsCounter: false,
+    showXPathInStatusbar: false,
+    askBeforePasteHTML: false,
+    disablePlugins: "ai-assistant,focus",
     readonly: false, // All options from https://xdsoft.net/jodit/doc/
     defaultMode: "1",
+    useSearch: false,
+    toolbarInlineForSelection: true,
+    showPlaceholder: false,
+    enter:"P",
     height: 500,
+    toolbarSticky: false,
     language: 'pt_br',
     uploader: {
       insertImageAsBase64URI: true, // Insert image as base64
@@ -20,9 +30,9 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
       'outdent', 'indent', '|',
       'font', 'fontsize', 'brush', 'paragraph', '|',
       'image', 'table', 'link', '|',
-      'align', 'undo', 'redo', '|',
+      'align', 'undo', 'redo', 'paste', '|',
       'hr', 'eraser', 'copyformat', '|',
-      'symbol', 'fullsize', 'print', 'about'
+      'symbol', 'fullsize', 'print', 
     ],
     defaultFont: 'Calibri',
     style: {
