@@ -7,22 +7,22 @@ import { toast } from "@/components/ui/use-toast";
 
 interface TextoIntegral {
     id: number;
-    conteudo: string;
+    conteudo: string; 
 }
 
 export function TextoIntegral() {
-    const location = useLocation() as Location<{ ato?: TextoIntegral }>;
+    const location = useLocation() as Location<{ ato?: TextoIntegral }>; 
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
-    const [ato, setAto] = useState<TextoIntegral | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [ato, setAto] = useState<TextoIntegral | null>(null); 
+    const [isLoading, setIsLoading] = useState<boolean>(true); 
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         async function loadTextoIntegral() {
             try {
-                const atoId = location.state?.ato?.id ?? parseInt(id!, 10);
+                const atoId = location.state?.ato?.id ?? parseInt(id!, 10); 
 
                 if (!atoId) {
                     throw new Error("ID do ato não encontrado");
@@ -38,7 +38,7 @@ export function TextoIntegral() {
                 setAto(data);
             } catch (error) {
                 setError((error as Error).message);
-                navigate("/atos");
+                navigate("/atos"); 
 
                 toast({
                   title: "Erro ao carregar o ato",
@@ -56,7 +56,7 @@ export function TextoIntegral() {
         return <p>Carregando...</p>;
     }
 
-    if (error || !ato) {
+    if (error || !ato) { 
         return <p>Erro ao carregar o texto integral.</p>;
     }
 
@@ -65,7 +65,7 @@ export function TextoIntegral() {
             <Helmet title="Texto Integral" />
             <div className="space-y-6 p-4">
                 <Button variant={"ghost"} onClick={() => navigate(-1)}>
-                    <ChevronLeft className=" mr-1 h-4 w-4" />
+                    <ChevronLeft className=" mr-1 h-4 w-4" />  
                     Voltar
                 </Button>
 
@@ -86,12 +86,6 @@ export function TextoIntegral() {
                         caption-side: bottom;
                         padding: 10px;
                         font-weight: bold;
-                    }
-
-                    /* Aplica a fonte Calibri e tamanho 12pt se não houver estilo definido */
-                    .conteudo-ato *:not([style*="font-family"]):not([style*="font-size"]) {
-                        font-family: Calibri, sans-serif !important;
-                        font-size: 12pt !important;
                     }
                 `}</style>
 
