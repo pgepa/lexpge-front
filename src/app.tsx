@@ -8,12 +8,16 @@ import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme/theme-provider';
 import { queryClient } from './lib/react-query';
 import { AdminRouter } from './admin.routes';
+import { ToastContainer } from 'react-toastify';
+
+import "react-toastify/dist/ReactToastify.css";
 
 export const App = () => (
    <HelmetProvider> 
     <ThemeProvider storageKey="lexpge-theme" defaultTheme="dark">
       <Helmet titleTemplate="LEXPGE | %s" />
       <Toaster richColors />
+      <ToastContainer />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={AdminRouter} />
       </QueryClientProvider>
