@@ -33,7 +33,7 @@ export function SignIn() {
       const user = userPermissions.data.find((user: any) => user.email === form.email);
       if (user) {
         localStorage.setItem('userProfile', JSON.stringify(user.id_perfil));
-        navigate('/dashboard');
+        navigate('/admin/atos/');
       }
     } catch (err) {
       setError('Credenciais inválidas');

@@ -63,7 +63,7 @@ export function EditarRegistro() {
 
       if (response.ok) {
         toast.success('Registro atualizado com sucesso.');
-        navigate('/atos/admin');
+        navigate('/admin/atos/');
       } else {
         const result = await response.json();
         toast.error(result.error || 'Atualização inválida, favor verificar todos os campos.');
@@ -198,7 +198,7 @@ export function EditarRegistro() {
             {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
           
-          <Button variant="destructive" onClick={() => navigate('/atos/admin')}>
+          <Button variant="destructive" onClick={() => navigate('/admin/atos/')}>
             <SquareX className="mr-2 h-4 w-4" />
             Cancelar
           </Button>

@@ -73,15 +73,15 @@ export const AtosCard = () => {
   }, [currentPage, filters]);
 
   const handleFichaClick = (ato: AtoCard) => {
-    navigate(`/ficha/${ato.id}`, { state: { ato } });
+    navigate(`/admin/ficha/${ato.id}`, { state: { ato } });
   };
 
   const handleTextoIntegralClick = (ato: AtoCard) => {
-    navigate(`/texto-integral/${ato.id}`, { state: { ato } });
+    navigate(`/admin/texto-integral/${ato.id}`, { state: { ato } });
   };
 
   const handleEditClick = (ato: AtoCard) => {
-    navigate(`/editar/${ato.id}`, { state: { ato } });
+    navigate(`/admin/editar/${ato.id}`, { state: { ato } });
   };
 
   const handleDeleteClick = async (id: number) => {

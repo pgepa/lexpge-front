@@ -70,7 +70,7 @@ export function NovoRegistro() {
 
       if (response.ok) {
         toast.success('Novo registro cadastrado com sucesso.');
-        navigate('/atos');
+        navigate('/admin/atos/');
       } else {
         toast.error(result.error || 'Cadastro inválido, favor verificar todos os campos.');
       }
@@ -226,7 +226,7 @@ export function NovoRegistro() {
             </Button>
 
             
-              <Button variant="destructive" onClick={() => navigate('/atos/admin')}>
+              <Button variant="destructive" onClick={() => navigate('/admin/atos/')}>
                 <SquareX className="mr-2 h-4 w-4" />
                 Cancelar
               </Button>

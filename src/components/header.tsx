@@ -23,22 +23,22 @@ export function Header() {
             Início
           </NavLink>
 
-          <NavLink to="/atos/admin">
+          <NavLink to="/admin/atos/">
           <BookOpenText className="h-4 w-4" />
             Atos Normativos
           </NavLink>
 
-          <NavLink to="/dashboard">
+          <NavLink to="/admin/dashboard">
             <AreaChart  className="h-4 w-4" />            
             Dashboard 
           </NavLink>
 
-          <NavLink to="/usuario">
+          <NavLink to="/admin/usuario">
             <Users className="h-4 w-4" />            
             Usuários
           </NavLink>
 
-          <NavLink to="/sobre">
+          <NavLink to="/admin/sobre">
             <List className="h-4 w-4"/>            
             Sobre 
           </NavLink>
