@@ -13,7 +13,12 @@ import { NovoRegistro } from "./pages/app/atos/atos-registro"
 import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato'
 import { EditarRegistro } from "./pages/app/atos/atos-editar"
 import { ManagementUser } from './pages/app/gestao/gestao-user'
+import { Navigate } from 'react-router-dom'
 
+const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
+    const token = localStorage.getItem('token');
+    return token ? children : <Navigate to="/sign-in" />;
+};
 
 export const AdminRouter = createHashRouter([
   {
@@ -22,13 +27,23 @@ export const AdminRouter = createHashRouter([
     errorElement: <NotFound />,
     children: [
       { path: '/', element: <Inicio />},
-      { path: '/dashboard', element: <Dashboard />},
+      { path: '/dashboard', element: 
+        <PrivateRoute>
+          <Dashboard />
+        </PrivateRoute>
+    },
       { path: '/sobre', element: <Sobre/>},
       { path: '/atos', element: <Atos />},
       { path: '/ficha/:id', element: <Ficha />},
       { path: '/registro', element: <NovoRegistro />},
       { path: '/texto-integral/:id', element: <TextoIntegral />},
-      { path: '/editar/:id', element: <EditarRegistro />},     
+      { path: '/editar/:id', element:
+        
+        <PrivateRoute>
+         <EditarRegistro />
+        </PrivateRoute> 
+        
+    },     
       { path: '/usuario', element: <ManagementUser />}     
       
     ]
