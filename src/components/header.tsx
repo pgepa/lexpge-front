@@ -23,7 +23,7 @@ export function Header() {
             Início
           </NavLink>
 
-          <NavLink to="/atos">
+          <NavLink to="/atos/admin">
           <BookOpenText className="h-4 w-4" />
             Atos Normativos
           </NavLink>

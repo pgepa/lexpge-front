@@ -226,7 +226,7 @@ export function NovoRegistro() {
             </Button>
 
             
-              <Button variant="destructive" onClick={() => navigate('/atos')}>
+              <Button variant="destructive" onClick={() => navigate('/atos/admin')}>
                 <SquareX className="mr-2 h-4 w-4" />
                 Cancelar
               </Button>

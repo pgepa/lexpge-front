@@ -33,12 +33,17 @@ export const AdminRouter = createHashRouter([
         </PrivateRoute>
     },
       { path: '/sobre', element: <Sobre/>},
-      { path: '/atos', element: <Atos />},
+      { path: '/atos/admin', element:
+        <PrivateRoute>
+            <Atos />
+        </PrivateRoute>         
+         
+        },
       { path: '/ficha/:id', element: <Ficha />},
       { path: '/registro', element: <NovoRegistro />},
       { path: '/texto-integral/:id', element: <TextoIntegral />},
       { path: '/editar/:id', element:
-        
+
         <PrivateRoute>
          <EditarRegistro />
         </PrivateRoute> 
