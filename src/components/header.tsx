@@ -18,7 +18,7 @@ export function Header() {
 
         <nav className="flex items-center space-x-4 lg:space-x-6">
 
-        <NavLink to="/">
+        <NavLink to="/admin">
           <Home className="h-4 w-4" />
             Início
           </NavLink>

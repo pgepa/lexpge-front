@@ -11,7 +11,7 @@ export const Atos = () => (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Atos Normativos</h1>
-        <NavLink to="/registro">
+        <NavLink to="/admin/registro">
           <Button type="submit" variant="default" size="sm">
             <CirclePlus className="mr-2 h-4 w-4" />
             Novo Registro

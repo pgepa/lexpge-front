@@ -61,14 +61,24 @@ export const AdminRouter = createHashRouter([
         </PrivateRoute>         
       },
       { path: '/admin/ficha/:id', element: <Ficha />},
-      { path: '/admin/registro', element: <NovoRegistro />},
+      { path: '/admin/registro', element: 
+        <PrivateRoute>
+            <NovoRegistro />
+        </PrivateRoute> 
+      
+    },
       { path: '/admin/texto-integral/:id', element: <TextoIntegral />},
       { path: '/admin/editar/:id', element:
         <PrivateRoute>
          <EditarRegistro />
         </PrivateRoute> 
       },     
-      { path: '/admin/usuario', element: <ManagementUser />}     
+      { path: '/admin/usuario', element:
+        <PrivateRoute>
+         <ManagementUser />
+        </PrivateRoute>          
+      
+     }     
     ]
   },
 ]);
