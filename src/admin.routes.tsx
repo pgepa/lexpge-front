@@ -41,7 +41,12 @@ export const AdminRouter = createHashRouter([
     element: <AuthLayout />,
     children: [
       { path: '/sign-in', element: <SignIn />},
-      { path: '/sign-up', element: <SignUp />}
+      { path: '/admin/sign-up', element: 
+        <PrivateRoute>
+            <SignUp />
+        </PrivateRoute> 
+      
+    }
     ]
   },
   {
