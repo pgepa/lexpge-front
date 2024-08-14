@@ -87,9 +87,16 @@ export const AtosCard = () => {
   const handleDeleteClick = async (id: number) => {
     if (window.confirm("Tem certeza de que deseja excluir este registro?")) {
       try {
-        const response = await api.delete(`/atos/${id}`);
+        const token = localStorage.getItem('token');
 
-        if (response.status === 204) {
+
+        const response = await api.delete(`/atos/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Adicione o token no cabeçalho da requisição
+            },
+          });
+
+        if (response.status === 200) {
           setAtos(atos.filter((ato) => ato.id !== id));
           alert("Registro excluído com sucesso.");
         } else {
