@@ -4,9 +4,9 @@ import { Label } from '@/components/ui/label';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '@/lib/axios';
 
 const signInFormSchema = z.object({
   email: z.string().email(),
@@ -23,10 +23,10 @@ export function SignIn() {
 
   const handleLogin = async (form: SignInForm) => {
     try {
-      const response = await axios.post('http://10.96.20.14:4000/auth/login', { email: form.email, senha: form.senha });
+      const response = await api.post('/auth/login', { email: form.email, senha: form.senha });
       localStorage.setItem('token', response.data.access_token);
 
-      const userPermissions = await axios.get('http://10.96.20.14:4000/auth/users', {
+      const userPermissions = await api.get('/auth/users', {
         headers: { 'Authorization': `Bearer ${response.data.access_token}` }
       });
 
