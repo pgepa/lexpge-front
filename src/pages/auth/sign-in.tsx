@@ -23,10 +23,10 @@ export function SignIn() {
 
   const handleLogin = async (form: SignInForm) => {
     try {
-      const response = await axios.post('http://10.96.20.14:4000/auth/login', { email: form.email, senha: form.senha });
+      const response = await axios.post('http://10.96.5.67:4000/auth/login', { email: form.email, senha: form.senha });
       localStorage.setItem('token', response.data.access_token);
 
-      const userPermissions = await axios.get('http://10.96.20.14:4000/auth/users', {
+      const userPermissions = await axios.get('http://10.96.5.67:4000/auth/users', {
         headers: { 'Authorization': `Bearer ${response.data.access_token}` }
       });
 

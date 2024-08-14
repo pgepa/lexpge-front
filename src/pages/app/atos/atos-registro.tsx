@@ -56,10 +56,13 @@ export function NovoRegistro() {
         conteudo: data.editor,
       };
 
+      const token = localStorage.getItem('token');
+
       const response = await fetch(import.meta.env.VITE_API_URL + '/atos/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
         
