@@ -53,10 +53,13 @@ export function EditarRegistro() {
         data_publicacao: data.data_publicacao ? data.data_publicacao.toISOString().split('T')[0] : null,
       };
 
+      const token = localStorage.getItem('token');
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/atos/${ato.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
