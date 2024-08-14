@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { CirclePlus } from 'lucide-react';
+import { UserCard } from './user-exibicao';
   
 
 export const ManagementUser  = () => (
@@ -18,6 +19,9 @@ export const ManagementUser  = () => (
           </Button>
         </NavLink>
       </div>
+      
+      <UserCard />
+
     
 
     </div>
