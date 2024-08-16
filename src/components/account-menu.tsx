@@ -3,6 +3,7 @@ import { Building, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { api } from '@/lib/axios';
+import { useNavigate } from 'react-router-dom'; // Atualize para useNavigate
 
 export type GetProfileResponse = {
   id: number;
@@ -14,6 +15,7 @@ export type GetProfileResponse = {
 
 export function AccountMenu() {
   const [userProfile, setUserProfile] = useState<GetProfileResponse | null>(null);
+  const navigate = useNavigate(); // Atualize para useNavigate
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -59,6 +61,11 @@ export function AccountMenu() {
     return null;
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove o token
+    navigate("/"); // Atualize para navigate
+  };
+
   if (!userProfile) {
     return <p>Carregando...</p>; // Ou outro indicador de carregamento
   }
@@ -81,7 +88,7 @@ export function AccountMenu() {
           <Building className="w-4 h-4 mr-2" />
           <span>Perfil: {userProfile.id_perfil}</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-violet-600 dark:text-violet-400">
+        <DropdownMenuItem className="text-violet-600 dark:text-violet-400" onClick={handleLogout}>
           <LogOut className="w-4 h-4 mr-2" />
           <span>Sair</span>
         </DropdownMenuItem>
