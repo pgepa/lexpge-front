@@ -17,7 +17,7 @@ export type UserCard = {
   id: number;
   nome: string;
   email: string;
-  id_perfil: string;
+  id_perfil: number;
 };
 
 export const UserCard = () => {
@@ -130,6 +130,19 @@ export const UserCard = () => {
     return pages;
   };
 
+  const getPerfilDescription = (id_perfil: number) => {
+    switch (id_perfil) {
+      case 1:
+        return "Administrador";
+      case 2:
+        return "Chefia";
+      case 3:
+        return "Estagiário";
+      default:
+        return "Desconhecido";
+    }
+  };
+
   return (
     <>
       {loading && <p>Carregando...</p>}
@@ -140,7 +153,7 @@ export const UserCard = () => {
               <CardTitle className="text-base font-medium -tracking-tight text-blue-700 dark:text-blue-300">
                 {user.nome}
               </CardTitle>
-              <CardDescription>{user.id_perfil}</CardDescription>
+              <CardDescription>{getPerfilDescription(user.id_perfil)}</CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-1">
