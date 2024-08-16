@@ -66,6 +66,20 @@ export function AccountMenu() {
     navigate("/"); // Atualize para navigate
   };
 
+  // Função para mapear o id_perfil para uma string descritiva
+  const getPerfilDescription = (id_perfil: number) => {
+    switch (id_perfil) {
+      case 1:
+        return "Administrador";
+      case 2:
+        return "Chefia";
+      case 3:
+        return "Estagiário";
+      default:
+        return "Desconhecido";
+    }
+  };
+
   if (!userProfile) {
     return <p>Carregando...</p>; // Ou outro indicador de carregamento
   }
@@ -86,7 +100,7 @@ export function AccountMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Building className="w-4 h-4 mr-2" />
-          <span>Perfil: {userProfile.id_perfil}</span>
+          <span>Perfil: {getPerfilDescription(userProfile.id_perfil)}</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="text-violet-600 dark:text-violet-400" onClick={handleLogout}>
           <LogOut className="w-4 h-4 mr-2" />
