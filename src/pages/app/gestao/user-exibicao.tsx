@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { PencilLine, Trash2 } from 'lucide-react';
+import {  Trash2 } from 'lucide-react';
+import { UserEditar } from './user-editar';
 
 export type UserCard = {
   id: number;
@@ -21,7 +21,7 @@ export const UserCard = () => {
     id_perfil: "",
   });
   const [isFiltering] = useState(false);
-  const navigate = useNavigate();
+  
 
   async function loadUserCard() {
     setLoading(true);
@@ -50,9 +50,6 @@ export const UserCard = () => {
     loadUserCard();
   }, [filters]);
 
-  const handleEditClick = (user: UserCard) => {
-    navigate(`/admin/editar/${user.id}`, { state: { user } });
-  };
 
   const handleDeleteClick = async (id: number) => {
     if (window.confirm("Tem certeza de que deseja desabilitar este usuário?")) {
@@ -105,16 +102,7 @@ export const UserCard = () => {
               <p className="text-sm text-gray-600">{user.email}</p>
             </CardContent>
             <CardFooter className="flex gap-2 mt-4">
-              <Button
-                variant="default"
-                size="xs"
-                className="gap-2"
-                onClick={() => handleEditClick(user)}
-              >
-                <PencilLine className="h-4 w-4" />
-                Editar
-                <span className="sr-only">Editar usuário</span>
-              </Button>
+              <UserEditar/>
               <Button
                 variant="destructive"
                 size="xs"
