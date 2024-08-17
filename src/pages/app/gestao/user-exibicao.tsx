@@ -93,15 +93,15 @@ export const UserCard = () => {
       {loading && <p>Carregando...</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {users.map((user) => (
-          <Card key={user.id} className="flex flex-col p-4 border border-gray-200 rounded-lg shadow-md">
+          <Card key={user.id} className="flex flex-col p-4 border border-violet-200 rounded-lg shadow-xl">
             <CardHeader className="flex flex-col space-y-2 pb-4">
-              <CardTitle className="text-lg font-semibold text-blue-700 dark:text-blue-300 truncate">{user.nome}</CardTitle>
+              <CardTitle className="text-lg font-semibold text-muted-foreground text-violet-800 dark:text-violet-500 truncate">{user.nome}</CardTitle>
               <CardDescription className="text-sm text-gray-500">{getPerfilDescription(user.id_perfil)}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
-              <p className="text-sm text-gray-600">{user.email}</p>
+              <p className="text-muted-foreground ">{user.email}</p>
             </CardContent>
-            <CardFooter className="flex gap-2 mt-4">
+            <CardFooter className="flex gap-2 mt-1">
               <UserEditar user={user}/>
               <Button
                 variant="destructive"
