@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/axios';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import {  Trash2 } from 'lucide-react';
 import { UserEditar } from './user-editar';
+import { UserAtivo } from './user-ativo';
 
-export type UserCard = {
+export type UserCardProps = {
   id: number;
   nome: string;
   email: string;
   id_perfil: number;
+  isActive: boolean;
 };
 
 export const UserCard = () => {
-  const [users, setUsers] = useState<UserCard[]>([]);
+  const [users, setUsers] = useState<UserCardProps[]>([]);
   const [loading, setLoading] = useState(false);
   const [filters] = useState({
     nome: "",
@@ -21,8 +21,8 @@ export const UserCard = () => {
     id_perfil: "",
   });
   const [isFiltering] = useState(false);
-  
 
+  // Função para carregar os usuários
   async function loadUserCard() {
     setLoading(true);
     try {
@@ -50,31 +50,7 @@ export const UserCard = () => {
     loadUserCard();
   }, [filters]);
 
-
-  const handleDeleteClick = async (id: number) => {
-    if (window.confirm("Tem certeza de que deseja desabilitar este usuário?")) {
-      try {
-        const token = localStorage.getItem('token');
-
-        const response = await api.put(`/auth/disable_user/${id}`, null, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status === 200) {
-          setUsers(users.filter((user) => user.id !== id));
-          alert("Usuário desabilitado com sucesso.");
-        } else {
-          alert("Erro ao desabilitar o usuário.");
-        }
-      } catch (error) {
-        console.error("Erro ao desabilitar o usuário:", error);
-        alert("Erro ao desabilitar o registro.");
-      }
-    }
-  };
-
+  // Função para obter a descrição do perfil
   const getPerfilDescription = (id_perfil: number) => {
     switch (id_perfil) {
       case 1:
@@ -95,24 +71,19 @@ export const UserCard = () => {
         {users.map((user) => (
           <Card key={user.id} className="flex flex-col p-4 border border-violet-200 rounded-lg shadow-xl">
             <CardHeader className="flex flex-col space-y-2 pb-4">
-              <CardTitle className="text-lg font-semibold text-muted-foreground text-violet-800 dark:text-violet-500 truncate">{user.nome}</CardTitle>
-              <CardDescription className="text-sm text-gray-500">{getPerfilDescription(user.id_perfil)}</CardDescription>
+              <CardTitle className="text-lg font-semibold text-muted-foreground text-violet-800 dark:text-violet-500 truncate">
+                {user.nome}
+              </CardTitle>
+              <CardDescription className="text-sm text-gray-500">
+                {getPerfilDescription(user.id_perfil)}
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex-1">
-              <p className="text-muted-foreground ">{user.email}</p>
+              <p className="text-muted-foreground">{user.email}</p>
             </CardContent>
             <CardFooter className="flex gap-2 mt-1">
-              <UserEditar user={user}/>
-              <Button
-                variant="destructive"
-                size="xs"
-                className="gap-2"
-                onClick={() => handleDeleteClick(user.id)}
-              >
-                <Trash2 className="h-4 w-4" />
-                Desabilitar
-                <span className="sr-only">Desabilitar usuário</span>
-              </Button>
+              <UserEditar user={user} />
+              <UserAtivo/>
             </CardFooter>
           </Card>
         ))}
