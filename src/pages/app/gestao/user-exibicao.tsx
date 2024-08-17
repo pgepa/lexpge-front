@@ -102,7 +102,7 @@ export const UserCard = () => {
               <p className="text-sm text-gray-600">{user.email}</p>
             </CardContent>
             <CardFooter className="flex gap-2 mt-4">
-              <UserEditar/>
+              <UserEditar user={user}/>
               <Button
                 variant="destructive"
                 size="xs"
