@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -28,6 +29,7 @@ const signUpForm = z.object({
 type SignUpForm = z.infer<typeof signUpForm>;
 
 export function SignUp() {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const navigate = useNavigate();
 
     const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<SignUpForm>({
@@ -57,7 +59,9 @@ export function SignUp() {
 
             if (response.ok) {
                 toast.success('Usuário cadastrado com sucesso.');
-                navigate('/admin/usuario');
+                setIsDialogOpen(false); // Fecha o Dialog
+                navigate('/admin/usuario'); // Navega para a página desejada
+                window.location.reload(); // Recarrega a página
             } else {
                 toast.error(result.error || 'Cadastro inválido, favor verificar todos os campos.');
             }
@@ -68,10 +72,10 @@ export function SignUp() {
     }
 
     return (
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-                <Button variant="default">
-                <CirclePlus className="mr-2 h-4 w-4" />
+                <Button variant="default" onClick={() => setIsDialogOpen(true)}>
+                    <CirclePlus className="mr-2 h-4 w-4" />
                     Novo Usuário
                 </Button>
             </DialogTrigger>
