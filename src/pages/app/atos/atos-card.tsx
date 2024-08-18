@@ -73,11 +73,19 @@ export const AtosCard = () => {
   }, [currentPage, filters]);
 
   const handleFichaClick = (ato: AtoCard) => {
-    navigate(`/admin/ficha/${ato.id}`, { state: { ato } });
+    const fichaUrl = `/#/admin/ficha/${ato.id}`;
+    const link = document.createElement('a');
+    link.href = fichaUrl;
+    link.target = '_blank';
+    link.click();
   };
 
   const handleTextoIntegralClick = (ato: AtoCard) => {
-    navigate(`/admin/texto-integral/${ato.id}`, { state: { ato } });
+    const textoIntegralUrl = `/#/admin/texto-integral/${ato.id}`;
+    const link = document.createElement('a');
+    link.href = textoIntegralUrl;   
+    link.target = '_blank';
+    link.click();
   };
 
   const handleEditClick = (ato: AtoCard) => {
