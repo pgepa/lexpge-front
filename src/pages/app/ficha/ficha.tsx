@@ -1,8 +1,7 @@
 import { Helmet } from "react-helmet-async";
-import { useLocation, Location, useParams, useNavigate } from "react-router-dom";
+import { useLocation, Location, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from 'lucide-react';
+
 
 
 interface AtoCard {
@@ -27,7 +26,7 @@ function formatDate(dateString: string): string {
 }
 
 export function Ficha() {
-    const navigate = useNavigate();
+  
     const location = useLocation() as Location<{ ato?: AtoCard }>; 
     const { id } = useParams<{ id: string }>();
 
@@ -53,11 +52,7 @@ export function Ficha() {
             <Helmet title="Ficha" />
             <div className="space-y-6 p-4">
                 
-                    <Button variant={'ghost'} onClick={() => navigate(-1)}>
-                    <ChevronLeft className=" mr-1 h-4 w-4" />
-                        Voltar
-                    </Button>
-               
+                                  
                 <h1 className="text-3xl font-bold tracking-tight text-center">{ato.titulo}</h1>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">

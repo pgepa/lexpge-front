@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,7 +35,6 @@ export const AtosCardPublic = () => {
   });
   const [isFiltering, setIsFiltering] = useState(false);
   const limit = 10;
-  const navigate = useNavigate();
   const paginationRange = 5;
 
   async function loadAtosCardPublic(pagina = 1, filters = {}) {
@@ -73,11 +71,19 @@ export const AtosCardPublic = () => {
   }, [currentPage, filters]);
 
   const handleFichaClick = (ato: AtoCardPublic) => {
-    navigate(`/ficha/${ato.id}`, { state: { ato } });
+    const fichaUrl = `/#/ficha/${ato.id}`;
+    const link = document.createElement('a');
+    link.href = fichaUrl;
+    link.target = '_blank';
+    link.click();
   };
 
   const handleTextoIntegralClick = (ato: AtoCardPublic) => {
-    navigate(`/texto-integral/${ato.id}`, { state: { ato } });
+    const textoIntegralUrl = `/#/texto-integral/${ato.id}`;
+    const link = document.createElement('a');
+    link.href = textoIntegralUrl;   
+    link.target = '_blank';
+    link.click();
   };
 
 
