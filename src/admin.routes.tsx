@@ -17,6 +17,10 @@ import { Navigate } from 'react-router-dom';
 import { AtosPublic } from './pages/app/atosPublic/atos-card-public';
 import { AppLayoutPublic } from './pages/_layouts/app-public';
 import { HomePublic } from './pages/home-public';
+import { AppLayoutEstagiario } from './pages/_layouts/app-estagiario';
+import { HomeEstagiario } from './pages/home-estagiario';
+import { AtosEstagiario } from './pages/app/atosEstagiario/atos-card-estagiario';
+import { EditarRegistroEstagiario } from './pages/app/atos/atos-editar-estagiario';
 
 const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
     const token = localStorage.getItem('token');
@@ -34,6 +38,27 @@ export const AdminRouter = createHashRouter([
         { path: '/atos', element: <AtosPublic />},
         { path: '/ficha/:id', element: <Ficha />},
         { path: '/texto-integral/:id', element: <TextoIntegral />}, 
+    ]
+  },
+  {
+    path: '/',
+    element: <AppLayoutEstagiario />,  // Default layout for the initial route
+    errorElement: <NotFound />,
+    children: [
+        { path: '/estagiario', element: <HomeEstagiario />},  // Default home route
+        { path: '/estagiario/sobre', element: <Sobre/>},
+        { path: '/estagiario/atos', element: 
+            <PrivateRoute>
+             <AtosEstagiario />
+            </PrivateRoute>
+            },
+        { path: '/estagiario/ficha/:id', element: <Ficha />},
+        { path: '/estagiario/texto-integral/:id', element: <TextoIntegral />},
+        { path: '/estagiario/editar/:id', element:
+            <PrivateRoute>
+             <EditarRegistroEstagiario />
+            </PrivateRoute> 
+          },      
     ]
   },
   {
