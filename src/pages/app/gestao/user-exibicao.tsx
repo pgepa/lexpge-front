@@ -9,7 +9,7 @@ export type UserCardProps = {
   nome: string;
   email: string;
   id_perfil: number;
-  isActive: boolean;
+  ativo: boolean;
 };
 
 export const UserCard = () => {
@@ -19,11 +19,11 @@ export const UserCard = () => {
     nome: "",
     email: "",
     id_perfil: "",
+    ativo: "",
   });
   const [isFiltering] = useState(false);
 
-  // Função para carregar os usuários
-  async function loadUserCard() {
+  const loadUserCard = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
@@ -44,11 +44,7 @@ export const UserCard = () => {
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    loadUserCard();
-  }, [filters]);
+  };
 
   // Função para obter a descrição do perfil
   const getPerfilDescription = (id_perfil: number) => {
@@ -63,6 +59,14 @@ export const UserCard = () => {
         return "Desconhecido";
     }
   };
+
+  const handleStatusChange = () => {
+    loadUserCard();
+  };
+
+  useEffect(() => {
+    loadUserCard();
+  }, [filters]);
 
   return (
     <>
@@ -83,7 +87,7 @@ export const UserCard = () => {
             </CardContent>
             <CardFooter className="flex gap-2 mt-1">
               <UserEditar user={user} />
-              <UserAtivo/>
+              <UserAtivo userId={user.id} ativo={user.ativo} onStatusChange={handleStatusChange} />
             </CardFooter>
           </Card>
         ))}
