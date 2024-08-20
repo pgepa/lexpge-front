@@ -42,11 +42,11 @@ export const AdminRouter = createHashRouter([
     errorElement: <NotFound />,
     children: [
       { path: '/estagiario', element: <PrivateRoute allowedProfiles={[3]}><HomeEstagiario /></PrivateRoute> },
-      { path: '/estagiario/sobre', element: <Sobre /> },
+      { path: '/estagiario/sobre', element: <PrivateRoute allowedProfiles={[3]}><Sobre /></PrivateRoute> },
       { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosEstagiario /></PrivateRoute> },
-      { path: '/estagiario/ficha/:id', element: <Ficha /> },
+      { path: '/estagiario/ficha/:id', element: <PrivateRoute allowedProfiles={[3]}><Ficha /></PrivateRoute> },
       { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistroEstagiario /></PrivateRoute> },
-      { path: '/estagiario/texto-integral/:id', element: <TextoIntegral /> },
+      { path: '/estagiario/texto-integral/:id', element:<PrivateRoute allowedProfiles={[3]}><TextoIntegral /></PrivateRoute>  },
       { path: '/estagiario/editar/:id', element: <PrivateRoute allowedProfiles={[3]}><EditarRegistroEstagiario /></PrivateRoute> },
     ]
   },
