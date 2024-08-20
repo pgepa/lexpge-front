@@ -66,7 +66,7 @@ export function EditarRegistroEstagiario() {
 
       if (response.ok) {
         toast.success('Registro atualizado com sucesso.');
-        navigate('/admin/atos/');
+        navigate('/estagiario/atos/');
       } else {
         const result = await response.json();
         toast.error(result.error || 'Atualização inválida, favor verificar todos os campos.');
@@ -201,7 +201,7 @@ export function EditarRegistroEstagiario() {
             {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
           
-          <Button variant="destructive" onClick={() => navigate('/admin/atos/')}>
+          <Button variant="destructive" onClick={() => navigate('/estagiario/atos/')}>
             <SquareX className="mr-2 h-4 w-4" />
             Cancelar
           </Button>
