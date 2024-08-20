@@ -175,7 +175,7 @@ export const AtosCardPublic = () => {
           </CardFooter>
         </Card>
       ))}
-      <Pagination className="sticky bottom-0 bg-white py-2">
+      <Pagination className="sticky bottom-0 bg-white dark:bg-transparent py-2">
         <PaginationContent>
           {currentPage > 1 && (
             <PaginationPrevious
