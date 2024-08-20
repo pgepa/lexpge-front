@@ -22,6 +22,9 @@ import { AtosEstagiario } from './pages/app/atosEstagiario/atos-card-estagiario'
 import { EditarRegistroEstagiario } from './pages/app/atos/atos-editar-estagiario';
 import PrivateRoute from './utils/private-route';
 import { NovoRegistroEstagiario } from './pages/app/atosEstagiario/atos-registro-estagiario';
+import { AppLayoutChefia } from './pages/_layouts/app-chefias';
+import { HomeChefia } from './pages/home-chefia';
+import { AtosChefia } from './pages/app/atosChefias/atos-card-chefias-exibir';
 
 export const AdminRouter = createHashRouter([
   {
@@ -34,6 +37,19 @@ export const AdminRouter = createHashRouter([
       { path: '/atos', element: <AtosPublic /> },
       { path: '/ficha/:id', element: <Ficha /> },
       { path: '/texto-integral/:id', element: <TextoIntegral /> },
+    ]
+  },
+  {
+    path: '/',
+    element: <AppLayoutChefia />,
+    errorElement: <NotFound />,
+    children: [
+      { path: '/chefia', element:<PrivateRoute allowedProfiles={[2]}><HomeChefia /></PrivateRoute>  },
+      { path: '/chefia/sobre', element: <PrivateRoute allowedProfiles={[2]}><Sobre /></PrivateRoute>  },
+      { path: '/chefia/atos', element: <PrivateRoute allowedProfiles={[2]}><AtosChefia /></PrivateRoute>  },
+      { path: '/chefia/ficha/:id', element:<PrivateRoute allowedProfiles={[2]}><Ficha /></PrivateRoute>  },
+      { path: '/chefia/texto-integral/:id', element: <PrivateRoute allowedProfiles={[2]}><TextoIntegral /></PrivateRoute>  },
+      { path: '/chefia/dashboard', element: <PrivateRoute allowedProfiles={[2]}><Dashboard /></PrivateRoute> },
     ]
   },
   {

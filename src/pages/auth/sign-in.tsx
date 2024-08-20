@@ -36,6 +36,9 @@ export function SignIn() {
         case 1:
           navigate('/admin', { replace: true });
           break;
+          case 2:
+          navigate('/chefia', { replace: true });
+          break;
         case 3:
           navigate('/estagiario', { replace: true });
           break;
