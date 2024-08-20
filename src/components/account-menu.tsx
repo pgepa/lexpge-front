@@ -3,7 +3,7 @@ import { Building, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { api } from '@/lib/axios';
-import { useNavigate } from 'react-router-dom'; // Atualize para useNavigate
+import { useNavigate } from 'react-router-dom';
 
 export type GetProfileResponse = {
   id: number;
@@ -15,35 +15,29 @@ export type GetProfileResponse = {
 
 export function AccountMenu() {
   const [userProfile, setUserProfile] = useState<GetProfileResponse | null>(null);
-  const navigate = useNavigate(); // Atualize para useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const response = await api.get<GetProfileResponse[]>("/auth/users", {
+          // Ajuste o endpoint para pegar as informações do perfil do usuário
+          const response = await api.get<GetProfileResponse>("/auth/profile", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
 
-          console.log("Response data:", response.data); // Verifique o formato dos dados retornados
+          console.log("Response data:", response.data);
 
-          const users = response.data as GetProfileResponse[];
-
-          const loggedInUserId = getLoggedInUserId();
-          console.log("Logged in user ID:", loggedInUserId); // Verifique o ID do usuário logado
-
-          const loggedInUser = users.find(user => user.id === loggedInUserId);
-          
-          if (loggedInUser) {
-            setUserProfile(loggedInUser); 
-          } else {
-            console.error("Usuário logado não encontrado.");
-          }
+          setUserProfile(response.data);
         } catch (error) {
-          console.error("Erro ao buscar o perfil do usuário:", error);
+          if (error instanceof Error) {
+            console.error("Erro ao buscar o perfil do usuário:", error.message);
+          } else {
+            console.error("Erro desconhecido:", error);
+          }
         }
       }
     };
@@ -51,19 +45,9 @@ export function AccountMenu() {
     fetchProfile();
   }, []);
 
-  const getLoggedInUserId = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log("Decoded token payload:", payload); // Verifique o payload decodificado
-      return payload.sub; // Ou ajuste conforme sua lógica
-    }
-    return null;
-  };
-
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove o token
-    navigate("/"); // Atualize para navigate
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   // Função para mapear o id_perfil para uma string descritiva
@@ -81,7 +65,7 @@ export function AccountMenu() {
   };
 
   if (!userProfile) {
-    return <p>Carregando...</p>; // Ou outro indicador de carregamento
+    return <p>Carregando...</p>;
   }
 
   return (
