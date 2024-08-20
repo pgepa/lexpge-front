@@ -21,6 +21,7 @@ import { HomeEstagiario } from './pages/home-estagiario';
 import { AtosEstagiario } from './pages/app/atosEstagiario/atos-card-estagiario';
 import { EditarRegistroEstagiario } from './pages/app/atos/atos-editar-estagiario';
 import PrivateRoute from './utils/private-route';
+import { NovoRegistroEstagiario } from './pages/app/atosEstagiario/atos-registro-estagiario';
 
 export const AdminRouter = createHashRouter([
   {
@@ -44,6 +45,7 @@ export const AdminRouter = createHashRouter([
       { path: '/estagiario/sobre', element: <Sobre /> },
       { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosEstagiario /></PrivateRoute> },
       { path: '/estagiario/ficha/:id', element: <Ficha /> },
+      { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistroEstagiario /></PrivateRoute> },
       { path: '/estagiario/texto-integral/:id', element: <TextoIntegral /> },
       { path: '/estagiario/editar/:id', element: <PrivateRoute allowedProfiles={[3]}><EditarRegistroEstagiario /></PrivateRoute> },
     ]
@@ -64,9 +66,9 @@ export const AdminRouter = createHashRouter([
       { path: '/admin/dashboard', element: <PrivateRoute allowedProfiles={[1]}><Dashboard /></PrivateRoute> },
       { path: '/admin/sobre', element: <PrivateRoute allowedProfiles={[1]}><Sobre /></PrivateRoute> },
       { path: '/admin/atos', element: <PrivateRoute allowedProfiles={[1]}><Atos /></PrivateRoute> },
-      { path: '/admin/ficha/:id', element: <Ficha /> },
+      { path: '/admin/ficha/:id', element: <PrivateRoute allowedProfiles={[1]}><Ficha /></PrivateRoute>  },
       { path: '/admin/registro', element: <PrivateRoute allowedProfiles={[1]}><NovoRegistro /></PrivateRoute> },
-      { path: '/admin/texto-integral/:id', element: <TextoIntegral /> },
+      { path: '/admin/texto-integral/:id', element: <PrivateRoute allowedProfiles={[1]}><TextoIntegral /></PrivateRoute> },
       { path: '/admin/editar/:id', element: <PrivateRoute allowedProfiles={[1]}><EditarRegistro /></PrivateRoute> },
       { path: '/admin/usuario', element: <PrivateRoute allowedProfiles={[1]}><ManagementUser /></PrivateRoute> },
     ]
