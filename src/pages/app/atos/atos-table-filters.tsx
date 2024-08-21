@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, X } from "lucide-react";
+import { Switch } from '@/components/ui/switch';
 
 export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => void }) {
   const [conteudo, setConteudo] = useState("");
@@ -10,6 +11,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
   const [numero, setNumero] = useState("");
   const [ano, setAno] = useState("");
   const [tipo, setTipo] = useState("todos");
+  const [texto_compilado, setTexto_Compilado] = useState(false);
 
   const handleFilter = (event: React.FormEvent) => {
     event.preventDefault();
@@ -19,6 +21,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
       numero: numero.trim() || undefined,
       ano: ano.trim() || undefined,
       tipo: tipo !== "todos" ? tipo : undefined,
+      texto_compilado: texto_compilado || undefined,
     });
   };
 
@@ -28,6 +31,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
     setNumero("");
     setAno("");
     setTipo("todos");
+    setTexto_Compilado(false);
     onFilter({ conteudo: undefined, descritores: undefined, numero: undefined, ano: undefined, tipo: undefined });
   };
 
@@ -84,6 +88,14 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
           <SelectItem value="Resolução">Resolução</SelectItem>
         </SelectContent>
       </Select>
+
+      <div className="flex items-center">
+        <span className="mr-2">Texto Compilado</span>
+        <Switch
+          checked={texto_compilado}
+          onCheckedChange={(value) => setTexto_Compilado(value)}
+        />
+      </div>
 
       <Button type="submit" variant="secondary" size="default" className="w-full sm:w-auto">
         <Search className="h-4 w-4 mr-2" />
