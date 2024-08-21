@@ -43,7 +43,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
         placeholder="Busca por termos"
         value={conteudo}
         onChange={(e) => setConteudo(e.target.value)}
-        className="w-full sm:w-[320px]"
+        className="w-full sm:w-auto"
       />
       
       <Input
@@ -90,7 +90,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
       </Select>
 
       <div className="flex items-center">
-        <span className="mr-2">Texto Compilado</span>
+        <span className="mr-2 font-semibold tracking-tight ">Texto Compilado</span>
         <Switch
           checked={texto_compilado}
           onCheckedChange={(value) => setTexto_Compilado(value)}

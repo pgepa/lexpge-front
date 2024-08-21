@@ -11,7 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { AtosTableFilters } from '@/pages/app/atos/atos-table-filters';
+import { AtosPublicFilters } from '@/pages/app/atosPublic/atos-public-filters';
 
 export type AtoCardPublic = {
   id: number;
@@ -124,7 +124,7 @@ export const AtosCardPublic = () => {
 
   return (
     <>
-      <AtosTableFilters onFilter={handleFilter} />
+      <AtosPublicFilters onFilter={handleFilter} />
       {loading && <p>Carregando...</p>}
       {atos.map((ato) => (
         <Card key={ato.id}>

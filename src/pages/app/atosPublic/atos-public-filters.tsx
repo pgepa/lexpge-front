@@ -5,21 +5,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, X } from "lucide-react";
 
 
-export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => void }) {
+export function AtosPublicFilters({ onFilter }: { onFilter: (filters: any) => void }) {
   const [conteudo, setConteudo] = useState("");
   const [descritores, setDescritores] = useState("");
   const [numero, setNumero] = useState("");
   const [ano, setAno] = useState("");
   const [tipo, setTipo] = useState("todos");
 
+
   const handleFilter = (event: React.FormEvent) => {
     event.preventDefault();
     onFilter({
-      conteudo: conteudo.trim() || undefined, 
+      conteudo: conteudo.trim() || undefined,
       descritores: descritores.trim() || undefined,
       numero: numero.trim() || undefined,
       ano: ano.trim() || undefined,
-      tipo: tipo !== "todos" ? tipo : undefined, // Enviar undefined se for "todos"
+      tipo: tipo !== "todos" ? tipo : undefined,
+      
     });
   };
 
@@ -29,38 +31,44 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
     setNumero("");
     setAno("");
     setTipo("todos");
+   
     onFilter({ conteudo: undefined, descritores: undefined, numero: undefined, ano: undefined, tipo: undefined });
   };
 
   return (
-    <form onSubmit={handleFilter} className="flex items-center gap-2">
+    <form onSubmit={handleFilter} className="flex flex-col sm:flex-row items-center gap-2 flex-wrap">
       <span className="text-sm font-semibold">Filtros:</span>
+      
       <Input
         placeholder="Busca por termos"
         value={conteudo}
         onChange={(e) => setConteudo(e.target.value)}
-        className="w-[320px]"
+        className="w-full sm:w-[320px]"
       />
+      
       <Input
         placeholder="Busca por descritores"
         value={descritores}
         onChange={(e) => setDescritores(e.target.value)}
-        className="w-auto"
+        className="w-full sm:w-auto"
       />
+      
       <Input
         placeholder="Número"
         value={numero}
         onChange={(e) => setNumero(e.target.value)}
-        className="w-auto"
+        className="w-full sm:w-auto"
       />
+      
       <Input
         placeholder="Ano"
         value={ano}
         onChange={(e) => setAno(e.target.value)}
-        className="w-auto"
+        className="w-full sm:w-auto"
       />
+      
       <Select value={tipo} onValueChange={(value) => setTipo(value)}>
-        <SelectTrigger className="w-[220px]">
+        <SelectTrigger className="w-full sm:w-[220px]">
           <SelectValue placeholder="Tipo" />
         </SelectTrigger>
         <SelectContent>
@@ -80,11 +88,14 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
           <SelectItem value="Resolução">Resolução</SelectItem>
         </SelectContent>
       </Select>
-      <Button type="submit" variant="secondary" size="default">
+
+
+      <Button type="submit" variant="secondary" size="default" className="w-full sm:w-auto">
         <Search className="h-4 w-4 mr-2" />
         Filtrar resultados
       </Button>
-      <Button type="button" variant="outline" size="default" onClick={handleClearFilters} >
+
+      <Button type="button" variant="outline" size="default" onClick={handleClearFilters} className="w-full sm:w-auto">
         <X className="h-4 w-4 mr-2" />
         Remover filtros
       </Button>

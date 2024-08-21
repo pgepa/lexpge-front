@@ -11,7 +11,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { AtosTableFilters } from '@/pages/app/atos/atos-table-filters';
+
+import { AtosPublicFilters } from '@/pages/app/atosPublic/atos-public-filters';
 
 export type AtoCardChefia = {
   id: number;
@@ -124,7 +125,7 @@ export const AtosCardChefia = () => {
 
   return (
     <>
-      <AtosTableFilters onFilter={handleFilter} />
+      <AtosPublicFilters onFilter={handleFilter} />
       {loading && <p>Carregando...</p>}
       {atos.map((ato) => (
         <Card key={ato.id}>
