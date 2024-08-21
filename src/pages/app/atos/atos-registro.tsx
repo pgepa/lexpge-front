@@ -10,14 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
 import { z } from "zod";
 import { toast } from 'sonner';
-import { zodResolver } from "@hookform/resolvers/zod";
 import EditorObservacao from "../editor/editor-observacao";
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
 
 
 const novoRegistroForm = z.object({
-    numero: z.string(),
+    numero: z.number(),
     titulo: z.string(),
     ementa: z.string(),
     tipo_id: z.string(),
@@ -36,7 +35,7 @@ type NovoRegistroForm = z.infer<typeof novoRegistroForm>;
 export function NovoRegistro() {
     const navigate = useNavigate();
     const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<NovoRegistroForm>({
-        resolver: zodResolver(novoRegistroForm),
+        
     });
 
     async function handleNovoRegistro(data: NovoRegistroForm) {

@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,7 +15,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 const editRegistroForm = z.object({
     id: z.number(),
-  numero: z.string(),
+  numero: z.number(),
   titulo: z.string(),
   ementa: z.string(),
   tipo_id: z.string(),
@@ -38,7 +37,7 @@ export function EditarRegistro() {
   const ato = location.state?.ato as EditRegistroForm;
 
   const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<EditRegistroForm>({
-    resolver: zodResolver(editRegistroForm),
+    
     defaultValues: {    
       ...ato,
       data_ato: ato?.data_ato ? new Date(ato.data_ato) : null,
