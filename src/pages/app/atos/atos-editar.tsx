@@ -12,6 +12,7 @@ import EditorObservacao from "../editor/editor-observacao";
 import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
 import { toast } from 'sonner';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const editRegistroForm = z.object({
     id: z.number(),
@@ -26,6 +27,7 @@ const editRegistroForm = z.object({
   descritores: z.string(),
   observacao: z.string(),
   conteudo: z.string(),
+  texto_compilado: z.boolean().optional(),
 });
 
 type EditRegistroForm = z.infer<typeof editRegistroForm>;
@@ -147,10 +149,33 @@ export function EditarRegistro() {
             )}
           />
         </div>
-        <div className="col-span-2 space-y-2">
+        <div className="col-span-1 space-y-2">
           <Label htmlFor="fonte">Fonte:</Label>
           <Input id="fonte" placeholder="Fonte" {...register('fonte')} />
         </div>
+
+        <div className="flex items-center space-x-2 ">
+
+                        <Controller
+                            name="texto_compilado"
+                            control={control}
+                            defaultValue={false}
+                            render={({ field }) => (
+                                <Checkbox
+                                    id="texto_compilado"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+
+                        <Label
+                            htmlFor="texto_compilado"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                            Texto Compilado / Impressão
+                        </Label>
+                    </div>
         <div className="flex flex-col gap-4" id="data_ato">
           <Label htmlFor="data_ato">Data do ato:</Label>
           <Controller
