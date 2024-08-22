@@ -25,6 +25,7 @@ import { NovoRegistroEstagiario } from './pages/app/atosEstagiario/atos-registro
 import { AppLayoutChefia } from './pages/_layouts/app-chefias';
 import { HomeChefia } from './pages/home-chefia';
 import { AtosChefia } from './pages/app/atosChefias/atos-card-chefias-exibir';
+import { TextoIntegralLayout } from './pages/_layouts/texto-integral';
 
 export const AdminRouter = createHashRouter([
   {
@@ -36,9 +37,10 @@ export const AdminRouter = createHashRouter([
       { path: '/sobre', element: <Sobre /> },
       { path: '/atos', element: <AtosPublic /> },
       { path: '/ficha/:id', element: <Ficha /> },
-      { path: '/texto-integral/:id', element: <TextoIntegral /> },
+      
     ]
   },
+  
   {
     path: '/',
     element: <AppLayoutChefia />,
@@ -72,6 +74,14 @@ export const AdminRouter = createHashRouter([
     children: [
       { path: '/sign-in', element: <SignIn /> },
       { path: '/admin/sign-up', element: <PrivateRoute allowedProfiles={[1]}><SignUp /></PrivateRoute> },
+    ]
+  },
+  {
+    path: '/',
+    element: <TextoIntegralLayout/>,
+    children: [
+        { path: '/texto-integral/:id', element: <TextoIntegral /> },
+      
     ]
   },
   {
