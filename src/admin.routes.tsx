@@ -94,7 +94,6 @@ export const AdminRouter = createHashRouter([
       { path: '/admin/atos', element: <PrivateRoute allowedProfiles={[1]}><Atos /></PrivateRoute> },
       { path: '/admin/ficha/:id', element: <PrivateRoute allowedProfiles={[1]}><Ficha /></PrivateRoute>  },
       { path: '/admin/registro', element: <PrivateRoute allowedProfiles={[1]}><NovoRegistro /></PrivateRoute> },
-      { path: '/admin/texto-integral/:id', element: <PrivateRoute allowedProfiles={[1]}><TextoIntegral /></PrivateRoute> },
       { path: '/admin/editar/:id', element: <PrivateRoute allowedProfiles={[1]}><EditarRegistro /></PrivateRoute> },
       { path: '/admin/usuario', element: <PrivateRoute allowedProfiles={[1]}><ManagementUser /></PrivateRoute> },
     ]

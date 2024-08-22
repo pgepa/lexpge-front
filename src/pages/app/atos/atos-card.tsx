@@ -81,7 +81,7 @@ export const AtosCard = () => {
   };
 
   const handleTextoIntegralClick = (ato: AtoCard) => {
-    const textoIntegralUrl = `/#/admin/texto-integral/${ato.id}`;
+    const textoIntegralUrl = `/#/texto-integral/${ato.id}`;
     const link = document.createElement('a');
     link.href = textoIntegralUrl;   
     link.target = '_blank';

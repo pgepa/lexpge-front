@@ -80,7 +80,7 @@ export const AtosCardChefia = () => {
   };
 
   const handleTextoIntegralClick = (ato: AtoCardChefia) => {
-    const textoIntegralUrl = `/#/chefia/texto-integral/${ato.id}`;
+    const textoIntegralUrl = `/#/texto-integral/${ato.id}`;
     const link = document.createElement('a');
     link.href = textoIntegralUrl;   
     link.target = '_blank';
