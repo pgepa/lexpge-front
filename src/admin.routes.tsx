@@ -15,7 +15,6 @@ import { EditarRegistro } from "./pages/app/atos/atos-editar";
 import { ManagementUser } from './pages/app/gestao/gestao-user';
 import { AtosPublic } from './pages/app/atosPublic/atos-card-public';
 import { AppLayoutPublic } from './pages/_layouts/app-public';
-import { HomePublic } from './pages/home-public';
 import { AppLayoutEstagiario } from './pages/_layouts/app-estagiario';
 import { HomeEstagiario } from './pages/home-estagiario';
 import { AtosEstagiario } from './pages/app/atosEstagiario/atos-card-estagiario';
@@ -26,6 +25,8 @@ import { AppLayoutChefia } from './pages/_layouts/app-chefias';
 import { HomeChefia } from './pages/home-chefia';
 import { AtosChefia } from './pages/app/atosChefias/atos-card-chefias-exibir';
 import { TextoIntegralLayout } from './pages/_layouts/texto-integral';
+import  SearchPage  from '../src/pages/SearchPage';
+import  ResultsPage  from '../src/pages/ResultsPage';
 
 export const AdminRouter = createHashRouter([
   {
@@ -33,7 +34,8 @@ export const AdminRouter = createHashRouter([
     element: <AppLayoutPublic />,
     errorElement: <NotFound />,
     children: [
-      { path: '/', element: <HomePublic /> },
+      { path: '/', element: <SearchPage /> },
+      { path: '/results', element: <ResultsPage /> },
       { path: '/sobre', element: <Sobre /> },
       { path: '/atos', element: <AtosPublic /> },
       { path: '/ficha/:id', element: <Ficha /> },

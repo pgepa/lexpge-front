@@ -1,26 +1,41 @@
 import './global.css';
-
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { RouterProvider } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, RouteObject } from 'react-router-dom';
 import { Toaster } from 'sonner';
-
 import { ThemeProvider } from './components/theme/theme-provider';
 import { queryClient } from './lib/react-query';
 import { AdminRouter } from './admin.routes';
 import { ToastContainer } from 'react-toastify';
-
+import { SearchProvider } from '@/Context/SearchContext';
+import SearchPage from './pages/SearchPage';
+import ResultsPage from './pages/ResultsPage';
 import "react-toastify/dist/ReactToastify.css";
 
+// Definindo as novas rotas
+const newRoutes: RouteObject[] = [
+  { path: "/", element: <SearchPage /> },
+  { path: "/results", element: <ResultsPage /> },
+];
+
+// Combinando as rotas do AdminRouter com as novas rotas
+const combinedRouter = createBrowserRouter([
+  ...AdminRouter.routes,  // Supondo que AdminRouter já possui um array de rotas
+  ...newRoutes,  // Adiciona as novas rotas definidas acima
+]);
+
 export const App = () => (
-   <HelmetProvider> 
+  <HelmetProvider>
     <ThemeProvider storageKey="lexpge-theme" defaultTheme="dark">
       <Helmet titleTemplate="LEXPGE | %s" />
       <Toaster richColors />
       <ToastContainer />
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={AdminRouter} />
+        {/* Adiciona o SearchProvider ao redor de RouterProvider */}
+        <SearchProvider>
+          <RouterProvider router={combinedRouter} />
+        </SearchProvider>
       </QueryClientProvider>
     </ThemeProvider>
-   </HelmetProvider>
+  </HelmetProvider>
 );
