@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Input } from "@/components/ui/input";
 import logo from '@/assets/logo.svg';
 import { Button } from "@/components/ui/button";
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const SearchForm: React.FC = () => {
@@ -92,6 +92,16 @@ const SearchForm: React.FC = () => {
                 <Button onClick={handleSearch} type="submit" variant="secondary" size="default" className="w-full sm:w-auto">
                     <Search className="h-4 w-4 mr-2" />
                     Pesquisar
+                </Button>
+
+                <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    className="flex items-center"
+                >
+                    <X className="h-4 w-4 mr-2" />
+                    Remover filtros
                 </Button>
 
             </form>
