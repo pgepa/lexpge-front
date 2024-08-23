@@ -5,11 +5,11 @@ import { RouterProvider, createBrowserRouter, RouteObject } from 'react-router-d
 import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme/theme-provider';
 import { queryClient } from './lib/react-query';
-import { AdminRouter } from './admin.routes';
+import { AdminRouter } from '@/routes/admin.routes';
 import { ToastContainer } from 'react-toastify';
 import { SearchProvider } from '@/Context/SearchContext';
-import SearchPage from './pages/SearchPage';
-import ResultsPage from './pages/ResultsPage';
+import SearchPage from '@/pages/SearchPage';
+import ResultsPage from '@/pages/ResultsPage';
 import "react-toastify/dist/ReactToastify.css";
 
 // Definindo as novas rotas
