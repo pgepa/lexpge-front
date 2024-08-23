@@ -90,12 +90,12 @@ export function AtosPublicFilters({ onFilter }: { onFilter: (filters: any) => vo
       </Select>
 
 
-      <Button type="submit" variant="secondary" size="default" className="w-full sm:w-auto">
+      <Button type="submit" variant="default" size="default" className="w-full sm:w-auto">
         <Search className="h-4 w-4 mr-2" />
         Filtrar resultados
       </Button>
 
-      <Button type="button" variant="outline" size="default" onClick={handleClearFilters} className="w-full sm:w-auto">
+      <Button type="button" variant="secondary" size="default" onClick={handleClearFilters} className="w-full sm:w-auto">
         <X className="h-4 w-4 mr-2" />
         Remover filtros
       </Button>

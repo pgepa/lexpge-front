@@ -3,7 +3,7 @@ import { SearchContext } from '@/Context/SearchContext';
 import { useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const SearchFilter: React.FC = () => {
@@ -23,10 +23,36 @@ const SearchFilter: React.FC = () => {
         navigate('/results');
     };
 
+    const handleClearFilters = () => {
+        // Reseta o estado local para os valores iniciais
+        setLocalQuery({
+            conteudo: '',
+            descritores: '',
+            numero: '',
+            ano: '',
+            tipo: '',
+        });
+
+        // Também reseta o contexto se necessário
+        setQuery({
+            conteudo: '',
+            descritores: '',
+            numero: '',
+            ano: '',
+            tipo: '',
+        });
+    };
+
     return (
         <form className="flex flex-col sm:flex-row items-center gap-2 flex-wrap">
 
             <span className="text-lg font-semibold">Pesquisar:</span>
+            <Input
+                placeholder="Busca por avançada por termos"
+                value={localQuery.conteudo}
+                onChange={(e) => setLocalQuery({ ...localQuery, conteudo: e.target.value })}
+               className="w-full sm:w-[320px]"
+            />
             <Input
                 placeholder='Número'
                 value={localQuery.numero}
@@ -45,6 +71,7 @@ const SearchFilter: React.FC = () => {
                 onChange={(e) => setLocalQuery({ ...localQuery, descritores: e.target.value })}
                 className="w-full sm:w-auto"
             />
+           
 
             <Select
                 value={localQuery.tipo}
@@ -70,12 +97,21 @@ const SearchFilter: React.FC = () => {
                 </SelectContent>
             </Select>
 
+            
 
 
-            <Button onClick={handleSearch} type="submit" variant="secondary" size="default" className="w-full sm:w-auto">
+
+            <Button onClick={handleSearch} type="submit" variant="default" size="default" className="w-full sm:w-auto">
                 <Search className="h-4 w-4 mr-2" />
                 Pesquisar
             </Button>
+
+            <Button onClick={handleClearFilters} variant="secondary" size="default" className="w-full sm:w-auto">
+                <X className="h-4 w-4 mr-2" />
+                Remover filtros
+            </Button>
+
+
 
         </form>
 

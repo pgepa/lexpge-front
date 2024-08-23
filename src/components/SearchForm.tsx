@@ -25,6 +25,26 @@ const SearchForm: React.FC = () => {
         navigate('/results');
     };
 
+    const handleClearFilters = () => {
+        // Reseta o estado local para os valores iniciais
+        setLocalQuery({
+            conteudo: '',
+            descritores: '',
+            numero: '',
+            ano: '',
+            tipo: '',
+        });
+
+        // Também reseta o contexto se necessário
+        setQuery({
+            conteudo: '',
+            descritores: '',
+            numero: '',
+            ano: '',
+            tipo: '',
+        });
+    };
+
     return (
         <>
             <Helmet title="Início" />
@@ -89,20 +109,26 @@ const SearchForm: React.FC = () => {
 
                 </div>
 
-                <Button onClick={handleSearch} type="submit" variant="secondary" size="default" className="w-full sm:w-auto">
-                    <Search className="h-4 w-4 mr-2" />
-                    Pesquisar
-                </Button>
+                <div className="flex flex-row gap-4 items-center mt-4">
 
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="lg"
-                    className="flex items-center"
-                >
-                    <X className="h-4 w-4 mr-2" />
-                    Remover filtros
-                </Button>
+                    <Button onClick={handleSearch} type="submit" variant="default" size="lg" className="w-full sm:w-auto">
+                        <Search className="h-4 w-4 mr-2" />
+                        Pesquisar
+                    </Button>
+
+                    <Button
+                        onClick={handleClearFilters}
+                        type="button"
+                        variant="secondary"
+                        size="lg"
+                        className="flex items-center"
+                    >
+                        <X className="h-4 w-4 mr-2" />
+                        Remover filtros
+                    </Button>
+
+                </div>
+
 
             </form>
 
