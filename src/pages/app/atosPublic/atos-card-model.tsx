@@ -71,7 +71,7 @@ export const AtosCardPublic = () => {
   }, [currentPage, filters]);
 
   const handleFichaClick = (ato: AtoCardPublic) => {
-    const fichaUrl = `/#/ficha/${ato.id}`;
+    const fichaUrl = `/ficha/${ato.id}`;
     const link = document.createElement('a');
     link.href = fichaUrl;
     link.target = '_blank';
@@ -79,7 +79,7 @@ export const AtosCardPublic = () => {
   };
 
   const handleTextoIntegralClick = (ato: AtoCardPublic) => {
-    const textoIntegralUrl = `/#/texto-integral/${ato.id}`;
+    const textoIntegralUrl = `/texto-integral/${ato.id}`;
     const link = document.createElement('a');
     link.href = textoIntegralUrl;   
     link.target = '_blank';
