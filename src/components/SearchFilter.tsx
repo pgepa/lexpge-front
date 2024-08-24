@@ -101,7 +101,7 @@ const SearchFilter: React.FC = () => {
 
 
 
-            <Button onClick={handleSearch} type="submit" variant="default" size="default" className="w-full sm:w-auto">
+            <Button onClick={handleSearch} type="submit"  size="default" className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 w-full sm:w-auto">
                 <Search className="h-4 w-4 mr-2" />
                 Pesquisar
             </Button>

@@ -127,7 +127,7 @@ export const AtosCardPublic = () => {
       <AtosPublicFilters onFilter={handleFilter} />
       {loading && <p>Carregando...</p>}
       {atos.map((ato) => (
-        <Card key={ato.id}>
+        <Card key={ato.id} className='shadow-lg shadow-blue-600/40'>
           <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
             <div className="space-y-1">
               <CardTitle className="text-base font-medium -tracking-tight text-blue-700 dark:text-blue-300">
