@@ -40,7 +40,7 @@ const ResultsList: React.FC = () => {
                 tipo: query.tipo,
             }).toString();
 
-            fetch(`http://10.96.20.14:4000/atos/busca?${queryString}`)
+            fetch(`${import.meta.env.VITE_API_URL}/atos/busca?${queryString}`)
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
@@ -62,7 +62,9 @@ const ResultsList: React.FC = () => {
     }
 
     if (!data || data.length === 0) {
-        return <div>Nenhum resultado encontrado</div>;
+        return <div>
+                <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Nenhum resultado encontrado</h2>
+            </div>;
     }
 
     const handleFichaClick = (ato: AtosData) => {
