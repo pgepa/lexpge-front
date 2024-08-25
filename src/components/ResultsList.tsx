@@ -18,7 +18,7 @@ interface AtosData {
     observacao: string;
     relevancia: number;
     situacao: string;
-    texto_compilado: boolean;
+    texto_compilado: string;
     tipo_id: string;
     titulo: string;
 }
@@ -29,6 +29,11 @@ const ResultsList: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
+    // Estados para paginação
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 10; 
+    // Número de itens por página
+
     useEffect(() => {
         if (query) {
             setLoading(true);
@@ -38,20 +43,33 @@ const ResultsList: React.FC = () => {
                 numero: query.numero,
                 ano: query.ano,
                 tipo: query.tipo,
+                pagina: currentPage.toString(),
+                limite: itemsPerPage.toString(),
+                texto_compilado: 'false' // Default conforme descrito
             }).toString();
+
+            console.log("Fetching data with query:", queryString);
 
             fetch(`${import.meta.env.VITE_API_URL}/atos/busca?${queryString}`)
                 .then(response => response.json())
                 .then(data => {
-                    setData(data);
+                    console.log("Received data:", data);
+                    setData(data); // Atribui diretamente o array de atos
                     setLoading(false);
                 })
-                .catch(() => {
+                .catch((err) => {
+                    console.error('Erro ao buscar dados:', err);
                     setError('Erro ao buscar dados');
                     setLoading(false);
                 });
         }
-    }, [query]);
+    }, [query, currentPage]);
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && data && data.length > 0) {
+            setCurrentPage(newPage);
+        }
+    };
 
     if (loading) {
         return <div>Carregando...</div>;
@@ -63,8 +81,8 @@ const ResultsList: React.FC = () => {
 
     if (!data || data.length === 0) {
         return <div>
-                <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Nenhum resultado encontrado</h2>
-            </div>;
+            <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Nenhum resultado encontrado</h2>
+        </div>;
     }
 
     const handleFichaClick = (ato: AtosData) => {
@@ -73,21 +91,20 @@ const ResultsList: React.FC = () => {
         link.href = fichaUrl;
         link.target = '_blank';
         link.click();
-      };
+    };
 
-      const handleTextoIntegralClick = (ato: AtosData) => {
+    const handleTextoIntegralClick = (ato: AtosData) => {
         const textoIntegralUrl = `/texto-integral/${ato.id}`;
         const link = document.createElement('a');
-        link.href = textoIntegralUrl;   
+        link.href = textoIntegralUrl;
         link.target = '_blank';
         link.click();
-      };
+    };
 
     return (
         <div className='flex flex-col gap-4'>
             <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Resultados para a busca</h2>
             {data.map((ato) => (
-
                 <Card key={ato.id} className='shadow-lg shadow-blue-600/40'>
                     <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
                         <div className="space-y-1">
@@ -95,7 +112,6 @@ const ResultsList: React.FC = () => {
                                 {ato.titulo}
                             </CardTitle>
                             <CardDescription>{ato.situacao}</CardDescription>
-
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-1">
@@ -104,8 +120,7 @@ const ResultsList: React.FC = () => {
                                 {ato.ementa}
                             </p>
                         </span>
-                        <span>
-                        </span>
+                        <span></span>
                     </CardContent>
                     <CardFooter className="flex justify-start gap-2">
                         <div className="relative flex flex-row items-center justify-center gap-2">
@@ -131,18 +146,23 @@ const ResultsList: React.FC = () => {
                                     Visualizar texto integral do ato normativo
                                 </span>
                             </Button>
-
                         </div>
                     </CardFooter>
                 </Card>
             ))}
 
-
-
-
-
-
-
+            {/* Componentes de Paginação */}
+            <div className="flex justify-center mt-4">
+                <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                    Anterior
+                </Button>
+                <span className="mx-2">
+                    Página {currentPage}
+                </span>
+                <Button onClick={() => handlePageChange(currentPage + 1)} disabled={data.length < itemsPerPage}>
+                    Próxima
+                </Button>
+            </div>
         </div>
     );
 };
