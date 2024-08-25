@@ -1,90 +1,148 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SearchContext } from '@/Context/SearchContext';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Eye, SquareArrowOutUpRight } from 'lucide-react';
 
 interface AtosData {
-  data_alteracao: string;
-  data_ato: string;
-  data_criacao: string;
-  data_publicacao: string;
-  descritores: string;
-  ementa: string;
-  fonte: string;
-  id: string;
-  numero: number;
-  numero_formatado: string;
-  observacao: string;
-  relevancia: number;
-  situacao: string;
-  texto_compilado: boolean;
-  tipo_id: string;
-  titulo: string;
+    data_alteracao: string;
+    data_ato: string;
+    data_criacao: string;
+    data_publicacao: string;
+    descritores: string;
+    ementa: string;
+    fonte: string;
+    id: string;
+    numero: number;
+    numero_formatado: string;
+    observacao: string;
+    relevancia: number;
+    situacao: string;
+    texto_compilado: boolean;
+    tipo_id: string;
+    titulo: string;
 }
 
 const ResultsList: React.FC = () => {
-  const { query } = useContext(SearchContext)!;
-  const [data, setData] = useState<AtosData[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+    const { query } = useContext(SearchContext)!;
+    const [data, setData] = useState<AtosData[] | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (query) {
-      setLoading(true);
-      const queryString = new URLSearchParams({
-        conteudo: query.conteudo,
-        descritores: query.descritores,
-        numero: query.numero,
-        ano: query.ano,
-        tipo: query.tipo,
-      }).toString();
+    useEffect(() => {
+        if (query) {
+            setLoading(true);
+            const queryString = new URLSearchParams({
+                conteudo: query.conteudo,
+                descritores: query.descritores,
+                numero: query.numero,
+                ano: query.ano,
+                tipo: query.tipo,
+            }).toString();
 
-      fetch(`http://10.96.20.14:4000/atos/busca?${queryString}`)
-        .then(response => response.json())
-        .then(data => {
-          setData(data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setError('Erro ao buscar dados');
-          setLoading(false);
-        });
+            fetch(`http://10.96.20.14:4000/atos/busca?${queryString}`)
+                .then(response => response.json())
+                .then(data => {
+                    setData(data);
+                    setLoading(false);
+                })
+                .catch(() => {
+                    setError('Erro ao buscar dados');
+                    setLoading(false);
+                });
+        }
+    }, [query]);
+
+    if (loading) {
+        return <div>Carregando...</div>;
     }
-  }, [query]);
 
-  if (loading) {
-    return <div>Carregando...</div>;
-  }
+    if (error) {
+        return <div>{error}</div>;
+    }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+    if (!data || data.length === 0) {
+        return <div>Nenhum resultado encontrado</div>;
+    }
 
-  if (!data || data.length === 0) {
-    return <div>Nenhum resultado encontrado</div>;
-  }
+    const handleFichaClick = (ato: AtosData) => {
+        const fichaUrl = `/ficha/${ato.id}`;
+        const link = document.createElement('a');
+        link.href = fichaUrl;
+        link.target = '_blank';
+        link.click();
+      };
 
-  return (
-    <div>
-      <h2>Resultados para a busca</h2>
-      {data.map((ato) => (
-        <div key={ato.id}>
-          <h3>{ato.titulo}</h3>
-          <p>Número: {ato.numero_formatado}</p>
-          <p>Tipo: {ato.tipo_id}</p>
-          <p>Data do Ato: {new Date(ato.data_ato).toLocaleDateString()}</p>
-          <p>Data de Publicação: {new Date(ato.data_publicacao).toLocaleDateString()}</p>
-          <p>Data de Criação: {new Date(ato.data_criacao).toLocaleDateString()}</p>
-          <p>Data de Alteração: {new Date(ato.data_alteracao).toLocaleDateString()}</p>
-          <p>Descritores: {ato.descritores}</p>
-          <p>Ementa: {ato.ementa}</p>
-          <p>Fonte: {ato.fonte}</p>
-          <p>Observação: <span dangerouslySetInnerHTML={{ __html: ato.observacao }} /></p>
-          <p>Situação: {ato.situacao}</p>
-          <p>Relevância: {ato.relevancia}</p>
-          <p>Texto Compilado: {ato.texto_compilado ? 'Sim' : 'Não'}</p>
+      const handleTextoIntegralClick = (ato: AtosData) => {
+        const textoIntegralUrl = `/texto-integral/${ato.id}`;
+        const link = document.createElement('a');
+        link.href = textoIntegralUrl;   
+        link.target = '_blank';
+        link.click();
+      };
+
+    return (
+        <div className='flex flex-col gap-4'>
+            <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Resultados para a busca</h2>
+            {data.map((ato) => (
+
+                <Card key={ato.id} className='shadow-lg shadow-blue-600/40'>
+                    <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
+                        <div className="space-y-1">
+                            <CardTitle className="text-base font-medium -tracking-tight text-blue-700 dark:text-blue-300">
+                                {ato.titulo}
+                            </CardTitle>
+                            <CardDescription>{ato.situacao}</CardDescription>
+
+                        </div>
+                    </CardHeader>
+                    <CardContent className="space-y-1">
+                        <span>
+                            <p className="leading-7 [&:not(:first-child)]:mt-6">
+                                {ato.ementa}
+                            </p>
+                        </span>
+                        <span>
+                        </span>
+                    </CardContent>
+                    <CardFooter className="flex justify-start gap-2">
+                        <div className="relative flex flex-row items-center justify-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="xs"
+                                className="gap-2 border-amber-500 font-normal text-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300"
+                                onClick={() => handleFichaClick(ato)}
+                            >
+                                <Eye className="h-3 w-3" />
+                                Ficha
+                                <span className="sr-only">Ficha do ato normativo</span>
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="xs"
+                                className="gap-2 border-amber-500 font-normal text-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300"
+                                onClick={() => handleTextoIntegralClick(ato)}
+                            >
+                                <SquareArrowOutUpRight className="h-3 w-3" />
+                                Texto Integral
+                                <span className="sr-only">
+                                    Visualizar texto integral do ato normativo
+                                </span>
+                            </Button>
+
+                        </div>
+                    </CardFooter>
+                </Card>
+            ))}
+
+
+
+
+
+
+
         </div>
-      ))}
-    </div>
-  );
+    );
 };
 
 export default ResultsList;

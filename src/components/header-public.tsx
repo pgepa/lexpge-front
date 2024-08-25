@@ -30,7 +30,7 @@ export function HeaderPublic() {
         </button>
 
         <nav
-          className={`flex-col lg:flex-row lg:flex items-center space-x-0 lg:space-x-6 lg:space-y-0 space-y-4 absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto bg-white lg:bg-transparent p-4 lg:p-0 z-10 lg:z-auto ${
+          className={`flex-col lg:flex-row lg:flex items-start space-x-0 lg:space-x-6 lg:space-y-0 space-y-4 absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto  lg:bg-transparent p-4 lg:p-0 z-10 lg:z-auto ${
             isMenuOpen ? "flex" : "hidden"
           }`}
         >
