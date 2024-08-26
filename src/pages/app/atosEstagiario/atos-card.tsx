@@ -73,7 +73,7 @@ export const AtosCardEstagiario = () => {
   }, [currentPage, filters]);
 
   const handleFichaClick = (ato: AtoCardEstagiario) => {
-    const fichaUrl = `/#/estagiario/ficha/${ato.id}`;
+    const fichaUrl = `/#/ficha/${ato.id}`;
     const link = document.createElement('a');
     link.href = fichaUrl;
     link.target = '_blank';
