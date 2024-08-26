@@ -27,6 +27,7 @@ import ResultsPage from '@/pages/ResultsPage';
 import SearchPageAdmin from '@/pages/SearchPageAdm';
 import SearchPageEstagiario from '@/pages/SearchPageEstagiario';
 import SearchPageChefia from './pages/SearchPageChefia';
+import { FichaLayout } from './pages/_layouts/ficha';
 
 export const AdminRouter = createHashRouter([
   {
@@ -38,7 +39,6 @@ export const AdminRouter = createHashRouter([
       { path: '/results', element: <ResultsPage /> },
       { path: '/sobre', element: <Sobre /> },
       { path: '/atos', element: <AtosPublic /> },
-      { path: '/ficha/:id', element: <Ficha /> },
       
     ]
   },
@@ -85,6 +85,14 @@ export const AdminRouter = createHashRouter([
     element: <TextoIntegralLayout/>,
     children: [
         { path: '/texto-integral/:id', element: <TextoIntegral /> },
+      
+    ]
+  },
+  {
+    path: '/',
+    element: <FichaLayout/>,
+    children: [
+        { path: '/ficha/:id', element: <Ficha /> },
       
     ]
   },

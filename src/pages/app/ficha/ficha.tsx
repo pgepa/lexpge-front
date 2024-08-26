@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation, Location, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import logo from '@/assets/logo.svg';
 
 
 
@@ -26,11 +27,11 @@ function formatDate(dateString: string): string {
 }
 
 export function Ficha() {
-  
-    const location = useLocation() as Location<{ ato?: AtoCard }>; 
+
+    const location = useLocation() as Location<{ ato?: AtoCard }>;
     const { id } = useParams<{ id: string }>();
 
-    const [ato, setAto] = useState<AtoCard>({ 
+    const [ato, setAto] = useState<AtoCard>({
         id: 0, numero_formatado: '', titulo: '', ementa: '', tipo_id: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao: ''
     });
 
@@ -51,9 +52,15 @@ export function Ficha() {
         <>
             <Helmet title="Ficha" />
             <div className="space-y-6 p-4">
-                
-                                  
-                <h1 className="text-3xl font-bold tracking-tight text-center">{ato.titulo}</h1>
+
+                <div className="flex flex-col gap-4 items-center p-4 sm:p-6 md:p-8">
+                    <img className="w-24 h-24 items-center justify-center" src={logo} alt="Logo" />
+
+
+                    <h1 className="text-3xl font-bold tracking-tight text-center">{ato.titulo}</h1>
+                </div>
+
+
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Número:</span>
