@@ -15,18 +15,18 @@ import { ManagementUser } from '@/pages/app/gestao/gestao-user';
 import { AtosPublic } from '@/pages/app/atosPublic/atos-card-public';
 import { AppLayoutPublic } from '@/pages/_layouts/app-public';
 import { AppLayoutEstagiario } from '@/pages/_layouts/app-estagiario';
-import { HomeEstagiario } from '@/pages/home-estagiario';
 import { AtosEstagiario } from '@/pages/app/atosEstagiario/atos-card-estagiario';
 import { EditarRegistroEstagiario } from '@/pages/app/atos/atos-editar-estagiario';
 import PrivateRoute from '@/utils/private-route';
 import { NovoRegistroEstagiario } from '@/pages/app/atosEstagiario/atos-registro-estagiario';
 import { AppLayoutChefia } from '@/pages/_layouts/app-chefias';
-import { HomeChefia } from '@/pages/home-chefia';
 import { AtosChefia } from '@/pages/app/atosChefias/atos-card-chefias-exibir';
 import { TextoIntegralLayout } from '@/pages/_layouts/texto-integral';
 import SearchPage from '@/pages/SearchPage';
 import ResultsPage from '@/pages/ResultsPage';
-import SearchPageAdmin from './pages/SearchPageAdm';
+import SearchPageAdmin from '@/pages/SearchPageAdm';
+import SearchPageEstagiario from '@/pages/SearchPageEstagiario';
+import SearchPageChefia from './pages/SearchPageChefia';
 
 export const AdminRouter = createHashRouter([
   {
@@ -48,7 +48,8 @@ export const AdminRouter = createHashRouter([
     element: <AppLayoutChefia />,
     errorElement: <NotFound />,
     children: [
-      { path: '/chefia', element:<PrivateRoute allowedProfiles={[2]}><HomeChefia /></PrivateRoute>  },
+      { path: '/chefia', element:<PrivateRoute allowedProfiles={[2]}><SearchPageChefia /></PrivateRoute>  },
+      { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[2]}><ResultsPage /></PrivateRoute> },
       { path: '/chefia/sobre', element: <PrivateRoute allowedProfiles={[2]}><Sobre /></PrivateRoute>  },
       { path: '/chefia/atos', element: <PrivateRoute allowedProfiles={[2]}><AtosChefia /></PrivateRoute>  },
       { path: '/chefia/ficha/:id', element:<PrivateRoute allowedProfiles={[2]}><Ficha /></PrivateRoute>  },
@@ -61,7 +62,8 @@ export const AdminRouter = createHashRouter([
     element: <AppLayoutEstagiario />,
     errorElement: <NotFound />,
     children: [
-      { path: '/estagiario', element: <PrivateRoute allowedProfiles={[3]}><HomeEstagiario /></PrivateRoute> },
+      { path: '/estagiario', element: <PrivateRoute allowedProfiles={[3]}><SearchPageEstagiario /></PrivateRoute> },
+      { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[3]}><ResultsPage /></PrivateRoute> },
       { path: '/estagiario/sobre', element: <PrivateRoute allowedProfiles={[3]}><Sobre /></PrivateRoute> },
       { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosEstagiario /></PrivateRoute> },
       { path: '/estagiario/ficha/:id', element: <PrivateRoute allowedProfiles={[3]}><Ficha /></PrivateRoute> },
