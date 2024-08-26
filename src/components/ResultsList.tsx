@@ -3,6 +3,15 @@ import { SearchContext } from '@/Context/SearchContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Eye, SquareArrowOutUpRight } from 'lucide-react';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
+import { api } from '@/lib/axios';
 
 interface AtosData {
     data_alteracao: string;
@@ -28,78 +37,76 @@ const ResultsList: React.FC = () => {
     const [data, setData] = useState<AtosData[] | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-
-    // Estados para paginação
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const itemsPerPage = 10; 
-    // Número de itens por página
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
         if (query) {
-            setLoading(true);
-            const queryString = new URLSearchParams({
-                conteudo: query.conteudo,
-                descritores: query.descritores,
-                numero: query.numero,
-                ano: query.ano,
-                tipo: query.tipo,
-                pagina: currentPage.toString(),
-                limite: itemsPerPage.toString(),
-                texto_compilado: 'false' // Default conforme descrito
-            }).toString();
-
-            console.log("Fetching data with query:", queryString);
-
-            fetch(`${import.meta.env.VITE_API_URL}/atos/busca?${queryString}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Received data:", data);
-                    setData(data); // Atribui diretamente o array de atos
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    console.error('Erro ao buscar dados:', err);
-                    setError('Erro ao buscar dados');
-                    setLoading(false);
-                });
+            fetchResults(1); // Nova busca sempre começa na página 1
         }
-    }, [query, currentPage]);
+    }, [query]);
 
-    const handlePageChange = (newPage: number) => {
-        if (newPage >= 1 && data && data.length > 0) {
-            setCurrentPage(newPage);
+    useEffect(() => {
+        if (query) {
+            fetchResults(currentPage); // Busca resultados quando a página atual muda
+        }
+    }, [currentPage]);
+
+    const fetchResults = async (pagina: number) => {
+        setLoading(true);
+        setError(null);
+
+        const queryString = new URLSearchParams({
+            conteudo: query.conteudo,
+            descritores: query.descritores,
+            numero: query.numero,
+            ano: query.ano,
+            tipo: query.tipo,
+            pagina: pagina.toString(),
+            limite: itemsPerPage.toString(),
+            texto_compilado: 'false'
+        }).toString();
+
+        try {
+            const response = await api.get(`/atos/busca?${queryString}`);
+            const fetchedData = response.data;
+            setData(fetchedData);
+            setTotalPages(fetchedData.length < itemsPerPage ? pagina : pagina + 1);
+        } catch (err) {
+            setError('Erro ao buscar dados');
+            console.error('Erro ao buscar dados:', err);
+        } finally {
+            setLoading(false);
         }
     };
 
-    if (loading) {
-        return <div>Carregando...</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
-
-    if (!data || data.length === 0) {
-        return <div>
-            <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Nenhum resultado encontrado</h2>
-        </div>;
-    }
-
-    const handleFichaClick = (ato: AtosData) => {
-        const fichaUrl = `/ficha/${ato.id}`;
-        const link = document.createElement('a');
-        link.href = fichaUrl;
-        link.target = '_blank';
-        link.click();
+    const handlePageChange = (pagina: number) => {
+        if (pagina > 0 && pagina <= totalPages) {
+            setCurrentPage(pagina);
+        }
     };
 
-    const handleTextoIntegralClick = (ato: AtosData) => {
-        const textoIntegralUrl = `/texto-integral/${ato.id}`;
-        const link = document.createElement('a');
-        link.href = textoIntegralUrl;
-        link.target = '_blank';
-        link.click();
+    const renderPaginationItems = () => {
+        const pages = [];
+        const startPage = Math.max(currentPage - 2, 1);
+        const endPage = Math.min(currentPage + 2, totalPages);
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+                <PaginationItem key={i}>
+                    <PaginationLink onClick={() => handlePageChange(i)} isActive={currentPage === i}>
+                        {i}
+                    </PaginationLink>
+                </PaginationItem>
+            );
+        }
+        return pages;
     };
+
+    if (loading) return <div>Carregando...</div>;
+    if (error) return <div>{error}</div>;
+    if (!data || data.length === 0) return <div>Nenhum resultado encontrado</div>;
 
     return (
         <div className='flex flex-col gap-4'>
@@ -115,54 +122,45 @@ const ResultsList: React.FC = () => {
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-1">
-                        <span>
-                            <p className="leading-7 [&:not(:first-child)]:mt-6">
-                                {ato.ementa}
-                            </p>
-                        </span>
-                        <span></span>
+                        <p className="leading-7 [&:not(:first-child)]:mt-6">{ato.ementa}</p>
                     </CardContent>
                     <CardFooter className="flex justify-start gap-2">
-                        <div className="relative flex flex-row items-center justify-center gap-2">
-                            <Button
-                                variant="outline"
-                                size="xs"
-                                className="gap-2 border-amber-500 font-normal text-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300"
-                                onClick={() => handleFichaClick(ato)}
-                            >
-                                <Eye className="h-3 w-3" />
-                                Ficha
-                                <span className="sr-only">Ficha do ato normativo</span>
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="xs"
-                                className="gap-2 border-amber-500 font-normal text-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300"
-                                onClick={() => handleTextoIntegralClick(ato)}
-                            >
-                                <SquareArrowOutUpRight className="h-3 w-3" />
-                                Texto Integral
-                                <span className="sr-only">
-                                    Visualizar texto integral do ato normativo
-                                </span>
-                            </Button>
-                        </div>
+                        <Button
+                            variant="outline"
+                            size="xs"
+                            className="gap-2 border-amber-500 font-normal text-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300"
+                            onClick={() => window.open(`/#/ficha/${ato.id}`, '_blank')}
+                        >
+                            <Eye className="h-3 w-3" />
+                            Ficha
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="xs"
+                            className="gap-2 border-amber-500 font-normal text-amber-500 hover:text-amber-600 dark:border-amber-300 dark:text-amber-300"
+                            onClick={() => window.open(`/#/texto-integral/${ato.id}`, '_blank')}
+                        >
+                            <SquareArrowOutUpRight className="h-3 w-3" />
+                            Texto Integral
+                        </Button>
                     </CardFooter>
                 </Card>
             ))}
-
-            {/* Componentes de Paginação */}
-            <div className="flex justify-center mt-4">
-                <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                    Anterior
-                </Button>
-                <span className="mx-2">
-                    Página {currentPage}
-                </span>
-                <Button onClick={() => handlePageChange(currentPage + 1)} disabled={data.length < itemsPerPage}>
-                    Próxima
-                </Button>
-            </div>
+            <Pagination className="sticky bottom-0 bg-white dark:bg-transparent py-2">
+                <PaginationContent>
+                    {currentPage > 1 && (
+                        <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)}>
+                            {currentPage === 2 ? 'Primeira Página' : 'Anterior'}
+                        </PaginationPrevious>
+                    )}
+                    {renderPaginationItems()}
+                    {currentPage < totalPages && (
+                        <PaginationNext onClick={() => handlePageChange(currentPage + 1)}>
+                            Próxima
+                        </PaginationNext>
+                    )}
+                </PaginationContent>
+            </Pagination>
         </div>
     );
 };

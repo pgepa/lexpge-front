@@ -1,7 +1,7 @@
 import './global.css';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { RouterProvider, createBrowserRouter, RouteObject } from 'react-router-dom';
+import { RouterProvider, RouteObject } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/theme/theme-provider';
 import { queryClient } from './lib/react-query';
@@ -11,6 +11,7 @@ import { SearchProvider } from '@/Context/SearchContext';
 import SearchPage from '@/pages/SearchPage';
 import ResultsPage from '@/pages/ResultsPage';
 import "react-toastify/dist/ReactToastify.css";
+import { createHashRouter } from "react-router-dom";
 
 // Definindo as novas rotas
 const newRoutes: RouteObject[] = [
@@ -20,7 +21,7 @@ const newRoutes: RouteObject[] = [
 ];
 
 // Combinando as rotas do AdminRouter com as novas rotas
-const combinedRouter = createBrowserRouter([
+const combinedRouter = createHashRouter([
   ...AdminRouter.routes,  // Supondo que AdminRouter já possui um array de rotas
   ...newRoutes,  // Adiciona as novas rotas definidas acima
 ]);
