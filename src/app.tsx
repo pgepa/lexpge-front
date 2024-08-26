@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 const newRoutes: RouteObject[] = [
   { path: "/", element: <SearchPage /> },
   { path: "/results", element: <ResultsPage /> },
+  { path: "/admin/results", element: <ResultsPage /> },
 ];
 
 // Combinando as rotas do AdminRouter com as novas rotas

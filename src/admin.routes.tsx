@@ -7,7 +7,6 @@ import { SignUp } from "@/pages/auth/sign-up";
 import { Atos } from "@/pages/app/atos/atos-card-teste";
 import { NotFound } from "@/pages/404";
 import { Sobre } from "@/pages/sobre";
-import { Inicio } from "@/inicio";
 import { Ficha } from "@/pages/app/ficha/ficha";
 import { NovoRegistro } from "@/pages/app/atos/atos-registro";
 import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato';
@@ -27,6 +26,7 @@ import { AtosChefia } from '@/pages/app/atosChefias/atos-card-chefias-exibir';
 import { TextoIntegralLayout } from '@/pages/_layouts/texto-integral';
 import SearchPage from '@/pages/SearchPage';
 import ResultsPage from '@/pages/ResultsPage';
+import SearchPageAdmin from './pages/SearchPageAdm';
 
 export const AdminRouter = createHashRouter([
   {
@@ -90,7 +90,8 @@ export const AdminRouter = createHashRouter([
     path: '/',
     element: <AppLayout />,
     children: [
-      { path: '/admin', element: <PrivateRoute allowedProfiles={[1]}><Inicio /></PrivateRoute> },
+      { path: '/admin', element: <PrivateRoute allowedProfiles={[1]}><SearchPageAdmin /></PrivateRoute> },
+      { path: '/admin/results', element: <PrivateRoute allowedProfiles={[1]}><ResultsPage /></PrivateRoute> },
       { path: '/admin/dashboard', element: <PrivateRoute allowedProfiles={[1]}><Dashboard /></PrivateRoute> },
       { path: '/admin/sobre', element: <PrivateRoute allowedProfiles={[1]}><Sobre /></PrivateRoute> },
       { path: '/admin/atos', element: <PrivateRoute allowedProfiles={[1]}><Atos /></PrivateRoute> },
