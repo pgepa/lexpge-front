@@ -53,7 +53,6 @@ export const AdminRouter = createHashRouter([
       { path: '/chefia/sobre', element: <PrivateRoute allowedProfiles={[2]}><Sobre /></PrivateRoute>  },
       { path: '/chefia/atos', element: <PrivateRoute allowedProfiles={[2]}><AtosChefia /></PrivateRoute>  },
       { path: '/chefia/ficha/:id', element:<PrivateRoute allowedProfiles={[2]}><Ficha /></PrivateRoute>  },
-      { path: '/chefia/texto-integral/:id', element: <PrivateRoute allowedProfiles={[2]}><TextoIntegral /></PrivateRoute>  },
       { path: '/chefia/dashboard', element: <PrivateRoute allowedProfiles={[2]}><Dashboard /></PrivateRoute> },
     ]
   },
