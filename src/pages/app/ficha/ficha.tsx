@@ -54,8 +54,7 @@ export function Ficha() {
             <div className="space-y-6 p-4">
 
                 <div className="flex flex-col gap-4 items-center p-4 sm:p-6 md:p-8">
-                    <img className="w-24 h-24 items-center justify-center" src={logo} alt="Logo" />
-
+                    <img className="w-24 h-24" src={logo} alt="Logo" />
 
                     <h1 className="text-3xl font-bold tracking-tight text-center">{ato.titulo}</h1>
                 </div>

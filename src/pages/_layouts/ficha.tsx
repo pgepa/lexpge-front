@@ -8,7 +8,7 @@ export function FichaLayout() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center relative">
+    <div className="flex flex-col justify-center relative">
       <button
         onClick={handlePrint}
         className="absolute top-4 left-4 p-2 bg-gray-200 rounded-full hover:bg-gray-300"

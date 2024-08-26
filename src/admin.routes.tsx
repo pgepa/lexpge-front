@@ -66,9 +66,7 @@ export const AdminRouter = createHashRouter([
       { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[3]}><ResultsPage /></PrivateRoute> },
       { path: '/estagiario/sobre', element: <PrivateRoute allowedProfiles={[3]}><Sobre /></PrivateRoute> },
       { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosEstagiario /></PrivateRoute> },
-      { path: '/estagiario/ficha/:id', element: <PrivateRoute allowedProfiles={[3]}><Ficha /></PrivateRoute> },
       { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistroEstagiario /></PrivateRoute> },
-      { path: '/estagiario/texto-integral/:id', element:<PrivateRoute allowedProfiles={[3]}><TextoIntegral /></PrivateRoute>  },
       { path: '/estagiario/editar/:id', element: <PrivateRoute allowedProfiles={[3]}><EditarRegistroEstagiario /></PrivateRoute> },
     ]
   },
@@ -105,7 +103,6 @@ export const AdminRouter = createHashRouter([
       { path: '/admin/dashboard', element: <PrivateRoute allowedProfiles={[1]}><Dashboard /></PrivateRoute> },
       { path: '/admin/sobre', element: <PrivateRoute allowedProfiles={[1]}><Sobre /></PrivateRoute> },
       { path: '/admin/atos', element: <PrivateRoute allowedProfiles={[1]}><Atos /></PrivateRoute> },
-      { path: '/admin/ficha/:id', element: <PrivateRoute allowedProfiles={[1]}><Ficha /></PrivateRoute>  },
       { path: '/admin/registro', element: <PrivateRoute allowedProfiles={[1]}><NovoRegistro /></PrivateRoute> },
       { path: '/admin/editar/:id', element: <PrivateRoute allowedProfiles={[1]}><EditarRegistro /></PrivateRoute> },
       { path: '/admin/usuario', element: <PrivateRoute allowedProfiles={[1]}><ManagementUser /></PrivateRoute> },
