@@ -12,8 +12,12 @@ export function HeaderPublic() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
-    <div className="border-b">
+    <div className={`border-b ${isMenuOpen ? "mb-40" : ""}`}> {/* Adiciona margem inferior quando o menu está aberto */}
       <div className="flex h-16 items-center gap-6 justify-between px-6">
         <div className="flex items-center gap-6">
           <Scale className="h-6 w-6" />
@@ -30,21 +34,19 @@ export function HeaderPublic() {
         </button>
 
         <nav
-          className={`flex-col lg:flex-row lg:flex items-start space-x-0 lg:space-x-6 lg:space-y-0 space-y-4 absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto  lg:bg-transparent p-4 lg:p-0 z-10 lg:z-auto ${
+          className={`flex-col lg:flex-row lg:flex items-start lg:items-center space-x-0 lg:space-x-6 lg:space-y-0 space-y-4 absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto lg:bg-transparent p-4 lg:p-0 z-10 lg:z-auto transition-all duration-300 ease-in-out ${
             isMenuOpen ? "flex" : "hidden"
           }`}
         >
-          <NavLink to="/">
+          <NavLink to="/" onClick={closeMenu}>
             <Home className="h-4 w-4" />
             Início
           </NavLink>
-          <NavLink to="/atos/">
+          <NavLink to="/atos/" onClick={closeMenu}>
             <BookOpenText className="h-4 w-4" />
             Atos Normativos
           </NavLink>
-          
-          
-          <NavLink to="/sobre">
+          <NavLink to="/sobre" onClick={closeMenu}>
             <List className="h-4 w-4" />
             Sobre
           </NavLink>
