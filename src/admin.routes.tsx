@@ -49,7 +49,7 @@ export const AdminRouter = createHashRouter([
     errorElement: <NotFound />,
     children: [
       { path: '/chefia', element:<PrivateRoute allowedProfiles={[2]}><SearchPageChefia /></PrivateRoute>  },
-      { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[2]}><ResultsPage /></PrivateRoute> },
+      { path: '/chefia/results', element: <PrivateRoute allowedProfiles={[2]}><ResultsPage /></PrivateRoute> },
       { path: '/chefia/sobre', element: <PrivateRoute allowedProfiles={[2]}><Sobre /></PrivateRoute>  },
       { path: '/chefia/atos', element: <PrivateRoute allowedProfiles={[2]}><AtosChefia /></PrivateRoute>  },
       { path: '/chefia/ficha/:id', element:<PrivateRoute allowedProfiles={[2]}><Ficha /></PrivateRoute>  },

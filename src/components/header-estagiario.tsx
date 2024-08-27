@@ -47,7 +47,7 @@ export function HeaderEstagiario() {
             Atos Normativos
           </NavLink>
           
-          <NavLink to="/admin/sobre" onClick={closeMenu}>
+          <NavLink to="/estagiario/sobre" onClick={closeMenu}>
             <List className="h-4 w-4" />
             Sobre
           </NavLink>
