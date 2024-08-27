@@ -3,7 +3,7 @@ import { Scale, BookOpenText, List, Home, Menu } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme/theme-toggle";
-import { AccountMenu } from "./account-menu";
+import { AccountMenu } from './account-menu';
 
 export function HeaderEstagiario() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,8 +12,12 @@ export function HeaderEstagiario() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
-    <div className="border-b">
+    <div className={`border-b ${isMenuOpen ? "mb-40" : ""}`}> {/* Adiciona margem inferior quando o menu está aberto */}
       <div className="flex h-16 items-center gap-6 justify-between px-6">
         <div className="flex items-center gap-6">
           <Scale className="h-6 w-6" />
@@ -30,21 +34,20 @@ export function HeaderEstagiario() {
         </button>
 
         <nav
-          className={`flex-col lg:flex-row lg:flex items-center space-x-0 lg:space-x-6 lg:space-y-0 space-y-4 absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto bg-white lg:bg-transparent p-4 lg:p-0 z-10 lg:z-auto ${
+          className={`flex-col lg:flex-row lg:flex items-start lg:items-center space-x-0 lg:space-x-6 lg:space-y-0 space-y-4 absolute lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto lg:bg-transparent p-4 lg:p-0 z-10 lg:z-auto transition-all duration-300 ease-in-out ${
             isMenuOpen ? "flex" : "hidden"
           }`}
         >
-          <NavLink to="/estagiario">
+          <NavLink to="/estagiario" onClick={closeMenu}>
             <Home className="h-4 w-4" />
             Início
           </NavLink>
-          <NavLink to="/estagiario/atos/">
+          <NavLink to="/estagiario/atos/" onClick={closeMenu}>
             <BookOpenText className="h-4 w-4" />
             Atos Normativos
           </NavLink>
           
-          
-          <NavLink to="/estagiario/sobre">
+          <NavLink to="/admin/sobre" onClick={closeMenu}>
             <List className="h-4 w-4" />
             Sobre
           </NavLink>
