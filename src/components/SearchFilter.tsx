@@ -106,7 +106,7 @@ const SearchFilter: React.FC = () => {
                 Pesquisar
             </Button>
 
-            <Button onClick={handleClearFilters} variant="secondary" size="default" className="w-full sm:w-auto">
+            <Button onClick={handleClearFilters} variant="outline" size="default" className="w-full sm:w-auto">
                 <X className="h-4 w-4 mr-2" />
                 Remover filtros
             </Button>

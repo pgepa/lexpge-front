@@ -97,9 +97,9 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
         />
       </div>
 
-      <Button type="submit" variant="secondary" size="default" className="w-full sm:w-auto">
+      <Button type="submit" size="default" className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 w-full sm:w-auto">
         <Search className="h-4 w-4 mr-2" />
-        Filtrar resultados
+        Pesquisar
       </Button>
 
       <Button type="button" variant="outline" size="default" onClick={handleClearFilters} className="w-full sm:w-auto">

@@ -106,13 +106,13 @@ const ResultsList: React.FC = () => {
 
     if (loading) return <div>Carregando...</div>;
     if (error) return <div>{error}</div>;
-    if (!data || data.length === 0) return <div>Nenhum resultado encontrado</div>;
+    if (!data || data.length === 0) return <div className='text-2xl font-bold tracking-tight text-justify mt-4 text-orange-500'>Não foi encontrado nenhum resultado contendo todos os termos de pesquisa.</div>;
 
     return (
         <div className='flex flex-col gap-4'>
-            <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Resultados para a busca</h2>
+            <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Resultados para a busca:</h2>
             {data.map((ato) => (
-                <Card key={ato.id} className='shadow-lg shadow-blue-600/40'>
+                <Card key={ato.id} className='shadow-md shadow-blue-500/40'>
                     <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
                         <div className="space-y-1">
                             <CardTitle className="text-base font-medium -tracking-tight text-blue-700 dark:text-blue-300">
