@@ -39,6 +39,10 @@ export function NovoRegistro() {
     });
 
     async function handleNovoRegistro(data: NovoRegistroForm) {
+        if (data.dataDoAto && data.dataDaPublicacao && data.dataDoAto > data.dataDaPublicacao){
+            toast.error('A data da publicação não pode ser anterior à data do ato.');
+            return;
+        }
         try {
             console.log("Data being sent:", data);
 
