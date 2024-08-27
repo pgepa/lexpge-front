@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,10 +11,11 @@ import EditorObservacao from "../editor/editor-observacao";
 import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
 import { toast } from 'sonner';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const editRegistroForm = z.object({
     id: z.number(),
-  numero: z.string(),
+  numero: z.number(),
   titulo: z.string(),
   ementa: z.string(),
   tipo_id: z.string(),
@@ -26,6 +26,7 @@ const editRegistroForm = z.object({
   descritores: z.string(),
   observacao: z.string(),
   conteudo: z.string(),
+  texto_compilado: z.boolean().optional(),
 });
 
 type EditRegistroForm = z.infer<typeof editRegistroForm>;
@@ -36,7 +37,7 @@ export function EditarRegistroEstagiario() {
   const ato = location.state?.ato as EditRegistroForm;
 
   const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<EditRegistroForm>({
-    resolver: zodResolver(editRegistroForm),
+    
     defaultValues: {    
       ...ato,
       data_ato: ato?.data_ato ? new Date(ato.data_ato) : null,
@@ -44,7 +45,7 @@ export function EditarRegistroEstagiario() {
     },
   });
 
-  async function handleEditRegistro(data: EditRegistroForm) {
+  async function handleEditRegistroEstagiario(data: EditRegistroForm) {
     try {
         
       const payload = {
@@ -81,7 +82,7 @@ export function EditarRegistroEstagiario() {
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold tracking-tight">Editar Registro</h1>
 
-      <form onSubmit={handleSubmit(handleEditRegistro)} className="grid grid-cols-4 gap-4 mt-8">
+      <form onSubmit={handleSubmit(handleEditRegistroEstagiario)} className="grid grid-cols-4 gap-4 mt-8">
         <div className="space-y-2">
           <Label htmlFor="numero">Número:</Label>
           <Input id="numero" type="text" placeholder="Número" {...register('numero')} />
@@ -147,10 +148,33 @@ export function EditarRegistroEstagiario() {
             )}
           />
         </div>
-        <div className="col-span-2 space-y-2">
+        <div className="col-span-1 space-y-2">
           <Label htmlFor="fonte">Fonte:</Label>
           <Input id="fonte" placeholder="Fonte" {...register('fonte')} />
         </div>
+
+        <div className="flex items-center space-x-2 ">
+
+                        <Controller
+                            name="texto_compilado"
+                            control={control}
+                            defaultValue={false}
+                            render={({ field }) => (
+                                <Checkbox
+                                    id="texto_compilado"
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
+                        />
+
+                        <Label
+                            htmlFor="texto_compilado"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                            Texto Compilado / Impressão
+                        </Label>
+                    </div>
         <div className="flex flex-col gap-4" id="data_ato">
           <Label htmlFor="data_ato">Data do ato:</Label>
           <Controller
@@ -201,7 +225,7 @@ export function EditarRegistroEstagiario() {
             {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
           
-          <Button variant="destructive" onClick={() => navigate('/estagiario/atos/')}>
+          <Button variant="destructive" onClick={() => navigate('/admin/atos/')}>
             <SquareX className="mr-2 h-4 w-4" />
             Cancelar
           </Button>
