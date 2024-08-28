@@ -22,7 +22,7 @@ const SearchFormChefia: React.FC = () => {
     const handleSearch = (event: React.FormEvent) => {
         event.preventDefault();
         setQuery(localQuery);
-        navigate('/estagiario/results');
+        navigate('/chefia/results');
     };
 
     const handleClearFilters = () => {
