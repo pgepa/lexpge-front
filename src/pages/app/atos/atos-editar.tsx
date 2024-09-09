@@ -21,8 +21,8 @@ const editRegistroForm = z.object({
   tipo_id: z.string(),
   situacao: z.string(),
   fonte: z.string(),
-  data_ato: z.date().nullable(),
-  data_publicacao: z.date().nullable(),
+  data_ato: z.string().nullable(),
+  data_publicacao: z.string().nullable(),
   descritores: z.string(),
   observacao: z.string(),
   conteudo: z.string(),
@@ -39,20 +39,20 @@ export function EditarRegistro() {
   const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<EditRegistroForm>({
     
     defaultValues: {    
-      ...ato,
-      data_ato: ato?.data_ato ? new Date(ato.data_ato) : null,
-      data_publicacao: ato?.data_publicacao ? new Date(ato.data_publicacao) : null,
-    },
+        ...ato,
+        data_ato: ato?.data_ato ? new Date(ato.data_ato).toISOString().split('T')[0] : null,
+        data_publicacao: ato?.data_publicacao ? new Date(ato.data_publicacao).toISOString().split('T')[0] : null,
+      },
   });
 
   async function handleEditRegistro(data: EditRegistroForm) {
     try {
         
-      const payload = {
-        ...data,
-        data_ato: data.data_ato ? data.data_ato.toISOString().split('T')[0] : null,
-        data_publicacao: data.data_publicacao ? data.data_publicacao.toISOString().split('T')[0] : null,
-      };
+        const payload = {
+            ...data,
+            data_ato: data.data_ato ? new Date(data.data_ato).toISOString().split('T')[0] : null,
+            data_publicacao: data.data_publicacao ? new Date(data.data_publicacao).toISOString().split('T')[0] : null,
+          };
 
       const token = localStorage.getItem('token');
 
@@ -181,7 +181,10 @@ export function EditarRegistro() {
             name="data_ato"
             control={control}
             render={({ field }) => (
-              <DatePicker date={field.value!} onChange={field.onChange} />
+                <DatePicker
+                date={field.value ? new Date(field.value) : undefined}
+                onChange={(date) => field.onChange(date ? date.toISOString().split('T')[0] : '')}
+              />
             )}
           />
         </div>
@@ -191,7 +194,10 @@ export function EditarRegistro() {
             name="data_publicacao"
             control={control}
             render={({ field }) => (
-              <DatePicker date={field.value!} onChange={field.onChange} />
+                <DatePicker
+                date={field.value ? new Date(field.value) : undefined}
+                onChange={(date) => field.onChange(date ? date.toISOString().split('T')[0] : '')}
+              />
             )}
           />
         </div>

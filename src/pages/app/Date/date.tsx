@@ -17,33 +17,44 @@ interface DatePickerProps {
   onChange: (date: Date | undefined) => void;
 }
 
+// Função utilitária para converter uma data para UTC
+function toUTCDate(date: Date): Date {
+  return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+}
+
+// Função utilitária para criar uma data em UTC
+function createUTCDate(year: number, month: number, day: number = 1): Date {
+  const date = new Date(Date.UTC(year, month, day));
+  return toUTCDate(date);
+}
+
 export function DatePicker({ date, onChange }: DatePickerProps) {
-  const [selectedYear, setSelectedYear] = useState<number>(date ? getYear(date) : new Date().getFullYear());
-  const [selectedMonth, setSelectedMonth] = useState<number>(date ? getMonth(date) : new Date().getMonth());
-  const [inputValue, setInputValue] = useState<string>(date ? format(date, "dd/MM/yyyy") : "");
-  const [currentMonth, setCurrentMonth] = useState<Date>(new Date(selectedYear, selectedMonth));
+  const [selectedYear, setSelectedYear] = useState<number>(date ? getYear(date) : new Date().getUTCFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<number>(date ? getMonth(date) : new Date().getUTCMonth());
+  const [inputValue, setInputValue] = useState<string>(date ? format(toUTCDate(date), "dd/MM/yyyy") : "");
+  const [currentMonth, setCurrentMonth] = useState<Date>(createUTCDate(selectedYear, selectedMonth));
 
   useEffect(() => {
-    setCurrentMonth(new Date(selectedYear, selectedMonth));
+    setCurrentMonth(createUTCDate(selectedYear, selectedMonth));
   }, [selectedYear, selectedMonth]);
 
   const handleYearChange = (year: number) => {
     setSelectedYear(year);
     if (date) {
-      const updatedDate = setYear(date, year);
+      const updatedDate = setYear(toUTCDate(date), year);
       onChange(updatedDate);
     } else {
-      onChange(new Date(year, selectedMonth, 1));
+      onChange(createUTCDate(year, selectedMonth));
     }
   };
 
   const handleMonthChange = (month: number) => {
     setSelectedMonth(month);
     if (date) {
-      const updatedDate = setMonth(date, month);
+      const updatedDate = setMonth(toUTCDate(date), month);
       onChange(updatedDate);
     } else {
-      onChange(new Date(selectedYear, month, 1));
+      onChange(createUTCDate(selectedYear, month));
     }
   };
 
@@ -53,19 +64,21 @@ export function DatePicker({ date, onChange }: DatePickerProps) {
 
     const parsedDate = parse(value, "dd/MM/yyyy", new Date());
     if (isValid(parsedDate)) {
-      setSelectedYear(getYear(parsedDate));
-      setSelectedMonth(getMonth(parsedDate));
-      onChange(parsedDate);
+      const utcDate = toUTCDate(parsedDate);
+      setSelectedYear(getYear(utcDate));
+      setSelectedMonth(getMonth(utcDate));
+      onChange(utcDate);
     }
   };
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
-      setSelectedYear(getYear(selectedDate));
-      setSelectedMonth(getMonth(selectedDate));
-      setInputValue(format(selectedDate, "dd/MM/yyyy"));
+      const utcDate = toUTCDate(selectedDate);
+      setSelectedYear(getYear(utcDate));
+      setSelectedMonth(getMonth(utcDate));
+      setInputValue(format(utcDate, "dd/MM/yyyy"));
     }
-    onChange(selectedDate);
+    onChange(selectedDate ? toUTCDate(selectedDate) : undefined);
   };
 
   return (
@@ -79,14 +92,14 @@ export function DatePicker({ date, onChange }: DatePickerProps) {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP", { locale: ptBR }) : <span>Escolha uma data</span>}
+          {date ? format(toUTCDate(date), "PPPP", { locale: ptBR }) : <span>Escolha uma data</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         {/* Campo de entrada para a data */}
         <div className="p-2">
           <Input
-            placeholder="dd/mm/aaaa"
+            placeholder="dd/MM/yyyy"
             value={inputValue}
             onChange={handleInputChange}
             className="w-full"
@@ -101,7 +114,7 @@ export function DatePicker({ date, onChange }: DatePickerProps) {
             </SelectTrigger>
             <SelectContent>
               {Array.from({ length: 100 }, (_, i) => {
-                const year = new Date().getFullYear() - i;
+                const year = new Date().getUTCFullYear() - i;
                 return (
                   <SelectItem key={year} value={year.toString()}>
                     {year}
@@ -116,12 +129,12 @@ export function DatePicker({ date, onChange }: DatePickerProps) {
         <div className="p-2">
           <Select onValueChange={(value) => handleMonthChange(Number(value))} value={selectedMonth.toString()}>
             <SelectTrigger>
-              <SelectValue>{format(new Date(selectedYear, selectedMonth), "MMMM", { locale: ptBR })}</SelectValue>
+              <SelectValue>{format(createUTCDate(selectedYear, selectedMonth), "MMMM", { locale: ptBR })}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               {Array.from({ length: 12 }, (_, i) => (
                 <SelectItem key={i} value={i.toString()}>
-                  {format(new Date(selectedYear, i), "MMMM", { locale: ptBR })}
+                  {format(createUTCDate(selectedYear, i), "MMMM", { locale: ptBR })}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -131,7 +144,7 @@ export function DatePicker({ date, onChange }: DatePickerProps) {
         {/* Calendário */}
         <Calendar
           mode="single"
-          selected={date}
+          selected={date ? toUTCDate(date) : undefined}
           onSelect={handleDateSelect}
           initialFocus
           locale={ptBR}
