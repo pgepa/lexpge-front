@@ -104,7 +104,13 @@ const ResultsList: React.FC = () => {
         return pages;
     };
 
-    if (loading) return <div>Carregando...</div>;
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className='h-16 w-16 border-4 border-violet-200 border-r-violet-200 border-b-violet-200 border-t-violet-500 animate-spin ease-linear rounded-full'></div>
+            </div>
+        );
+    }
     if (error) return <div>{error}</div>;
     if (!data || data.length === 0) return <div className='text-2xl font-bold tracking-tight text-justify mt-4 text-orange-500'>Não foi encontrado nenhum resultado contendo todos os termos de pesquisa.</div>;
 
