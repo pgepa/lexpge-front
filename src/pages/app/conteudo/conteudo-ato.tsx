@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { useLocation, Location, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import ReactGA from 'react-ga4';
 
 interface TextoIntegral {
     id: number;
@@ -18,6 +19,9 @@ export function TextoIntegral() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        ReactGA.initialize('G-9R7C0RCNJ0');
+        ReactGA.send({ hitType: 'pageview', page: location.pathname });
+
         async function loadTextoIntegral() {
             try {
                 const atoId = location.state?.ato?.id ?? parseInt(id!, 10); 
@@ -60,7 +64,9 @@ export function TextoIntegral() {
 
     return (
         <>
-            <Helmet title="Texto Integral" />
+             <Helmet>
+                <title>{`Texto Integral - Ato ${ato.id}`}</title>
+            </Helmet>
             <div className="space-y-6 p-4">
 
                 <style>{`
