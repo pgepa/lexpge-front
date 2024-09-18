@@ -65,7 +65,7 @@ export function TextoIntegral() {
     return (
         <>
              <Helmet>
-                <title>{`Texto Integral - Ato ${ato.id}`}</title>
+                <title>{`Ato ${ato.id}`}</title>
             </Helmet>
             <div className="space-y-6 p-4">
 
