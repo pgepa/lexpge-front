@@ -109,7 +109,7 @@ const SearchForm: React.FC = () => {
 
                 </div>
 
-                <div className="flex flex-row gap-4 items-center mt-4">
+                <div className="flex flex-col sm:flex-row gap-4 items-center mt-4">
 
                     <Button onClick={handleSearch} type="submit"  size="lg" className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 w-full sm:w-auto">
                         <Search className="h-4 w-4 mr-2" />
@@ -121,7 +121,7 @@ const SearchForm: React.FC = () => {
                         type="button"
                         variant="secondary"
                         size="lg"
-                        className="flex items-center"
+                        className="w-full sm:w-auto"
                     >
                         <X className="h-4 w-4 mr-2" />
                         Remover filtros
