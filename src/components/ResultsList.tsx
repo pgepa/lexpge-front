@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/pagination";
 import { api } from '@/lib/axios';
 import GridLoader from "react-spinners/GridLoader";
+import { SearchX } from 'lucide-react';
+
 
 interface AtosData {
     data_alteracao: string;
@@ -108,16 +110,22 @@ const ResultsList: React.FC = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <GridLoader size={16} color="#9322d4" />
+                <GridLoader size={16} color="#3727c9" />
             </div>
         );
     }
     if (error) return <div>{error}</div>;
-    if (!data || data.length === 0) return <div className='text-2xl font-bold tracking-tight text-justify mt-4 text-orange-500'>Não foi encontrado nenhum resultado contendo todos os termos de pesquisa.</div>;
+    if (!data || data.length === 0) return <div className='text-xl items-center flex flex-col font-semibold text-justify mt-8  text-muted-foreground'>
+        <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p> 
+        <p>Tente novamente como outros parâmetros.</p>
+        
+        <SearchX className="h-12 w-12 mt-4"/>
+
+        </div>;
 
     return (
         <div className='flex flex-col gap-4'>
-            <h2 className='text-2xl font-bold tracking-tight text-justify mt-4 text-blue-700'>Resultados para a busca:</h2>
+            <h2 className='text-xl font-semibold text-justify mt-4 text-blue-600'>Resultados encontrados para a busca:</h2>
             {data.map((ato) => (
                 <Card key={ato.id} className='shadow-md shadow-blue-500/40'>
                     <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
