@@ -46,13 +46,13 @@ const ResultsList: React.FC = () => {
 
     useEffect(() => {
         if (query) {
-            fetchResults(1); // Nova busca sempre começa na página 1
+            fetchResults(1); 
         }
     }, [query]);
 
     useEffect(() => {
         if (query) {
-            fetchResults(currentPage); // Busca resultados quando a página atual muda
+            fetchResults(currentPage); 
         }
     }, [currentPage]);
 
@@ -125,7 +125,7 @@ const ResultsList: React.FC = () => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <h2 className='text-xl font-semibold text-justify mt-4 text-blue-600'>Resultados encontrados para a busca:</h2>
+            <h2 className='text-xl font-semibold text-justify mt-4 text-blue-700 dark:text-blue-300'>Resultados encontrados para a busca:</h2>
             {data.map((ato) => (
                 <Card key={ato.id} className='shadow-md shadow-blue-500/40'>
                     <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">

@@ -149,7 +149,7 @@ export const AtosCardPublic = () => {
             {/* Exibe os resultados se houverem atos */}
             {atos && atos.length > 0 && (
                 <>
-                    <h2 className='text-xl font-semibold text-justify mt-4 text-blue-600'>Resultados encontrados para a busca:</h2>
+                    <h2 className='text-xl font-semibold text-justify mt-4 text-blue-700 dark:text-blue-300'>Resultados encontrados para a busca:</h2>
                     {atos.map((ato) => (
                         <Card key={ato.id} className='shadow-lg shadow-blue-600/40'>
                             <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
