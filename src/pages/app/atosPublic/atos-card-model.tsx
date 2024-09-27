@@ -127,7 +127,7 @@ export const AtosCardPublic = () => {
 
     return (
         <>
-            {/* Sempre exibe os filtros */}
+            
             <AtosPublicFilters onFilter={handleFilter} />
 
             {loading && (
@@ -136,7 +136,7 @@ export const AtosCardPublic = () => {
                 </div>
             )}
 
-            {/* Mensagem caso não haja atos */}
+            
             {!loading && (!atos || atos.length === 0) && (
                 <div className='text-xl items-center flex flex-col font-semibold text-justify mt-4  text-muted-foreground'>
                     <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p>
@@ -146,7 +146,7 @@ export const AtosCardPublic = () => {
                 </div>
             )}
 
-            {/* Exibe os resultados se houverem atos */}
+            
             {atos && atos.length > 0 && (
                 <>
                     <h2 className='text-xl font-semibold text-justify mt-4 text-blue-700 dark:text-blue-300'>Resultados encontrados para a busca:</h2>
