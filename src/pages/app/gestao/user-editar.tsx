@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { PencilLine } from 'lucide-react';
 
 const updateUserSchema = z.object({
     nome: z.string(),
@@ -28,9 +29,9 @@ type UpdateUserForm = z.infer<typeof updateUserSchema>;
 
 interface User {
     id: number;
-    nome: string; // Alterado para 'nome' para coincidir com o formulário
+    nome: string; 
     email: string;
-    id_perfil: number; // Adicionado para coincidir com o ID do perfil
+    id_perfil: number; 
 }
 
 interface UserEditarProps {
@@ -78,7 +79,10 @@ export function UserEditar({ user }: UserEditarProps) {
     return (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" onClick={() => setIsDialogOpen(true)}>Editar usuário</Button>
+                <Button variant="default" className='gap-2' onClick={() => setIsDialogOpen(true)}>
+                <PencilLine className="h-4 w-4" />
+                    Editar
+                </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <form onSubmit={handleSubmit(handleUpdate)}>
