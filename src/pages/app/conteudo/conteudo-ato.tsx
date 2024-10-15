@@ -19,7 +19,7 @@ export function TextoIntegral() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        
+
 
         async function loadTextoIntegral() {
             try {
@@ -90,6 +90,16 @@ export function TextoIntegral() {
                         padding: 10px;
                         font-weight: bold;
                     }
+
+                    a {
+                        color: #0563C1;
+                        text-decoration: underline;
+                    }
+
+                    .conteudo-ato a {
+                        color: #0563C1;
+                    }
+
                 `}</style>
 
                 <div className="flex flex-wrap items-center gap-2 p-2 conteudo-ato">
