@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/axios';
 import { Button } from '@/components/ui/button';
@@ -27,6 +27,7 @@ export const AtosCard = () => {
     const [atos, setAtos] = useState<AtoCard[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalResults, setTotalResults] = useState(0);
     const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState({
         conteudo: "",
@@ -52,15 +53,10 @@ export const AtosCard = () => {
                 },
             });
 
-            const fetchedAtos = response.data;
-            setAtos(fetchedAtos);
-
-            if (fetchedAtos.length < limit) {
-                setTotalPages(pagina);
-            } else if (fetchedAtos.length === limit) {
-                setTotalPages(pagina + 1);
-            }
-
+            const { resultados, total } = response.data; // Obter resultados e total
+            setAtos(resultados);
+            setTotalResults(total); // Atualizar total de resultados
+            setTotalPages(Math.ceil(total / limit)); // Calcular total de páginas
             setCurrentPage(pagina);
         } catch (error) {
             console.error('Erro ao carregar atos:', error);
@@ -97,11 +93,9 @@ export const AtosCard = () => {
         if (window.confirm("Tem certeza de que deseja excluir este registro?")) {
             try {
                 const token = localStorage.getItem('token');
-
-
                 const response = await api.delete(`/atos/${id}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Adicione o token no cabeçalho da requisição
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
@@ -130,8 +124,8 @@ export const AtosCard = () => {
         setCurrentPage(1);
     };
 
-
     const renderPaginationItems = () => {
+        const pages = [];
         let startPage = Math.max(currentPage - Math.floor(paginationRange / 2), 1);
         const endPage = Math.min(startPage + paginationRange - 1, totalPages);
 
@@ -139,7 +133,6 @@ export const AtosCard = () => {
             startPage = Math.max(endPage - paginationRange + 1, 1);
         }
 
-        const pages = [];
         for (let i = startPage; i <= endPage; i++) {
             pages.push(
                 <PaginationItem key={i}>
@@ -157,6 +150,9 @@ export const AtosCard = () => {
         <>
             <AtosTableFilters onFilter={handleFilter} />
 
+            <h2 className='text-xl font-semibold text-justify mt-4 text-slate-700 dark:text-blue-300'>
+                {totalResults} resultados encontrados
+            </h2>
 
             {loading && (
                 <div className="flex justify-center items-center h-screen">
@@ -165,10 +161,9 @@ export const AtosCard = () => {
             )}
 
             {!loading && (!atos || atos.length === 0) && (
-                <div className='text-xl items-center flex flex-col font-semibold text-justify mt-4  text-muted-foreground'>
+                <div className='text-xl items-center flex flex-col font-semibold text-justify mt-4 text-muted-foreground'>
                     <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p>
                     <p>Tente novamente com outros parâmetros.</p>
-
                     <SearchX className="h-12 w-12 mt-4" />
                 </div>
             )}
@@ -181,14 +176,11 @@ export const AtosCard = () => {
                                 {ato.titulo}
                             </CardTitle>
                             <CardDescription>{ato.situacao}</CardDescription>
-
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-1">
                         <span>
-                            <p className="leading-7 [&:not(:first-child)]:mt-6">
-                                {ato.ementa}
-                            </p>
+                            <p className="leading-7 [&:not(:first-child)]:mt-6">{ato.ementa}</p>
                         </span>
                         <span>
                             <CardDescription className='mt-2'>{ato.descritores}</CardDescription>
@@ -214,9 +206,7 @@ export const AtosCard = () => {
                             >
                                 <SquareArrowOutUpRight className="h-3 w-3" />
                                 Texto Integral
-                                <span className="sr-only">
-                                    Visualizar texto integral do ato normativo
-                                </span>
+                                <span className="sr-only">Visualizar texto integral do ato normativo</span>
                             </Button>
                             <Button
                                 variant="default"
@@ -245,17 +235,20 @@ export const AtosCard = () => {
             <Pagination className="sticky bottom-0 bg-white dark:bg-transparent py-2">
                 <PaginationContent>
                     {currentPage > 1 && (
-                        <PaginationPrevious
-                            onClick={() => handlePageChange(1)} // Navega para a primeira página
-                        >
+                        <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)}>
                             {currentPage === 2 ? 'Primeira Página' : 'Anterior'}
                         </PaginationPrevious>
                     )}
                     {renderPaginationItems()}
                     {currentPage < totalPages && (
-                        <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+                        <PaginationNext onClick={() => handlePageChange(currentPage + 1)}>
+                            Próxima
+                        </PaginationNext>
                     )}
                 </PaginationContent>
+                <div className="text-center text-sm text-gray-600 mt-2">
+                    Página {currentPage} de {totalPages}
+                </div>
             </Pagination>
         </>
     );

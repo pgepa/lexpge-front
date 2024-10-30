@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SearchContext } from '@/Context/SearchContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, SquareArrowOutUpRight } from 'lucide-react';
+import { Eye, SquareArrowOutUpRight, SearchX } from 'lucide-react';
 import {
     Pagination,
     PaginationContent,
@@ -13,11 +13,9 @@ import {
 } from "@/components/ui/pagination";
 import { api } from '@/lib/axios';
 import GridLoader from "react-spinners/GridLoader";
-import { SearchX } from 'lucide-react';
-
 
 interface AtosData {
-    data_alteracao: string;
+    data_alteracao: string | null;
     data_ato: string;
     data_criacao: string;
     data_publicacao: string;
@@ -30,18 +28,19 @@ interface AtosData {
     observacao: string;
     relevancia: number;
     situacao: string;
-    texto_compilado: string;
+    texto_compilado: boolean;
     tipo_id: string;
     titulo: string;
 }
 
 const ResultsList: React.FC = () => {
     const { query } = useContext(SearchContext)!;
-    const [data, setData] = useState<AtosData[] | null>(null);
+    const [data, setData] = useState<AtosData[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
+    const [totalResults, setTotalResults] = useState<number>(0);
     const itemsPerPage = 10;
 
     useEffect(() => {
@@ -73,9 +72,13 @@ const ResultsList: React.FC = () => {
 
         try {
             const response = await api.get(`/atos/busca?${queryString}`);
-            const fetchedData = response.data;
+            const fetchedData = response.data.resultados;
+            const totalItems = response.data.total;
+            const itemsPerPage = response.data.resultados_por_pagina;
+
             setData(fetchedData);
-            setTotalPages(fetchedData.length < itemsPerPage ? pagina : pagina + 1);
+            setTotalResults(totalItems);
+            setTotalPages(Math.ceil(totalItems / itemsPerPage));
         } catch (err) {
             setError('Erro ao buscar dados');
             console.error('Erro ao buscar dados:', err);
@@ -115,17 +118,19 @@ const ResultsList: React.FC = () => {
         );
     }
     if (error) return <div>{error}</div>;
-    if (!data || data.length === 0) return <div className='text-xl items-center flex flex-col font-semibold text-justify mt-8  text-muted-foreground'>
-        <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p> 
-        <p>Tente novamente como outros parâmetros.</p>
-        
-        <SearchX className="h-12 w-12 mt-4"/>
-
-        </div>;
+    if (!data || data.length === 0) return (
+        <div className='text-xl items-center flex flex-col font-semibold text-justify mt-8 text-muted-foreground'>
+            <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p> 
+            <p>Tente novamente com outros parâmetros.</p>
+            <SearchX className="h-12 w-12 mt-4"/>
+        </div>
+    );
 
     return (
         <div className='flex flex-col gap-4'>
-            <h2 className='text-xl font-semibold text-justify mt-4 text-blue-700 dark:text-blue-300'>Resultados encontrados para a busca:</h2>
+            <h2 className='text-xl font-semibold text-justify mt-4 text-slate-700 dark:text-blue-300'>
+                {totalResults} resultados encontrados
+            </h2>
             {data.map((ato) => (
                 <Card key={ato.id} className='shadow-md shadow-blue-500/40'>
                     <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
@@ -175,6 +180,9 @@ const ResultsList: React.FC = () => {
                         </PaginationNext>
                     )}
                 </PaginationContent>
+                <div className="text-center text-sm text-gray-600 mt-2">
+                    Página {currentPage} de {totalPages}
+                </div>
             </Pagination>
         </div>
     );

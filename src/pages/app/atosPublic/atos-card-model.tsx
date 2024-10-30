@@ -26,6 +26,7 @@ export const AtosCardPublic = () => {
     const [atos, setAtos] = useState<AtoCardPublic[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalResults, setTotalResults] = useState(0); // Novo estado para o total de resultados
     const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState({
         conteudo: "",
@@ -52,15 +53,10 @@ export const AtosCardPublic = () => {
                 },
             });
 
-            const fetchedAtos = response.data;
-            setAtos(fetchedAtos);
-
-            if (fetchedAtos.length < limit) {
-                setTotalPages(pagina);
-            } else if (fetchedAtos.length === limit) {
-                setTotalPages(pagina + 1);
-            }
-
+            const { resultados, total } = response.data; // Obter resultados e total
+            setAtos(resultados);
+            setTotalResults(total); // Atualizar total de resultados
+            setTotalPages(Math.ceil(total / limit)); // Calcular total de páginas
             setCurrentPage(pagina);
         } catch (error) {
             console.error('Erro ao carregar atos:', error);
@@ -127,7 +123,6 @@ export const AtosCardPublic = () => {
 
     return (
         <>
-            
             <AtosPublicFilters onFilter={handleFilter} />
 
             {loading && (
@@ -136,20 +131,19 @@ export const AtosCardPublic = () => {
                 </div>
             )}
 
-            
             {!loading && (!atos || atos.length === 0) && (
                 <div className='text-xl items-center flex flex-col font-semibold text-justify mt-4  text-muted-foreground'>
                     <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p>
                     <p>Tente novamente com outros parâmetros.</p>
-
                     <SearchX className="h-12 w-12 mt-4" />
                 </div>
             )}
 
-            
             {atos && atos.length > 0 && (
                 <>
-                    <h2 className='text-xl font-semibold text-justify mt-4 text-blue-700 dark:text-blue-300'>Resultados encontrados para a busca:</h2>
+                    <h2 className='text-xl font-semibold text-justify mt-4 text-slate-700 dark:text-blue-300'>
+                        {totalResults} resultados encontrados
+                    </h2>
                     {atos.map((ato) => (
                         <Card key={ato.id} className='shadow-lg shadow-blue-600/40'>
                             <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
@@ -193,15 +187,20 @@ export const AtosCardPublic = () => {
                     <Pagination className="sticky bottom-0 bg-white dark:bg-transparent py-2">
                         <PaginationContent>
                             {currentPage > 1 && (
-                                <PaginationPrevious onClick={() => handlePageChange(1)}>
+                                <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)}>
                                     {currentPage === 2 ? 'Primeira Página' : 'Anterior'}
                                 </PaginationPrevious>
                             )}
                             {renderPaginationItems()}
                             {currentPage < totalPages && (
-                                <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+                                <PaginationNext onClick={() => handlePageChange(currentPage + 1)}>
+                                    Próxima
+                                </PaginationNext>
                             )}
                         </PaginationContent>
+                        <div className="text-center text-sm text-gray-600 mt-2">
+                            Página {currentPage} de {totalPages}
+                        </div>
                     </Pagination>
                 </>
             )}
