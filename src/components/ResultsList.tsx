@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SearchContext } from '@/Context/SearchContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 import { Eye, SquareArrowOutUpRight, SearchX } from 'lucide-react';
 import {
     Pagination,
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/pagination";
 import { api } from '@/lib/axios';
 import GridLoader from "react-spinners/GridLoader";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface AtosData {
     data_alteracao: string | null;
@@ -40,18 +42,19 @@ const ResultsList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
+    const [sortOrder, setSortOrder] = useState<string>(''); // valor padrão
     const [totalResults, setTotalResults] = useState<number>(0);
     const itemsPerPage = 10;
 
     useEffect(() => {
         if (query) {
-            fetchResults(1); 
+            fetchResults(1);
         }
-    }, [query]);
+    }, [query, sortOrder]);
 
     useEffect(() => {
         if (query) {
-            fetchResults(currentPage); 
+            fetchResults(currentPage);
         }
     }, [currentPage]);
 
@@ -67,7 +70,8 @@ const ResultsList: React.FC = () => {
             tipo: query.tipo,
             pagina: pagina.toString(),
             limite: itemsPerPage.toString(),
-            texto_compilado: 'false'
+            texto_compilado: 'false',
+            ordem: sortOrder // Atualizado para 'ordem'
         }).toString();
 
         try {
@@ -85,6 +89,11 @@ const ResultsList: React.FC = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleSortOrderChange = (ordem: string) => {
+        setSortOrder(ordem);
+        setCurrentPage(1); // reinicia para a primeira página após mudar a ordenação
     };
 
     const handlePageChange = (pagina: number) => {
@@ -120,17 +129,34 @@ const ResultsList: React.FC = () => {
     if (error) return <div>{error}</div>;
     if (!data || data.length === 0) return (
         <div className='text-xl items-center flex flex-col font-semibold text-justify mt-8 text-muted-foreground'>
-            <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p> 
+            <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p>
             <p>Tente novamente com outros parâmetros.</p>
-            <SearchX className="h-12 w-12 mt-4"/>
+            <SearchX className="h-12 w-12 mt-4" />
         </div>
     );
 
     return (
         <div className='flex flex-col gap-4'>
-            <h2 className='text-xl font-semibold text-justify mt-4 text-slate-700 dark:text-blue-300'>
-                {totalResults} resultados encontrados
-            </h2>
+            <div className="flex justify-between items-center mt-4">
+                <h2 className="text-xl font-semibold text-slate-700 dark:text-blue-300">
+                    {totalResults} resultados encontrados
+                </h2>
+
+                <div className="flex items-center space-x-2">
+                    <Label className="font-semibold text-sm text-gray-800">Ordenação:</Label>
+                    <Select onValueChange={handleSortOrderChange}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Escolha uma opção" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="relevancia">Relevância dos resultados</SelectItem>
+                            <SelectItem value="data_ato_d">Maior data do ato</SelectItem>
+                            <SelectItem value="dataatoasc">Menor data do ato</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+
             {data.map((ato) => (
                 <Card key={ato.id} className='shadow-md shadow-blue-500/40'>
                     <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
