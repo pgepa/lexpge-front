@@ -255,7 +255,7 @@ export function NovoRegistroEstagiario() {
                         </Button>
 
 
-                        <Button variant="destructive" onClick={() => navigate('/admin/atos/')}>
+                        <Button variant="destructive" onClick={() => navigate('/estagiario/atos/')}>
                             <SquareX className="mr-2 h-4 w-4" />
                             Cancelar
                         </Button>
