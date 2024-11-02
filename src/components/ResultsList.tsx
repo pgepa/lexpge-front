@@ -137,15 +137,15 @@ const ResultsList: React.FC = () => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <div className="flex justify-between items-center mt-4">
-                <h2 className="text-xl font-semibold text-slate-700 dark:text-blue-300">
-                    {totalResults} resultados encontrados
-                </h2>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4 space-y-2 sm:space-y-0">
+                <p className="text-lg sm:text-xl font-semibold text-slate-700 dark:text-blue-300 text-center sm:text-left">
+                {Number(totalResults).toLocaleString('pt-BR')} resultados encontrados
+                </p>
 
-                <div className="flex items-center space-x-2">
-                    <Label className="font-semibold text-sm text-gray-800">Ordenação:</Label>
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                    <Label className="font-semibold text-sm text-gray-800 dark:text-white text-center sm:text-left">Ordenação:</Label>
                     <Select value={sortOrder} onValueChange={handleSortOrderChange}>
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full sm:w-auto">
                             <SelectValue placeholder="Escolha uma opção" />
                         </SelectTrigger>
                         <SelectContent>
@@ -156,6 +156,7 @@ const ResultsList: React.FC = () => {
                     </Select>
                 </div>
             </div>
+
 
             {data.map((ato) => (
                 <Card key={ato.id} className='shadow-md shadow-blue-500/40'>
