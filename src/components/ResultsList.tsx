@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SearchContext } from '@/Context/SearchContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Eye, SquareArrowOutUpRight, SearchX } from 'lucide-react';
 import {
@@ -42,7 +42,7 @@ const ResultsList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
-    const [sortOrder, setSortOrder] = useState<string>(''); // valor padrão
+    const [sortOrder, setSortOrder] = useState<string>('data_ato_d'); // valor padrão
     const [totalResults, setTotalResults] = useState<number>(0);
     const itemsPerPage = 10;
 
@@ -144,7 +144,7 @@ const ResultsList: React.FC = () => {
 
                 <div className="flex items-center space-x-2">
                     <Label className="font-semibold text-sm text-gray-800">Ordenação:</Label>
-                    <Select onValueChange={handleSortOrderChange}>
+                    <Select value={sortOrder} onValueChange={handleSortOrderChange}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Escolha uma opção" />
                         </SelectTrigger>
