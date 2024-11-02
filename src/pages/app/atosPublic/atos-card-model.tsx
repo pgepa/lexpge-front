@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/pagination";
 import { AtosPublicFilters } from '@/pages/app/atosPublic/atos-public-filters';
 import GridLoader from "react-spinners/GridLoader";
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export type AtoCardPublic = {
     id: number;
@@ -26,8 +28,9 @@ export const AtosCardPublic = () => {
     const [atos, setAtos] = useState<AtoCardPublic[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [totalResults, setTotalResults] = useState(0); // Novo estado para o total de resultados
+    const [totalResults, setTotalResults] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [sortOrder, setSortOrder] = useState<string>('data_ato_d');
     const [filters, setFilters] = useState({
         conteudo: "",
         descritores: "",
@@ -40,7 +43,7 @@ export const AtosCardPublic = () => {
     const limit = 10;
     const paginationRange = 5;
 
-    async function loadAtosCardPublic(pagina = 1, filters = {}) {
+    async function loadAtosCardPublic(pagina = 1, filters = {}, order = sortOrder) {
         setLoading(true);
         setError(null);
         try {
@@ -49,25 +52,27 @@ export const AtosCardPublic = () => {
                 params: {
                     pagina,
                     limite: limit,
+                    ordem: order, // Passando o parâmetro de ordenação
                     ...filters,
                 },
             });
 
-            const { resultados, total } = response.data; // Obter resultados e total
+            const { resultados, total } = response.data;
             setAtos(resultados);
-            setTotalResults(total); // Atualizar total de resultados
-            setTotalPages(Math.ceil(total / limit)); // Calcular total de páginas
+            setTotalResults(total);
+            setTotalPages(Math.ceil(total / limit));
             setCurrentPage(pagina);
         } catch (error) {
             console.error('Erro ao carregar atos:', error);
+            setError('Erro ao carregar atos. Tente novamente.');
         } finally {
             setLoading(false);
         }
     }
 
     useEffect(() => {
-        loadAtosCardPublic(currentPage, filters);
-    }, [currentPage, filters]);
+        loadAtosCardPublic(currentPage, filters, sortOrder);
+    }, [currentPage, filters, sortOrder]);
 
     const handleFichaClick = (ato: AtoCardPublic) => {
         const fichaUrl = `/#/ficha/${ato.id}`;
@@ -94,6 +99,11 @@ export const AtosCardPublic = () => {
     const handleFilter = (newFilters: any) => {
         setFilters(newFilters);
         setIsFiltering(true);
+        setCurrentPage(1);
+    };
+
+    const handleSortOrderChange = (order: string) => {
+        setSortOrder(order);
         setCurrentPage(1);
     };
 
@@ -132,7 +142,7 @@ export const AtosCardPublic = () => {
             )}
 
             {!loading && (!atos || atos.length === 0) && (
-                <div className='text-xl items-center flex flex-col font-semibold text-justify mt-4  text-muted-foreground'>
+                <div className='text-xl items-center flex flex-col font-semibold text-justify mt-4 text-muted-foreground'>
                     <p>Não foi encontrado nenhum Ato Normativo para o(s) filtro(s) selecionado(s).</p>
                     <p>Tente novamente com outros parâmetros.</p>
                     <SearchX className="h-12 w-12 mt-4" />
@@ -141,9 +151,26 @@ export const AtosCardPublic = () => {
 
             {atos && atos.length > 0 && (
                 <>
-                    <h2 className='text-xl font-semibold text-justify mt-4 text-slate-700 dark:text-blue-300'>
-                        {totalResults} resultados encontrados
-                    </h2>
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4 space-y-2 sm:space-y-0">
+                        <p className="text-lg sm:text-xl font-semibold text-slate-700 dark:text-blue-300 text-center sm:text-left">
+                            {Number(totalResults).toLocaleString('pt-BR')} resultados encontrados
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                            <Label className="font-semibold text-sm text-gray-800 dark:text-white text-center sm:text-left">Ordenação:</Label>
+                            <Select value={sortOrder} onValueChange={handleSortOrderChange}>
+                                <SelectTrigger className="w-full sm:w-auto">
+                                    <SelectValue placeholder="Escolha uma opção" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="relevancia">Relevância dos resultados</SelectItem>
+                                    <SelectItem value="data_ato_d">Maior data do ato</SelectItem>
+                                    <SelectItem value="dataatoasc">Menor data do ato</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+
                     {atos.map((ato) => (
                         <Card key={ato.id} className='shadow-lg shadow-blue-600/40'>
                             <CardHeader className="flex-items-center flex-row justify-between space-y-0 pb-4">
