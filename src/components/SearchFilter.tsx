@@ -48,7 +48,7 @@ const SearchFilter: React.FC = () => {
 
             <span className="text-lg font-semibold">Pesquisar:</span>
             <Input
-                placeholder="Busca por avançada por termos"
+                placeholder="Busca por termos"
                 value={localQuery.conteudo}
                 onChange={(e) => setLocalQuery({ ...localQuery, conteudo: e.target.value })}
                className="w-full sm:w-[320px]"
