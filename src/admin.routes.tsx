@@ -12,7 +12,6 @@ import { NovoRegistro } from "@/pages/app/atos/atos-registro";
 import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato';
 import { EditarRegistro } from "@/pages/app/atos/atos-editar";
 import { ManagementUser } from '@/pages/app/gestao/gestao-user';
-import { AtosPublic } from '@/pages/app/atosPublic/atos-card-public';
 import { AppLayoutPublic } from '@/pages/_layouts/app-public';
 import { AppLayoutEstagiario } from '@/pages/_layouts/app-estagiario';
 import { AtosEstagiario } from '@/pages/app/atosEstagiario/atos-card-estagiario';
@@ -26,8 +25,9 @@ import SearchPage from '@/pages/SearchPage';
 import ResultsPage from '@/pages/ResultsPage';
 import SearchPageAdmin from '@/pages/SearchPageAdm';
 import SearchPageEstagiario from '@/pages/SearchPageEstagiario';
-import SearchPageChefia from './pages/SearchPageChefia';
-import { FichaLayout } from './pages/_layouts/ficha';
+import SearchPageChefia from '@/pages/SearchPageChefia';
+import { FichaLayout } from '@/pages/_layouts/ficha';
+import AtosNormativosPublic from '@/pages/app/atosPublic/AtosNormativosPublic';
 
 export const AdminRouter = createHashRouter([
   {
@@ -38,7 +38,7 @@ export const AdminRouter = createHashRouter([
       { path: '/', element: <SearchPage /> },
       { path: '/results', element: <ResultsPage /> },
       { path: '/sobre', element: <Sobre /> },
-      { path: '/atos', element: <AtosPublic /> },
+      { path: '/atos', element: <AtosNormativosPublic /> },
       
     ]
   },

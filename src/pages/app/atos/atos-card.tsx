@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/pagination";
 import { AtosTableFilters } from '@/pages/app/atos/atos-table-filters';
 import GridLoader from 'react-spinners/GridLoader';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export type AtoCard = {
     id: number;
@@ -29,6 +31,7 @@ export const AtosCard = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [sortOrder, setSortOrder] = useState<string>('data_ato_d');
     const [filters, setFilters] = useState({
         conteudo: "",
         descritores: "",
@@ -41,7 +44,7 @@ export const AtosCard = () => {
     const navigate = useNavigate();
     const paginationRange = 5;
 
-    async function loadAtosCard(pagina = 1, filters = {}) {
+    async function loadAtosCard(pagina = 1, filters = {}, order = sortOrder) {
         setLoading(true);
         try {
             const route = isFiltering ? '/atos/busca' : '/atos';
@@ -49,6 +52,7 @@ export const AtosCard = () => {
                 params: {
                     pagina,
                     limite: limit,
+                    ordem: order,
                     ...filters,
                 },
             });
@@ -66,8 +70,8 @@ export const AtosCard = () => {
     }
 
     useEffect(() => {
-        loadAtosCard(currentPage, filters);
-    }, [currentPage, filters]);
+        loadAtosCard(currentPage, filters, sortOrder);
+    }, [currentPage, filters, sortOrder]);
 
     const handleFichaClick = (ato: AtoCard) => {
         const fichaUrl = `/#/ficha/${ato.id}`;
@@ -124,6 +128,11 @@ export const AtosCard = () => {
         setCurrentPage(1);
     };
 
+    const handleSortOrderChange = (order: string) => {
+        setSortOrder(order);
+        setCurrentPage(1);
+    };
+
     const renderPaginationItems = () => {
         const pages = [];
         let startPage = Math.max(currentPage - Math.floor(paginationRange / 2), 1);
@@ -150,10 +159,25 @@ export const AtosCard = () => {
         <>
             <AtosTableFilters onFilter={handleFilter} />
 
-            <h2 className='text-xl font-semibold text-justify mt-4 text-slate-700 dark:text-blue-300'>
-                {totalResults} resultados encontrados
-            </h2>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4 space-y-2 sm:space-y-0">
+                        <p className="text-lg sm:text-xl font-semibold text-slate-700 dark:text-blue-300 text-center sm:text-left">
+                            {Number(totalResults).toLocaleString('pt-BR')} resultados encontrados
+                        </p>
 
+                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                            <Label className="font-semibold text-sm text-gray-800 dark:text-white text-center sm:text-left">Ordenação:</Label>
+                            <Select value={sortOrder} onValueChange={handleSortOrderChange}>
+                                <SelectTrigger className="w-full sm:w-auto">
+                                    <SelectValue placeholder="Escolha uma opção" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="relevancia">Relevância dos resultados</SelectItem>
+                                    <SelectItem value="data_ato_d">Maior data do ato</SelectItem>
+                                    <SelectItem value="dataatoasc">Menor data do ato</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
             {loading && (
                 <div className="flex justify-center items-center h-screen">
                     <GridLoader size={16} color="#3727c9" />
