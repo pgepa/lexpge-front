@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '@/Context/SearchContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Eye, SquareArrowOutUpRight, SearchX, PencilLine, Trash2 } from 'lucide-react';
+import { Eye, SquareArrowOutUpRight, SearchX } from 'lucide-react';
 import {
     Pagination,
     PaginationContent,
@@ -46,7 +45,6 @@ const ResultsList: React.FC = () => {
     const [sortOrder, setSortOrder] = useState<string>('data_ato_d'); // valor padrão
     const [totalResults, setTotalResults] = useState<number>(0);
     const itemsPerPage = 10;
-    const navigate = useNavigate();
 
     const token = localStorage.getItem('token');
 
@@ -143,32 +141,7 @@ const ResultsList: React.FC = () => {
         </div>
     );
 
-    const handleEditClick = (ato: AtosData) => {
-        navigate(`/admin/editar/${ato.id}`, { state: { ato } });
-    };
-
-    const handleDeleteClick = async (id: number) => {
-        if (window.confirm("Tem certeza de que deseja excluir este ato normativo?")) {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await api.delete(`/atos/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (response.status === 200) {
-                    setData(data.filter((ato) => ato.id !== id));
-                    alert("Ato Normativo excluído com sucesso.");
-                } else {
-                    alert("Erro ao excluir o ato normativo.");
-                }
-            } catch (error) {
-                console.error("Erro ao excluir o ato normativo:", error);
-                alert("Erro ao excluir o ato normativo.");
-            }
-        }
-    };
+        
 
     return (
         <div className='flex flex-col gap-4'>
@@ -224,26 +197,8 @@ const ResultsList: React.FC = () => {
                             <SquareArrowOutUpRight className="h-3 w-3" />
                             Texto Integral
                         </Button>
-                        <Button
-                                variant="default"
-                                size="xs"
-                                className="gap-2"
-                                onClick={() => handleEditClick(ato)}
-                            >
-                                <PencilLine className="h-3 w-3" />
-                                Editar
-                                <span className="sr-only">Editar ato normativo</span>
-                            </Button>
-                            <Button
-                                variant="destructive"
-                                size="xs"
-                                className="gap-2"
-                                onClick={() => handleDeleteClick(ato.id)}
-                            >
-                                <Trash2 className="h-3 w-3" />
-                                Excluir
-                                <span className="sr-only">Excluir ato normativo</span>
-                            </Button>
+                        
+                            
                     </CardFooter>
                 </Card>
             ))}
