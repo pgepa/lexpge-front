@@ -13,7 +13,6 @@ import { EditarRegistro } from "@/pages/app/atos/atos-editar";
 import { ManagementUser } from '@/pages/app/gestao/gestao-user';
 import { AppLayoutPublic } from '@/pages/_layouts/app-public';
 import { AppLayoutEstagiario } from '@/pages/_layouts/app-estagiario';
-import { AtosEstagiario } from '@/pages/app/atosEstagiario/atos-card-estagiario';
 import { EditarRegistroEstagiario } from '@/pages/app/atos/atos-editar-estagiario';
 import PrivateRoute from '@/utils/private-route';
 import { NovoRegistroEstagiario } from '@/pages/app/atosEstagiario/atos-registro-estagiario';
@@ -28,6 +27,7 @@ import SearchPageChefia from '@/pages/SearchPageChefia';
 import { FichaLayout } from '@/pages/_layouts/ficha';
 import AtosNormativosPublic from '@/pages/app/atosPublic/AtosNormativosPublic';
 import AtosNormativosAdmin from '@/pages/app/atos/AtosNormativosAdmin';
+import AtosNormativosEstagiario from '@/pages/app/atosEstagiario/AtosNormativosEstagiario';
 
 export const AdminRouter = createHashRouter([
   {
@@ -64,7 +64,7 @@ export const AdminRouter = createHashRouter([
       { path: '/estagiario', element: <PrivateRoute allowedProfiles={[3]}><SearchPageEstagiario /></PrivateRoute> },
       { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[3]}><ResultsPage /></PrivateRoute> },
       { path: '/estagiario/sobre', element: <PrivateRoute allowedProfiles={[3]}><Sobre /></PrivateRoute> },
-      { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosEstagiario /></PrivateRoute> },
+      { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosNormativosEstagiario /></PrivateRoute> },
       { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistroEstagiario /></PrivateRoute> },
       { path: '/estagiario/editar/:id', element: <PrivateRoute allowedProfiles={[3]}><EditarRegistroEstagiario /></PrivateRoute> },
     ]
