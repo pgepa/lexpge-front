@@ -4,7 +4,6 @@ import { SignIn } from "@/pages/auth/sign-in";
 import { AppLayout } from "@/pages/_layouts/app";
 import { AuthLayout } from "@/pages/_layouts/auth";
 import { SignUp } from "@/pages/auth/sign-up";
-import { Atos } from "@/pages/app/atos/atos-card-teste";
 import { NotFound } from "@/pages/404";
 import { Sobre } from "@/pages/sobre";
 import { Ficha } from "@/pages/app/ficha/ficha";
@@ -28,6 +27,7 @@ import SearchPageEstagiario from '@/pages/SearchPageEstagiario';
 import SearchPageChefia from '@/pages/SearchPageChefia';
 import { FichaLayout } from '@/pages/_layouts/ficha';
 import AtosNormativosPublic from '@/pages/app/atosPublic/AtosNormativosPublic';
+import AtosNormativosAdmin from '@/pages/app/atos/AtosNormativosAdmin';
 
 export const AdminRouter = createHashRouter([
   {
@@ -101,7 +101,7 @@ export const AdminRouter = createHashRouter([
       { path: '/admin/results', element: <PrivateRoute allowedProfiles={[1]}><ResultsPage /></PrivateRoute> },
       { path: '/admin/dashboard', element: <PrivateRoute allowedProfiles={[1]}><Dashboard /></PrivateRoute> },
       { path: '/admin/sobre', element: <PrivateRoute allowedProfiles={[1]}><Sobre /></PrivateRoute> },
-      { path: '/admin/atos', element: <PrivateRoute allowedProfiles={[1]}><Atos /></PrivateRoute> },
+      { path: '/admin/atos', element: <PrivateRoute allowedProfiles={[1]}><AtosNormativosAdmin /></PrivateRoute> },
       { path: '/admin/registro', element: <PrivateRoute allowedProfiles={[1]}><NovoRegistro /></PrivateRoute> },
       { path: '/admin/editar/:id', element: <PrivateRoute allowedProfiles={[1]}><EditarRegistro /></PrivateRoute> },
       { path: '/admin/usuario', element: <PrivateRoute allowedProfiles={[1]}><ManagementUser /></PrivateRoute> },
