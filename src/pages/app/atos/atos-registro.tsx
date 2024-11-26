@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Helmet } from "react-helmet-async";
 import { DatePicker } from "../Date/date";
-import Editor from '../editor/Editor';
+import Editor from '../editor/EditorNovoRegistro';
 import { useForm, Controller } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
