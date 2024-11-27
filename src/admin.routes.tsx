@@ -28,6 +28,7 @@ import AtosNormativosPublic from '@/pages/app/atosPublic/AtosNormativosPublic';
 import AtosNormativosAdmin from '@/pages/app/atos/AtosNormativosAdmin';
 import AtosNormativosEstagiario from '@/pages/app/atosEstagiario/AtosNormativosEstagiario';
 import AtosNormativosChefia from '@/pages/app/atosChefias/AtosNormativosChefia';
+import ResultsPageAdmin from '@/pages/ResultsPageAdmin';
 
 export const AdminRouter = createHashRouter([
   {
@@ -98,7 +99,7 @@ export const AdminRouter = createHashRouter([
     element: <AppLayout />,
     children: [
       { path: '/admin', element: <PrivateRoute allowedProfiles={[1]}><SearchPageAdmin /></PrivateRoute> },
-      { path: '/admin/results', element: <PrivateRoute allowedProfiles={[1]}><ResultsPage /></PrivateRoute> },
+      { path: '/admin/results', element: <PrivateRoute allowedProfiles={[1]}><ResultsPageAdmin /></PrivateRoute> },
       { path: '/admin/dashboard', element: <PrivateRoute allowedProfiles={[1]}><Dashboard /></PrivateRoute> },
       { path: '/admin/sobre', element: <PrivateRoute allowedProfiles={[1]}><Sobre /></PrivateRoute> },
       { path: '/admin/atos', element: <PrivateRoute allowedProfiles={[1]}><AtosNormativosAdmin /></PrivateRoute> },
