@@ -74,7 +74,7 @@ const ResultsList: React.FC = () => {
             tipo: query.tipo,
             pagina: pagina.toString(),
             limite: itemsPerPage.toString(),
-            texto_compilado: 'false',
+            texto_compilado: query.texto_compilado ? 'true' : 'false',
             ordem: sortOrder // Atualizado para 'ordem'
         }).toString();
 

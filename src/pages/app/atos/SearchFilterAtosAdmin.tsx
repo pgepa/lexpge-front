@@ -5,56 +5,69 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from '@/components/ui/switch';
+
+type LocalQuery = {
+    conteudo: string;
+    descritores: string;
+    numero: string;
+    ano: string;
+    tipo: string;
+    texto_compilado: boolean;
+};
 
 const SearchFilter: React.FC = () => {
-    const { query, setQuery } = useContext(SearchContext)!;
-    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string }>({
+    const searchContext = useContext(SearchContext);
+    if (!searchContext) {
+        throw new Error("SearchFilter must be used within a SearchProvider");
+    }
+    const { query, setQuery } = searchContext;
+
+    const [localQuery, setLocalQuery] = useState<LocalQuery>({
         conteudo: query.conteudo || '',
         descritores: query.descritores || '',
         numero: query.numero || '',
         ano: query.ano || '',
         tipo: query.tipo || '',
+        texto_compilado: query.texto_compilado || false,
     });
+
     const navigate = useNavigate();
 
     const handleSearch = (event: React.FormEvent) => {
         event.preventDefault();
-        setQuery(localQuery);
-        navigate('/admin/atos/');
+        console.log("Local Query on Search:", localQuery); // Debugging: Verificar o estado completo
+        setQuery(localQuery); // Atualiza o contexto com todos os valores, incluindo texto_compilado
+        navigate('/admin/atos/'); // Redireciona para a página de resultados
     };
 
     const handleClearFilters = () => {
-        // Reseta o estado local para os valores iniciais
-        setLocalQuery({
+        const resetQuery = {
             conteudo: '',
             descritores: '',
             numero: '',
             ano: '',
             tipo: '',
-        });
-
-        // Também reseta o contexto se necessário
-        setQuery({
-            conteudo: '',
-            descritores: '',
-            numero: '',
-            ano: '',
-            tipo: '',
-        });
+            texto_compilado: false,
+        };
+        setLocalQuery(resetQuery);
+        setQuery(resetQuery);
     };
 
     return (
-        <form className="flex flex-col sm:flex-row items-center gap-2 flex-wrap">
-
+        <form
+            onSubmit={handleSearch}
+            className="flex flex-col sm:flex-row items-center gap-2 flex-wrap"
+        >
             <span className="text-lg font-semibold">Pesquisar:</span>
             <Input
                 placeholder="Busca por termos"
                 value={localQuery.conteudo}
                 onChange={(e) => setLocalQuery({ ...localQuery, conteudo: e.target.value })}
-               className="w-full sm:w-[320px]"
+                className="w-full sm:w-[320px]"
             />
             <Input
-                placeholder='Número'
+                placeholder="Número"
                 value={localQuery.numero}
                 onChange={(e) => setLocalQuery({ ...localQuery, numero: e.target.value })}
                 className="w-full sm:w-auto"
@@ -71,7 +84,6 @@ const SearchFilter: React.FC = () => {
                 onChange={(e) => setLocalQuery({ ...localQuery, descritores: e.target.value })}
                 className="w-full sm:w-auto"
             />
-           
 
             <Select
                 value={localQuery.tipo}
@@ -97,25 +109,33 @@ const SearchFilter: React.FC = () => {
                 </SelectContent>
             </Select>
 
-            
+            <div className="flex items-center">
+                <span className="mr-2 font-semibold tracking-tight">Texto Compilado</span>
+                <Switch
+                    checked={localQuery.texto_compilado}
+                    onCheckedChange={(checked) => setLocalQuery({ ...localQuery, texto_compilado: checked })}
+                />
+            </div>
 
-
-
-            <Button onClick={handleSearch} type="submit"  size="default" className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 w-full sm:w-auto">
+            <Button
+                type="submit"
+                size="default"
+                className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 w-full sm:w-auto"
+            >
                 <Search className="h-4 w-4 mr-2" />
                 Pesquisar
             </Button>
 
-            <Button onClick={handleClearFilters} variant="outline" size="default" className="w-full sm:w-auto">
+            <Button
+                onClick={handleClearFilters}
+                variant="outline"
+                size="default"
+                className="w-full sm:w-auto"
+            >
                 <X className="h-4 w-4 mr-2" />
                 Remover filtros
             </Button>
-
-
-
         </form>
-
-
     );
 };
 
