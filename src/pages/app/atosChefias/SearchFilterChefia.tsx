@@ -8,12 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const SearchFilter: React.FC = () => {
     const { query, setQuery } = useContext(SearchContext)!;
-    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string }>({
+    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; }>({
         conteudo: query.conteudo || '',
         descritores: query.descritores || '',
         numero: query.numero || '',
         ano: query.ano || '',
         tipo: query.tipo || '',
+        texto_compilado: query.texto_compilado || false,
     });
     const navigate = useNavigate();
 
@@ -31,6 +32,7 @@ const SearchFilter: React.FC = () => {
             numero: '',
             ano: '',
             tipo: '',
+            texto_compilado: false,
         });
 
         // Também reseta o contexto se necessário
@@ -40,6 +42,7 @@ const SearchFilter: React.FC = () => {
             numero: '',
             ano: '',
             tipo: '',
+            texto_compilado: false,
         });
     };
 
