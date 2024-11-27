@@ -177,7 +177,11 @@ const ResultsList: React.FC = () => {
                     </CardHeader>
                     <CardContent className="space-y-1">
                         <p className="leading-7 [&:not(:first-child)]:mt-6">{ato.ementa}</p>
-                    </CardContent>
+                        <span>
+                            <CardDescription className='mt-2'>{ato.descritores}</CardDescription>
+                        </span>
+                    </CardContent>                        
+                    
                     <CardFooter className="flex justify-start gap-2">
                         <Button
                             variant="outline"
