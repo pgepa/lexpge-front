@@ -29,6 +29,8 @@ import AtosNormativosAdmin from '@/pages/app/atos/AtosNormativosAdmin';
 import AtosNormativosEstagiario from '@/pages/app/atosEstagiario/AtosNormativosEstagiario';
 import AtosNormativosChefia from '@/pages/app/atosChefias/AtosNormativosChefia';
 import ResultsPageAdmin from '@/pages/ResultsPageAdmin';
+import ResultsPageEstagiario from '@/pages/ResultsPageEstagiario';
+import ResultsPageChefia from '@/pages/ResultsPageChefia';
 
 export const AdminRouter = createHashRouter([
   {
@@ -50,7 +52,7 @@ export const AdminRouter = createHashRouter([
     errorElement: <NotFound />,
     children: [
       { path: '/chefia', element:<PrivateRoute allowedProfiles={[2]}><SearchPageChefia /></PrivateRoute>  },
-      { path: '/chefia/results', element: <PrivateRoute allowedProfiles={[2]}><ResultsPage /></PrivateRoute> },
+      { path: '/chefia/results', element: <PrivateRoute allowedProfiles={[2]}><ResultsPageChefia /></PrivateRoute> },
       { path: '/chefia/sobre', element: <PrivateRoute allowedProfiles={[2]}><Sobre /></PrivateRoute>  },
       { path: '/chefia/atos', element: <PrivateRoute allowedProfiles={[2]}><AtosNormativosChefia /></PrivateRoute>  },
       { path: '/chefia/ficha/:id', element:<PrivateRoute allowedProfiles={[2]}><Ficha /></PrivateRoute>  },
@@ -63,7 +65,7 @@ export const AdminRouter = createHashRouter([
     errorElement: <NotFound />,
     children: [
       { path: '/estagiario', element: <PrivateRoute allowedProfiles={[3]}><SearchPageEstagiario /></PrivateRoute> },
-      { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[3]}><ResultsPage /></PrivateRoute> },
+      { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[3]}><ResultsPageEstagiario /></PrivateRoute> },
       { path: '/estagiario/sobre', element: <PrivateRoute allowedProfiles={[3]}><Sobre /></PrivateRoute> },
       { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosNormativosEstagiario /></PrivateRoute> },
       { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistroEstagiario /></PrivateRoute> },
