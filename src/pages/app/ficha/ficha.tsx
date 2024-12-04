@@ -50,7 +50,7 @@ export function Ficha() {
 
     return (
         <>
-            <Helmet title="Ficha" />
+            <Helmet title={`Ficha ${id ? `| ID ${id}` : ''}`} />
             <div className="space-y-6 p-4">
 
                 <div className="flex flex-col gap-4 items-center p-4 sm:p-6 md:p-8">

@@ -67,9 +67,7 @@ export function TextoIntegral() {
 
     return (
         <>
-            <Helmet>
-                <title>Ato Normativo</title>
-            </Helmet>
+            <Helmet title={`Ato Normativo ${id ? `| ID ${id}` : ''}`} />
             <div className="space-y-6 p-4">
 
                 <style>{`
