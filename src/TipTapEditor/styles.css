@@ -1,0 +1,29 @@
+table td, table th {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left; /* Default alignment */
+}
+
+.table-align-left td {
+  text-align: left;
+}
+
+.table-align-center td {
+  text-align: center;
+}
+
+.table-align-right td {
+  text-align: right;
+}
+
+.table-border-red td, .table-border-red th {
+  border-color: red;
+}
+
+.table-border-blue td, .table-border-blue th {
+  border-color: blue;
+}
+
+.table-border-green td, .table-border-green th {
+  border-color: green;
+}

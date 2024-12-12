@@ -7,7 +7,7 @@ import { SignUp } from "@/pages/auth/sign-up";
 import { NotFound } from "@/pages/404";
 import { Sobre } from "@/pages/sobre";
 import { Ficha } from "@/pages/app/ficha/ficha";
-import { NovoRegistro } from "@/pages/app/atos/atos-registro";
+import { NovoRegistro } from "@/TipTapEditor/NovoAto";
 import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato';
 import { EditarRegistro } from "@/pages/app/atos/atos-editar";
 import { ManagementUser } from '@/pages/app/gestao/gestao-user';
