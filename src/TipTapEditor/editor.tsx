@@ -1,4 +1,4 @@
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -8,10 +8,12 @@ import { cn } from '@/lib/utils';
 import { MenuBar } from './menu-bar';
 import Image from '@tiptap/extension-image';
 import ImageResize from "tiptap-extension-resize-image";
-import { Table } from "@tiptap/extension-table";
+import Table from "@tiptap/extension-table";
 import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
+import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
+import { Color } from '@tiptap/extension-color';
+import TextStyle from '@tiptap/extension-text-style';
 import './styles.css'
 
 
@@ -49,29 +51,48 @@ const CustomImage = Image.extend({
     },
   });
 
-  const TableWithAttributes = Table.extend({
+  
+
+  const TableWithClasses = Table.extend({
     addAttributes() {
       return {
         alignment: {
           default: null,
-          parseHTML: element => element.style.textAlign || null,
-          renderHTML: attributes => {
-            if (!attributes.alignment) return {};
-            return { style: `text-align: ${attributes.alignment}` };
+          parseHTML: (element) => {
+            if (element.classList.contains('table-align-left')) return 'left';
+            if (element.classList.contains('table-align-center')) return 'center';
+            if (element.classList.contains('table-align-right')) return 'right';
+            return null;
+          },
+          renderHTML: (attributes) => {
+            const alignmentClass: Record<string, string> = {
+              left: 'table-align-left',
+              center: 'table-align-center',
+              right: 'table-align-right',
+            };
+            return attributes.alignment ? { class: alignmentClass[attributes.alignment] } : {};
           },
         },
         borderColor: {
           default: null,
-          parseHTML: element => element.style.borderColor || null,
-          renderHTML: attributes => {
-            if (!attributes.borderColor) return {};
-            return { style: `border-color: ${attributes.borderColor}` };
+          parseHTML: (element) => {
+            if (element.classList.contains('table-border-red')) return 'red';
+            if (element.classList.contains('table-border-blue')) return 'blue';
+            if (element.classList.contains('table-border-green')) return 'green';
+            return null;
+          },
+          renderHTML: (attributes) => {
+            const borderColorClass: Record<string, string> = {
+              red: 'table-border-red',
+              blue: 'table-border-blue',
+              green: 'table-border-green',
+            };
+            return attributes.borderColor ? { class: borderColorClass[attributes.borderColor] } : {};
           },
         },
       };
     },
   });
-
 export const EditorTip = ({ value, onChange, className }: EditorProps) => {
     const editor = useEditor({
         extensions: [
@@ -87,13 +108,15 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
                     }
                 }
             }),
+            Color,
+            TextStyle,
             Underline,
             Document,
             ImageResize,
-              TableRow,
-              TableHeader,
-              TableCell,
-              TableWithAttributes.configure({ resizable: true }),
+            TableRow,
+            TableHeader,
+            TableCell,
+            TableWithClasses.configure({ resizable: true }),
               
             Highlight.configure({
                 HTMLAttributes: {
@@ -102,7 +125,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
               }),
 
             TextAlign.configure({
-                types: ["heading", "paragraph"]
+                types: ["heading", "paragraph", "table"]
             }),
             CustomImage,
             Image.configure({
@@ -118,9 +141,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
         onCreate: ({ editor }) => {
             onChange?.(editor.getHTML());
         }, 
-        onUpdate: ({ editor }) => {
-            onChange?.(editor.getHTML());
-        },
+        onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
         autofocus: false,
 
         editorProps: {
@@ -130,8 +151,6 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             }
         }
     });
-
-    
 
     
 

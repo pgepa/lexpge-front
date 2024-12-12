@@ -1,29 +1,51 @@
-table td, table th {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left; /* Default alignment */
-}
-
-.table-align-left td {
-  text-align: left;
-}
-
-.table-align-center td {
-  text-align: center;
-}
-
-.table-align-right td {
-  text-align: right;
-}
-
-.table-border-red td, .table-border-red th {
-  border-color: red;
-}
-
-.table-border-blue td, .table-border-blue th {
-  border-color: blue;
-}
-
-.table-border-green td, .table-border-green th {
-  border-color: green;
-}
+/* Estilo geral para tabelas */
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table td,
+  table th {
+    border: 1px solid #ccc; /* Cor padrão da borda */
+    padding: 8px;
+  }
+  
+  /* Alinhamento da tabela */
+.table-align-left {
+    text-align: left;
+  }
+  
+  .table-align-center {
+    text-align: center;
+  }
+  
+  .table-align-right {
+    text-align: right;
+  }
+  
+  /* Cores da borda da tabela */
+  .table-border-red {
+    border: 1px solid red;
+  }
+  
+  .table-border-blue {
+    border: 1px solid blue;
+  }
+  
+  .table-border-green {
+    border: 1px solid green;
+  }
+  
+  /* Definir seleções e aparência da tabela */
+  table {
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  th {
+    background-color: #f0f0f0;
+  }
