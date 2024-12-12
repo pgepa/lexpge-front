@@ -2,8 +2,8 @@ import { useEditor, EditorContent} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
-import Highlight from '@tiptap/extension-highlight'
-import Document from '@tiptap/extension-document'
+import Highlight from '@tiptap/extension-highlight';
+import Document from '@tiptap/extension-document';
 import { cn } from '@/lib/utils';
 import { MenuBar } from './menu-bar';
 import Image from '@tiptap/extension-image';
@@ -14,6 +14,8 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
+import Dropcursor from '@tiptap/extension-dropcursor';
+import FontFamily from '@tiptap/extension-font-family';
 import './styles.css'
 
 
@@ -109,6 +111,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
                 }
             }),
             Color,
+            FontFamily,
             TextStyle,
             Underline,
             Document,
@@ -117,6 +120,9 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             TableHeader,
             TableCell,
             TableWithClasses.configure({ resizable: true }),
+            Dropcursor.configure({
+                color: '#3546e4',
+              }),
               
             Highlight.configure({
                 HTMLAttributes: {

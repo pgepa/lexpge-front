@@ -166,7 +166,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().toggleHighlight().run(),
             active: editor.isActive("highlight"),
         },
-        
+
         {
             label: "Inserir Tabela",
             icon: Table,
@@ -239,7 +239,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().updateAttributes('table', { borderColor: 'blue' }).run(),
             active: editor.isActive('table', { borderColor: 'blue' }),
         },
-        
+
 
     ];
 
@@ -276,6 +276,30 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                 </TooltipTrigger>
                 <TooltipContent>Upload de Imagem</TooltipContent>
             </Tooltip>
+
+            <link
+                href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+                rel="stylesheet" />
+            <div className="control-group">
+                <div className="button-group flex items-center">
+                   
+                    <Button
+                        onClick={() => editor.chain().focus().setFontFamily('Calibri').run()}
+                        className={editor.isActive('textStyle', { fontFamily: 'Calibri' }) ? 'is-active' : ''}
+                        data-test-id="calibri"
+                        type="button"
+                        variant="ghost"
+                    >
+                        Calibri
+                    </Button>
+
+                    <Button type='button' variant="ghost" onClick={() => editor.chain().focus().unsetFontFamily().run()}
+                        data-test-id="unsetFontFamily">
+                        Reset font
+                    </Button>
+                </div>
+            </div>
+            
             {/* Input de Arquivo (escondido) */}
             <input
                 type="file"
@@ -296,7 +320,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                         value={editor.getAttributes("textStyle").color}
                         data-testid="setColor"
                     />
-                    
+
                     <Button
                         onClick={() => editor.chain().focus().setColor("#FF0000").run()}
                         className={editor.isActive("textStyle p-2 h-max", { color: "#FF0000" }) ? "is-active" : ""}
@@ -306,8 +330,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                     >
                         Red
                     </Button>
-                    
-                    
+
+
                     <Button
                         onClick={() => editor.chain().focus().setColor("#0563C1").run()}
                         className={editor.isActive("textStyle p-2 h-max", { color: "#0563C1" }) ? "is-active" : ""}
@@ -317,8 +341,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                     >
                         Blue
                     </Button>
-                    
-                    
+
+
                     <Button
                         onClick={() => editor.chain().focus().unsetColor().run()}
                         data-testid="unsetColor"
