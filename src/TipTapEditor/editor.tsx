@@ -55,6 +55,7 @@ const CustomImage = Image.extend({
       };
     },
   });
+  
 
   
 
@@ -84,7 +85,8 @@ const CustomImage = Image.extend({
             if (element.classList.contains('table-border-red')) return 'red';
             if (element.classList.contains('table-border-blue')) return 'blue';
             if (element.classList.contains('table-border-green')) return 'green';
-            return null;
+            // Se não houver borda, retorna null
+            return null; 
           },
           renderHTML: (attributes) => {
             const borderColorClass: Record<string, string> = {
@@ -92,12 +94,18 @@ const CustomImage = Image.extend({
               blue: 'table-border-blue',
               green: 'table-border-green',
             };
-            return attributes.borderColor ? { class: borderColorClass[attributes.borderColor] } : {};
+            // Se borderColor for null, não adiciona nenhuma classe
+            if (!attributes.borderColor) {
+              return {}; // Remove a classe de borda
+            }
+            return { class: borderColorClass[attributes.borderColor] };
           },
         },
       };
     },
   });
+  
+  
 export const EditorTip = ({ value, onChange, className }: EditorProps) => {
     const editor = useEditor({
         extensions: [

@@ -269,11 +269,12 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             active: editor.isActive('table', { borderColor: 'red' }),
         },
         {
-            label: "Remover Borda",
+            label: "Remover Borda da Tabela",
             icon: BsBorder,
-            action: () => editor.chain().focus().updateAttributes('table', { borderColor: 'blue' }).run(),
-            active: editor.isActive('table', { borderColor: 'blue' }),
-        },
+            action: () => editor.chain().focus().updateAttributes('table', { borderColor: null }).run(),
+            active: editor.isActive('table', { borderColor: null }),
+          }
+        
 
 
     ];

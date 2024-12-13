@@ -36,8 +36,7 @@ table {
     padding: 8px;
   }
   
-  /* Alinhamento da tabela */
-.table-align-left {
+  .table-align-left {
     text-align: left;
   }
   
@@ -49,17 +48,26 @@ table {
     text-align: right;
   }
   
-  /* Cores da borda da tabela */
   .table-border-red {
-    border: 1px solid red;
+    border-color: red;
   }
   
   .table-border-blue {
-    border: 1px solid blue;
+    border-color: blue;
   }
   
   .table-border-green {
-    border: 1px solid green;
+    border-color: green;
+  }
+  
+  /* Remover bordas */
+  [data-borderless] {
+    border-collapse: collapse;
+  }
+  
+  [data-borderless] td,
+  [data-borderless] th {
+    border: none;
   }
   
   /* Definir seleções e aparência da tabela */
@@ -75,3 +83,5 @@ table {
   th {
     background-color: #f0f0f0;
   }
+  
+  
