@@ -20,6 +20,7 @@ import {
     Highlighter,
     Table,
     Grid2x2X,
+    Link,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -165,6 +166,23 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             icon: Highlighter,
             action: () => editor.chain().focus().toggleHighlight().run(),
             active: editor.isActive("highlight"),
+        },
+        {
+            label: "Link",
+            icon: Link,
+            action: () => {
+                if (editor.isActive('link')) {
+                    // Se o link já estiver ativo, remove o link
+                    editor.chain().focus().unsetLink().run();
+                } else {
+                    // Se o link não estiver ativo, define um novo link
+                    const url = prompt('Insira a URL'); // Solicita ao usuário a URL
+                    if (url) {
+                        editor.chain().focus().setLink({ href: url }).run();
+                    }
+                }
+            },
+            active: editor.isActive("link"),
         },
 
         {

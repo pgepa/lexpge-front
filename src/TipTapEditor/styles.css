@@ -1,3 +1,29 @@
+.tiptap {
+    :first-child {
+      margin-top: 0;
+    }
+  
+    /* Code and preformatted text styles */
+    code {
+      background-color:  #E0B0FF;
+      border-radius: 0.4rem;
+      color: #000000;
+      font-size: 0.85rem;
+      padding: 0.25em 0.3em;
+    }
+  
+    /* Link styles */
+    a {
+      color: #0563C1;
+      cursor: pointer;
+      
+    &:hover {
+        color: #004B87;
+      }
+    }
+  }
+  
+
 /* Estilo geral para tabelas */
 table {
     border-collapse: collapse;
