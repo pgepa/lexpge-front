@@ -21,6 +21,8 @@ import {
     Table,
     Grid2x2X,
     Link,
+    AArrowUp,
+    AArrowDown,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -66,6 +68,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
         reader.onerror = (error) => console.error("Erro ao ler o arquivo:", error);
         reader.readAsDataURL(file);
     };
+    
 
 
 
@@ -95,12 +98,26 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().toggleUnderline().run(),
             active: editor.isActive("underline"),
         },
+        
+        {
+            label: "Aumentar Fonte 12pt",
+            icon: AArrowUp,
+            action: () => editor.chain().focus().setFontSize('16px').run(), // Ajuste para o tamanho desejado
+            active: false,
+        },
+        {
+            label: "Diminuir Fonte 10pt",
+            icon: AArrowDown,
+            action: () => editor.chain().focus().setFontSize('12px').run(), // Ajuste para o tamanho desejado
+            active: false,
+        },
         {
             label: "Lista",
             icon: List,
             action: () => editor.chain().focus().toggleBulletList().run(),
             active: editor.isActive("bulletList"),
         },
+        
         {
             label: "Lista ordenada",
             icon: ListOrdered,

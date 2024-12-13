@@ -17,6 +17,8 @@ import TextStyle from '@tiptap/extension-text-style';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import FontFamily from '@tiptap/extension-font-family';
 import Link from '@tiptap/extension-link';
+import { FontSize } from './FontSize';
+
 import './styles.css'
 
 
@@ -173,10 +175,11 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
               }),
             Color,
             FontFamily,
-            TextStyle,
+            TextStyle.configure({}),
             Underline,
             Document,
             ImageResize,
+            FontSize,
             TableRow,
             TableHeader,
             TableCell,
@@ -218,6 +221,8 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             }
         }
     });
+
+    
 
     
 
