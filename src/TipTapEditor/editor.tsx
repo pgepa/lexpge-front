@@ -16,6 +16,7 @@ import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import FontFamily from '@tiptap/extension-font-family';
+import Gapcursor from '@tiptap/extension-gapcursor'
 import Link from '@tiptap/extension-link';
 import { FontSize } from './FontSize';
 
@@ -186,6 +187,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             TextStyle.configure({}),
             Underline,
             Document,
+            Gapcursor,
             ImageResize,
             FontSize,
             TableRow,

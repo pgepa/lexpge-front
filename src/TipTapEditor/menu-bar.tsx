@@ -389,6 +389,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                     </Button>
                 </div>
             </div>
+
+            
         </div>
     );
 };
