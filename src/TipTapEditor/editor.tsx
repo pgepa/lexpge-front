@@ -83,6 +83,7 @@ const CustomImage = Image.extend({
         borderColor: {
           default: null,
           parseHTML: (element) => {
+            if (element.classList.contains('table-border-white')) return 'white';
             if (element.classList.contains('table-border-red')) return 'red';
             if (element.classList.contains('table-border-blue')) return 'blue';
             if (element.classList.contains('table-border-green')) return 'green';
@@ -91,6 +92,7 @@ const CustomImage = Image.extend({
           },
           renderHTML: (attributes) => {
             const borderColorClass: Record<string, string> = {
+            white: 'table-border-white',
               red: 'table-border-red',
               blue: 'table-border-blue',
               green: 'table-border-green',

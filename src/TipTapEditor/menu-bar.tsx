@@ -28,6 +28,7 @@ import {
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
 import { AiOutlineDeleteRow, AiOutlineInsertRowAbove, AiOutlineInsertRowBelow } from "react-icons/ai";
 import { BsBorder, BsBorderOuter } from "react-icons/bs";
+import { LuTableCellsMerge, LuTableCellsSplit } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import {
     Tooltip,
@@ -224,6 +225,18 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             label: "Adicionar Coluna",
             icon: TbColumnInsertRight,
             action: () => editor.chain().focus().addColumnAfter().run(),
+            active: false,
+        },
+        {
+            label: "Mesclar Células",
+            icon: LuTableCellsMerge,
+            action: () => editor.chain().focus().mergeCells().run(),
+            active: false,
+        },
+        {
+            label: "Dividir Células",
+            icon: LuTableCellsSplit,
+            action: () => editor.chain().focus().splitCell().run(),
             active: false,
         },
         {
