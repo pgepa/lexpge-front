@@ -206,8 +206,13 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
         {
             label: "Inserir Tabela",
             icon: Table,
-            action: () => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
-            active: editor.isActive("table"),
+            action: () => editor.chain().focus().insertTable({
+                rows: 3,
+                cols: 3,
+                withHeaderRow: true,
+            }).updateAttributes('table', {
+                class: 'table-bordered',
+            }).run()
         },
         {
             label: "Adicionar Linha Abaixo",
@@ -260,13 +265,23 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
         {
             label: "Alinhar Tabela à Esquerda",
             icon: AlignLeft,
-            action: () => editor.chain().focus().updateAttributes('table', { alignment: 'left' }).run(),
+            action: () => {
+                editor.chain().focus().updateAttributes('table', {
+                    alignment: 'left',
+                    class: 'table-align-left',
+                }).run();
+            },
             active: editor.isActive('table', { alignment: 'left' }),
         },
         {
             label: "Centralizar Tabela",
             icon: AlignCenter,
-            action: () => editor.chain().focus().updateAttributes('table', { alignment: 'center' }).run(),
+            action: () => {
+                editor.chain().focus().updateAttributes('table', {
+                    alignment: 'center',
+                    class: 'table-align-center',
+                }).run();
+            },
             active: editor.isActive('table', { alignment: 'center' }),
         },
         {
@@ -276,17 +291,46 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             active: editor.isActive('table', { alignment: 'right' }),
         },
         {
-            label: "Borda Vermelha",
+            label: "Adicionar Borda à Tabela",
             icon: BsBorderOuter,
-            action: () => editor.chain().focus().updateAttributes('table', { borderColor: 'red' }).run(),
-            active: editor.isActive('table', { borderColor: 'red' }),
+            action: () => {
+                const currentAttributes = editor.getAttributes('table');
+                editor.chain().focus().updateAttributes('table', {
+                    ...currentAttributes,
+                    class: `${currentAttributes.class || ''} table-bordered`.trim(),
+                }).run();
+            },
+            active: editor.isActive('table', { class: 'table-bordered' }),
         },
         {
             label: "Remover Borda da Tabela",
             icon: BsBorder,
-            action: () => editor.chain().focus().updateAttributes('table', { borderColor: null }).run(),
-            active: editor.isActive('table', { borderColor: null }),
-          }
+            action: () => {
+                const currentAttributes = editor.getAttributes('table');
+                editor.chain().focus().updateAttributes('table', {
+                    ...currentAttributes,
+                    border: 'none',
+                    class: 'table-no-border'
+                }).run();
+            },
+            active: editor.isActive('table', { class: 'table-no-border' }),
+        },
+
+        {
+            label: "Alternar Borda da Tabela",
+            icon: BsBorder,
+            action: () => {
+                const currentAttributes = editor.getAttributes('table');
+                const hasBorder = currentAttributes.class?.includes('table-bordered');
+                
+                editor.chain().focus().updateAttributes('table', {
+                    ...currentAttributes,
+                    border: hasBorder ? 'none' : 'bordered',
+                    class: hasBorder ? 'table-no-border' : 'table-bordered'
+                }).run();
+            },
+            active: editor.isActive('table', { class: 'table-bordered' }),
+        },
         
 
 

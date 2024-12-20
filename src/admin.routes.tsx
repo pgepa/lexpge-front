@@ -9,7 +9,7 @@ import { Sobre } from "@/pages/sobre";
 import { Ficha } from "@/pages/app/ficha/ficha";
 import { NovoRegistro } from "@/TipTapEditor/NovoAto";
 import { TextoIntegral } from '@/pages/app/conteudo/conteudo-ato';
-import { EditarRegistro } from "@/pages/app/atos/atos-editar";
+import { EditarRegistro } from "@/TipTapEditor/EditarAto";
 import { ManagementUser } from '@/pages/app/gestao/gestao-user';
 import { AppLayoutPublic } from '@/pages/_layouts/app-public';
 import { AppLayoutEstagiario } from '@/pages/_layouts/app-estagiario';

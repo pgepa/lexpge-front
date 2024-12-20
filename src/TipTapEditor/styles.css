@@ -2,6 +2,22 @@
     :first-child {
       margin-top: 0;
     }
+
+    .table-no-border {
+        border: none !important;
+    }
+    
+    .table-no-border td,
+    .table-no-border th {
+        border: none !important;
+    }
+    
+    /* Adicione esta regra específica */
+    .tiptap table.table-no-border,
+    .tiptap table.table-no-border td,
+    .tiptap table.table-no-border th {
+        border: none !important;
+    }
   
     /* Table-specific styling */
     table {
@@ -12,7 +28,7 @@
       width: 100%;
   
       td,th {
-        border: 1px solid #ccc;
+        border: 1px solid #000;
         box-sizing: border-box;
         min-width: 1em;
         padding: 6px 8px;
@@ -22,12 +38,6 @@
         > * {
           margin-bottom: 0;
         }
-      }
-  
-      th {
-        background-color: #5C90F5;
-        font-weight: bold;
-        text-align: left;
       }
   
       .selectedCell:after {
@@ -67,5 +77,43 @@
           color: #004B87;
         }
       }
-      
+      .table-bordered {
+        border: 1px solid black !important;
+        border-collapse: collapse;
+    }
+
+    
+    [data-borderless] td,
+    [data-borderless] th {
+    border: none !important;
+}
+
+.table-align-justify {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: justify;
   }
+  .table-align-left {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.table-align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table-align-right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+
+      
+}

@@ -62,51 +62,44 @@ const CustomImage = Image.extend({
 
   const TableWithClasses = Table.extend({
     addAttributes() {
-      return {
-        alignment: {
-          default: null,
-          parseHTML: (element) => {
-            if (element.classList.contains('table-align-left')) return 'left';
-            if (element.classList.contains('table-align-center')) return 'center';
-            if (element.classList.contains('table-align-right')) return 'right';
-            return null;
-          },
-          renderHTML: (attributes) => {
-            const alignmentClass: Record<string, string> = {
-              left: 'table-align-left',
-              center: 'table-align-center',
-              right: 'table-align-right',
-            };
-            return attributes.alignment ? { class: alignmentClass[attributes.alignment] } : {};
-          },
-        },
-        borderColor: {
-          default: null,
-          parseHTML: (element) => {
-            if (element.classList.contains('table-border-white')) return 'white';
-            if (element.classList.contains('table-border-red')) return 'red';
-            if (element.classList.contains('table-border-blue')) return 'blue';
-            if (element.classList.contains('table-border-green')) return 'green';
-            // Se não houver borda, retorna null
-            return null; 
-          },
-          renderHTML: (attributes) => {
-            const borderColorClass: Record<string, string> = {
-            white: 'table-border-white',
-              red: 'table-border-red',
-              blue: 'table-border-blue',
-              green: 'table-border-green',
-            };
-            // Se borderColor for null, não adiciona nenhuma classe
-            if (!attributes.borderColor) {
-              return {}; // Remove a classe de borda
-            }
-            return { class: borderColorClass[attributes.borderColor] };
-          },
-        },
-      };
+        return {
+            alignment: {
+                default: null,
+                parseHTML: (element) => {
+                    const classList = element.classList;
+                    if (classList.contains('table-align-left')) return 'left';
+                    if (classList.contains('table-align-center')) return 'center';
+                    if (classList.contains('table-align-right')) return 'right';
+                    return null;
+                },
+                renderHTML: (attributes) => {
+                    const alignmentClass: Record<string, string> = {
+                        left: 'table-align-left',
+                        center: 'table-align-center',
+                        right: 'table-align-right',
+                    };
+                    return {
+                        class: alignmentClass[attributes.alignment] || '',
+                    };
+                },
+            },
+            border: {
+                default: 'bordered',
+                parseHTML: (element) => {
+                    if (element.classList.contains('table-no-border')) return 'none';
+                    return 'bordered';
+                },
+                renderHTML: (attributes) => {
+                    return {
+                        class: attributes.border === 'none' ? 'table-no-border' : 'table-bordered',
+                    };
+                },
+            },
+        };
     },
-  });
+});
+
+
   
   
 export const EditorTip = ({ value, onChange, className }: EditorProps) => {
