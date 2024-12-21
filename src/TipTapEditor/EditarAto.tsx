@@ -84,20 +84,21 @@ export function EditarRegistro() {
         const processedContent = ato.conteudo.replace(
             /src="((https?:\/\/[^\s"]+)|data:image\/[a-zA-Z]+;base64,[^\s"]+|\/images\/[^\s"]+)"/g,
             (_, src) => {
-                // Processa URLs absolutas e base64 diretamente
+                // URLs absolutas e base64 permanecem como estão
                 if (src.startsWith("http") || src.startsWith("data:image")) {
                     return `src="${src}"`;
                 }
-                // Processa caminhos relativos para URLs completas
+                // Caminhos relativos são corrigidos para usar a URL pública
                 if (src.startsWith("/images")) {
-                    return `src="${import.meta.env.VITE_API_URL}${src}"`;
+                    return `src="http://10.96.20.14${src}"`;
                 }
-                return `src="${src}"`; // Caso nenhuma das condições acima seja atendida
+                return `src="${src}"`;
             }
         );
         setValue("conteudo", processedContent); // Define o valor do campo 'conteudo'
     }
 }, [ato, setValue]);
+
 
 
 
