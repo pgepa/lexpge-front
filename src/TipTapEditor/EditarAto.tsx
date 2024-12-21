@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
 import { toast } from 'sonner';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useEffect } from 'react';
 
 const editRegistroForm = z.object({
     id: z.number(),
@@ -36,7 +37,7 @@ export function EditarRegistro() {
   const navigate = useNavigate();
   const ato = location.state?.ato as EditRegistroForm;
 
-  const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<EditRegistroForm>({
+  const { register, handleSubmit, control, formState: { isSubmitting }, setValue } = useForm<EditRegistroForm>({
     
     defaultValues: {    
         ...ato,
@@ -77,6 +78,29 @@ export function EditarRegistro() {
       toast.error('Erro ao atualizar, favor tentar novamente.');
     }
   }
+
+  useEffect(() => {
+    if (ato?.conteudo) {
+        const processedContent = ato.conteudo.replace(
+            /src="((https?:\/\/[^\s"]+)|data:image\/[a-zA-Z]+;base64,[^\s"]+|\/images\/[^\s"]+)"/g,
+            (_, src) => {
+                // Processa URLs absolutas e base64 diretamente
+                if (src.startsWith("http") || src.startsWith("data:image")) {
+                    return `src="${src}"`;
+                }
+                // Processa caminhos relativos para URLs completas
+                if (src.startsWith("/images")) {
+                    return `src="${import.meta.env.VITE_API_URL}${src}"`;
+                }
+                return `src="${src}"`; // Caso nenhuma das condições acima seja atendida
+            }
+        );
+        setValue("conteudo", processedContent); // Define o valor do campo 'conteudo'
+    }
+}, [ato, setValue]);
+
+
+
 
   return (
     <div className="flex flex-col gap-4">

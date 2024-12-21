@@ -31,31 +31,43 @@ type EditorProps = {
 
 const CustomImage = Image.extend({
     addAttributes() {
-      return {
-        ...this.parent?.(),
-        align: {
-          default: null,
-          parseHTML: (element) => element.style.float || null,
-          renderHTML: (attributes) => {
-            if (!attributes.align) return {};
-            return {
-              style: `float: ${attributes.align};`,
-            };
-          },
-        },
-        width: {
-          default: "auto",
-          parseHTML: (element) => element.style.width || "auto",
-          renderHTML: (attributes) => {
-            if (!attributes.width) return {};
-            return {
-              style: `width: ${attributes.width};`,
-            };
-          },
-        },
-      };
+        return {
+            ...this.parent?.(),
+            src: {
+                default: null,
+                parseHTML: (element) => element.getAttribute('src'),
+                renderHTML: (attributes) => {
+                    return { src: attributes.src };
+                },
+            },
+            align: {
+                default: null,
+                parseHTML: (element) => element.style.float || null,
+                renderHTML: (attributes) => {
+                    if (!attributes.align) return {};
+                    return { style: `float: ${attributes.align};` };
+                },
+            },
+            width: {
+                default: "auto",
+                parseHTML: (element) => element.style.width || "auto",
+                renderHTML: (attributes) => {
+                    if (!attributes.width) return {};
+                    return { style: `width: ${attributes.width};` };
+                },
+            },
+        };
     },
-  });
+    renderHTML({ HTMLAttributes }) {
+        if (HTMLAttributes.src?.startsWith('data:image')) {
+            // Logic to handle base64 image
+            return ['img', HTMLAttributes];
+        } else {
+            // Assume it's a URL
+            return ['img', HTMLAttributes];
+        }
+    },
+});
   
 
   
