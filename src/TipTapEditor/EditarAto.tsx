@@ -90,7 +90,7 @@ export function EditarRegistro() {
                 }
                 // Caminhos relativos são corrigidos para usar a URL pública
                 if (src.startsWith("/images")) {
-                    return `src="http://10.96.20.14${src}"`;
+                    return `src="${import.meta.env.VITE_PUBLIC_URL}${src}"`;
                 }
                 return `src="${src}"`;
             }
