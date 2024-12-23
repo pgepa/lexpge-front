@@ -3,7 +3,6 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
-import Document from '@tiptap/extension-document';
 import { cn } from '@/lib/utils';
 import { MenuBar } from './menu-bar';
 import Image from '@tiptap/extension-image';
@@ -14,9 +13,9 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
-import Dropcursor from '@tiptap/extension-dropcursor';
+
 import FontFamily from '@tiptap/extension-font-family';
-import Gapcursor from '@tiptap/extension-gapcursor'
+
 import Link from '@tiptap/extension-link';
 import { FontSize } from './FontSize';
 
@@ -28,48 +27,6 @@ type EditorProps = {
     onChange?: (value: string) => void;
     className?: string;
 };
-
-const CustomImage = Image.extend({
-    addAttributes() {
-        return {
-            ...this.parent?.(),
-            src: {
-                default: null,
-                parseHTML: (element) => element.getAttribute('src'),
-                renderHTML: (attributes) => {
-                    return { src: attributes.src };
-                },
-            },
-            align: {
-                default: null,
-                parseHTML: (element) => element.style.float || null,
-                renderHTML: (attributes) => {
-                    if (!attributes.align) return {};
-                    return { style: `float: ${attributes.align};` };
-                },
-            },
-            width: {
-                default: "auto",
-                parseHTML: (element) => element.style.width || "auto",
-                renderHTML: (attributes) => {
-                    if (!attributes.width) return {};
-                    return { style: `width: ${attributes.width};` };
-                },
-            },
-        };
-    },
-    renderHTML({ HTMLAttributes }) {
-        if (HTMLAttributes.src?.startsWith('data:image')) {
-            // Logic to handle base64 image
-            return ['img', HTMLAttributes];
-        } else {
-            // Assume it's a URL
-            return ['img', HTMLAttributes];
-        }
-    },
-});
-  
-
   
 
   const TableWithClasses = Table.extend({
@@ -192,18 +149,14 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             Color,
             FontFamily,
             TextStyle.configure({}),
-            Underline,
-            Document,
-            Gapcursor,
+            Underline,          
             ImageResize,
             FontSize,
             TableRow,
             TableHeader,
             TableCell,
             TableWithClasses.configure({ resizable: true }),
-            Dropcursor.configure({
-                color: '#3546e4',
-              }),
+            
               
             Highlight.configure({
                 HTMLAttributes: {
@@ -214,21 +167,25 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             TextAlign.configure({
                 types: ["heading", "paragraph", "table"]
             }),
-            CustomImage,
             Image.configure({
-                inline: false,
                 allowBase64: true,
-                HTMLAttributes: {
-                    class: 'my-custom-class',
-                  },
               }),
+              
+            
+            
               
         ],
         content: value,
         onCreate: ({ editor }) => {
             onChange?.(editor.getHTML());
+            
         }, 
-        onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
+        onUpdate: ({ editor }) => {
+            onChange?.(editor.getHTML());
+            
+
+        },
+        
         autofocus: false,
 
         editorProps: {
@@ -243,6 +200,8 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
 
     
 
+    
+
     return (
         <div className={cn(
             "bg-background border border-slate-300 rounded-2xl w-full flex flex-col",
@@ -252,7 +211,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             
             <div className='h-full [&>div]:h-full flex flex-col overflow-y-auto tiptap'>
         
-                <EditorContent editor={editor} />            
+                <EditorContent editor={editor} />          
 
             </div>
         </div>

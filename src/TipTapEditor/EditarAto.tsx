@@ -13,6 +13,7 @@ import { Save, SquareX } from 'lucide-react';
 import { toast } from 'sonner';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useEffect } from 'react';
+import './styles.css'
 
 const editRegistroForm = z.object({
     id: z.number(),
@@ -80,24 +81,23 @@ export function EditarRegistro() {
   }
 
   useEffect(() => {
+    
     if (ato?.conteudo) {
-        const processedContent = ato.conteudo.replace(
-            /src="((https?:\/\/[^\s"]+)|data:image\/[a-zA-Z]+;base64,[^\s"]+|\/images\/[^\s"]+)"/g,
-            (_, src) => {
-                // URLs absolutas e base64 permanecem como estão
-                if (src.startsWith("http") || src.startsWith("data:image")) {
-                    return `src="${src}"`;
-                }
-                // Caminhos relativos são corrigidos para usar a URL pública
-                if (src.startsWith("/images")) {
-                    return `src="${import.meta.env.VITE_PUBLIC_URL}${src}"`;
-                }
-                return `src="${src}"`;
-            }
-        );
-        setValue("conteudo", processedContent); // Define o valor do campo 'conteudo'
+      const processedContent = ato.conteudo.replace(
+        /src="(https?:\/\/[^\s"]+|data:image\/[a-zA-Z]+;base64,[^\s"]+|\/images\/[^\s"]+)"/g,
+        (_, src) => {
+          if (src.startsWith("http") || src.startsWith("data:image")) {
+            return `src="${src}"`; // Mantém URLs externas e base64 inalteradas
+          }
+          if (src.startsWith("/images")) {
+            return `src="${import.meta.env.VITE_PUBLIC_URL}${src}"`; // Corrige caminhos relativos
+          }
+          return `src="${src}"`;
+        }
+      );
+      setValue("conteudo", processedContent); // Define o conteúdo processado
     }
-}, [ato, setValue]);
+  }, [ato, setValue]);
 
 
 
