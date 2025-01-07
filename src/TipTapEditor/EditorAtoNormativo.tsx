@@ -15,7 +15,6 @@ import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 
 import FontFamily from '@tiptap/extension-font-family';
-import logo from '@/assets/logo.svg';
 
 import Link from '@tiptap/extension-link';
 import { FontSize } from './FontSize';
@@ -176,14 +175,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             
               
         ],
-        content: value || `    
-        <p style="text-align: right; font-family: Calibri, sans-serif;">Ver no Diário Oficial</p>    
-        <div style="text-align: center;">
-        <img src="${logo}" alt="Logo" style="display: block; margin: 0 auto; width: 100px; height: 134px;" />
-        <h5 style="font-family: Calibri, sans-serif; text-align: center">GOVERNO DO ESTADO DO PARÁ</h5>
-        </div>
-    
-  `,
+        content: value,
         onCreate: ({ editor }) => {
             onChange?.(editor.getHTML());
             
@@ -202,7 +194,11 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
 
             }
         }
-    });     
+    });
+
+    
+
+    
 
     
 

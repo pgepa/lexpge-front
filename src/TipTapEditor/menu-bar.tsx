@@ -207,8 +207,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             label: "Inserir Tabela",
             icon: Table,
             action: () => editor.chain().focus().insertTable({
-                rows: 3,
-                cols: 3,
+                rows: 2,
+                cols: 2,
                 withHeaderRow: true,
             }).updateAttributes('table', {
                 class: 'table-bordered',
@@ -315,23 +315,6 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             },
             active: editor.isActive('table', { class: 'table-no-border' }),
         },
-
-        {
-            label: "Alternar Borda da Tabela",
-            icon: BsBorder,
-            action: () => {
-                const currentAttributes = editor.getAttributes('table');
-                const hasBorder = currentAttributes.class?.includes('table-bordered');
-                
-                editor.chain().focus().updateAttributes('table', {
-                    ...currentAttributes,
-                    border: hasBorder ? 'none' : 'bordered',
-                    class: hasBorder ? 'table-no-border' : 'table-bordered'
-                }).run();
-            },
-            active: editor.isActive('table', { class: 'table-bordered' }),
-        },
-        
 
 
     ];

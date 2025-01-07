@@ -246,7 +246,7 @@ export function EditarRegistro() {
             name="conteudo"
             control={control}
             render={({ field }) => (
-              <EditorTip value={field.value} onChange={field.onChange} />
+                <EditorTip value={field.value} onChange={field.onChange} className='h-[600px] mt-4'/>
             )}
           />
         </div>
