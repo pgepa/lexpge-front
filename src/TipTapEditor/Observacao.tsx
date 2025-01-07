@@ -4,7 +4,6 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
 import { cn } from '@/lib/utils';
-import { MenuBar } from './menu-bar';
 import Image from '@tiptap/extension-image';
 import ImageResize from "tiptap-extension-resize-image";
 import Table from "@tiptap/extension-table";
@@ -20,6 +19,7 @@ import Link from '@tiptap/extension-link';
 import { FontSize } from './FontSize';
 
 import './styles.css'
+import { MenuBarObservacao } from './menuObservacao';
 
 
 type EditorProps = {
@@ -71,7 +71,7 @@ type EditorProps = {
 
   
   
-export const EditorTip = ({ value, onChange, className }: EditorProps) => {
+export const EditorTipObservacao = ({ value, onChange, className }: EditorProps) => {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -207,7 +207,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             "bg-background border border-slate-300 rounded-2xl w-full flex flex-col",
             className
         )}>
-            <MenuBar editor={editor}/>
+            <MenuBarObservacao editor={editor}/>
             
             <div className='h-full [&>div]:h-full flex flex-col overflow-y-auto tiptap'>
         

@@ -7,13 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DatePicker } from "@/pages/app/Date/date";
 import { EditorTip } from '@/TipTapEditor/editor';
-import EditorObservacao from "@/pages/app/editor/editor-observacao";
 import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
 import { toast } from 'sonner';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useEffect } from 'react';
 import './styles.css'
+import { EditorTipObservacao } from '@/TipTapEditor/Observacao';
 
 const editRegistroForm = z.object({
     id: z.number(),
@@ -236,7 +236,7 @@ export function EditarRegistro() {
             name="observacao"
             control={control}
             render={({ field }) => (
-              <EditorObservacao value={field.value} onChange={field.onChange} />
+                <EditorTipObservacao value={field.value} onChange={field.onChange} className='h-[250px] mt-4'/>
             )}
           />
         </div>

@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
 import { z } from "zod";
 import { toast } from 'sonner';
-import EditorObservacao from "@/pages/app/editor/editor-observacao";
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EditorTip } from '@/TipTapEditor/editor';
+import { EditorTipObservacao } from '@/TipTapEditor/Observacao';
 
 
 const novoRegistroForm = z.object({
@@ -230,7 +230,7 @@ export function NovoRegistro() {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <EditorObservacao value={field.value} onChange={field.onChange} />
+                                    <EditorTipObservacao value={field.value} onChange={field.onChange} className='h-[250px] mt-4'/>
                                 )}
                             />
                         </div>

@@ -262,34 +262,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().deleteTable().run(),
             active: false,
         },
-        {
-            label: "Alinhar Tabela à Esquerda",
-            icon: AlignLeft,
-            action: () => {
-                editor.chain().focus().updateAttributes('table', {
-                    alignment: 'left',
-                    class: 'table-align-left',
-                }).run();
-            },
-            active: editor.isActive('table', { alignment: 'left' }),
-        },
-        {
-            label: "Centralizar Tabela",
-            icon: AlignCenter,
-            action: () => {
-                editor.chain().focus().updateAttributes('table', {
-                    alignment: 'center',
-                    class: 'table-align-center',
-                }).run();
-            },
-            active: editor.isActive('table', { alignment: 'center' }),
-        },
-        {
-            label: "Alinhar Tabela à Direita",
-            icon: AlignRight,
-            action: () => editor.chain().focus().updateAttributes('table', { alignment: 'right' }).run(),
-            active: editor.isActive('table', { alignment: 'right' }),
-        },
+        
         {
             label: "Adicionar Borda à Tabela",
             icon: BsBorderOuter,
