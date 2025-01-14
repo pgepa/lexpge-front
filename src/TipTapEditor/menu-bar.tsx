@@ -19,6 +19,8 @@ import {
     Link,
     AArrowUp,
     AArrowDown,
+    Undo2Icon,
+    Redo2Icon,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -107,6 +109,20 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             icon: AArrowDown,
             action: () => editor.chain().focus().setFontSize('12px').run(), // Ajuste para o tamanho desejado
             active: false,
+        },
+        {
+            label: "Desfazer",
+            icon: Undo2Icon,
+            action: () => editor.chain().focus().undo().run(), // Ajuste para o tamanho desejado
+            active: false,
+            disabled: !editor.can().undo(),
+        },
+        {
+            label: "Refazer",
+            icon: Redo2Icon,
+            action: () => editor.chain().focus().redo().run(), // Ajuste para o tamanho desejado
+            active: false,
+            disabled: !editor.can().redo(),
         },
         {
             label: "Lista",

@@ -85,7 +85,13 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
                     HTMLAttributes:{
                         class: 'list-decimal pl-4'
                     }
+                },
+
+                history: {
+                    depth: 100,
+                    newGroupDelay: 500,
                 }
+
             }),
             Link.configure({
                 openOnClick: false,
