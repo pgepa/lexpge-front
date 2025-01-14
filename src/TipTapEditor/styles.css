@@ -72,6 +72,7 @@
     a {
         color: #0563C1;
         cursor: pointer;
+        text-decoration: underline;
     
         &:hover {
           color: #004B87;
@@ -128,6 +129,17 @@
   .align-right {
     float: right;
     margin-left: 10px; /* ajuste conforme necessário */
+  }
+
+  ul, 
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+    
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
   }
   
 

@@ -12,10 +12,6 @@ import {
     AlignCenter,
     AlignRight,
     Image as ImageIcon,
-    Heading1,
-    Heading2,
-    Heading3,
-    Heading4,
     Heading5,
     Highlighter,
     Table,
@@ -149,30 +145,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().setTextAlign("justify").run(),
             active: editor.isActive({ textAlign: "justify" }),
         },
-        {
-            label: "Cabeçalho 1",
-            icon: Heading1,
-            action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-            active: editor.isActive("heading", { level: 1 }),
-        },
-        {
-            label: "Cabeçalho 2",
-            icon: Heading2,
-            action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-            active: editor.isActive("heading", { level: 2 }),
-        },
-        {
-            label: "Cabeçalho 3",
-            icon: Heading3,
-            action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-            active: editor.isActive("heading", { level: 3 }),
-        },
-        {
-            label: "Cabeçalho 4",
-            icon: Heading4,
-            action: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
-            active: editor.isActive("heading", { level: 4 }),
-        },
+        
         {
             label: "Cabeçalho 5",
             icon: Heading5,
