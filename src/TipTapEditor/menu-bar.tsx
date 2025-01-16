@@ -34,6 +34,7 @@ import {
     TooltipContent,
 } from "@/components/ui/tooltip";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type MenuBarProps = {
     editor: Editor | null;
@@ -88,6 +89,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
         reader.readAsDataURL(file);
     };
 
+
     const FONT_SIZES = [
         { label: "8pt", value: "10.66px" },
         { label: "9pt", value: "12px" },
@@ -96,6 +98,11 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
         { label: "12pt", value: "16px" },
         { label: "14pt", value: "18.67px" },
     ];
+
+
+    const handleChange = (value: string) => {
+        editor.chain().focus().setFontSize(value).run();
+    };
 
 
 
@@ -192,7 +199,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             active: editor.isActive({ textAlign: "justify" }),
         },
 
-        
+
         {
             label: "Marcador",
             icon: Highlighter,
@@ -347,24 +354,22 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                 </div>
             </div>
 
+
+
             {/* Dropdown de tamanhos de fonte */}
-            <div className="relative gap-3 border rounded-xl">
-                <DropdownMenu>
-                    <DropdownMenuTrigger className="p-2 border rounded-xl flex items-center gap-2">
-                        Tamanho da Fonte
-                        <ArrowDownToLine size={16}/>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+            <div className="relative gap-3 rounded-xl flex items-center">
+                <Select onValueChange={handleChange}>
+                    <SelectTrigger className="border p-2 rounded-xl flex items-center gap-2">
+                        <SelectValue placeholder="Tamanho da Fonte" />
+                    </SelectTrigger>
+                    <SelectContent>
                         {FONT_SIZES.map((size) => (
-                            <DropdownMenuItem
-                                key={size.value}
-                                onClick={() => editor.chain().focus().setFontSize(size.value).run()}
-                            >
+                            <SelectItem key={size.value} value={size.value}>
                                 {size.label}
-                            </DropdownMenuItem>
+                            </SelectItem>
                         ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    </SelectContent>
+                </Select>
             </div>
 
             {editor.isActive("link") ? (
