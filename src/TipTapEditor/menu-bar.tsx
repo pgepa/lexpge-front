@@ -342,7 +342,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
 
                     <Button type='button' variant="ghost" onClick={() => editor.chain().focus().unsetFontFamily().run()}
                         data-test-id="unsetFontFamily">
-                        Limpar Fonte
+                        Remover Fonte
                     </Button>
                 </div>
             </div>
@@ -476,7 +476,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                         type='button'
                         variant="ghost"
                     >
-                        Limpar Cor
+                        Remover Cor
                     </Button>
                 </div>
             </div>
