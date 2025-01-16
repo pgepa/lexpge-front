@@ -1,5 +1,5 @@
 import { Editor } from "@tiptap/core";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
     Italic,
     Bold,
@@ -43,6 +43,25 @@ type MenuBarProps = {
 
 export const MenuBar = ({ editor }: MenuBarProps) => {
     if (!editor) return null;
+
+    const [linkUrl, setLinkUrl] = useState<string>("");
+    const [isEditingLink, setIsEditingLink] = useState(false);
+
+    const handleEditLink = () => {
+        const currentLink = editor.getAttributes("link").href || "";
+        setLinkUrl(currentLink);
+        setIsEditingLink(true);
+    };
+
+    const applyLink = () => {
+        if (linkUrl) {
+            editor.chain().focus().setLink({ href: linkUrl }).run();
+        } else {
+            editor.chain().focus().unsetLink().run();
+        }
+        setIsEditingLink(false);
+    };
+
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -179,23 +198,6 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             icon: Highlighter,
             action: () => editor.chain().focus().toggleHighlight().run(),
             active: editor.isActive("highlight"),
-        },
-        {
-            label: "Link",
-            icon: Link,
-            action: () => {
-                if (editor.isActive('link')) {
-                    // Se o link já estiver ativo, remove o link
-                    editor.chain().focus().unsetLink().run();
-                } else {
-                    // Se o link não estiver ativo, define um novo link
-                    const url = prompt('Insira a URL'); // Solicita ao usuário a URL
-                    if (url) {
-                        editor.chain().focus().setLink({ href: url }).run();
-                    }
-                }
-            },
-            active: editor.isActive("link"),
         },
 
         {
@@ -364,6 +366,65 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+
+            {editor.isActive("link") ? (
+                <div className="flex items-center gap-2">
+                    {isEditingLink ? (
+                        <>
+                            <input
+                                type="text"
+                                className="border p-1 rounded"
+                                value={linkUrl}
+                                onChange={(e) => setLinkUrl(e.target.value)}
+                                placeholder="Editar URL"
+                            />
+                            <Button
+                                variant="ghost"
+                                onClick={applyLink}
+                                type="button"
+                            >
+                                Aplicar
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                variant="ghost"
+                                onClick={handleEditLink}
+                                type="button"
+                            >
+                                Editar Link
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                onClick={() => editor.chain().focus().unsetLink().run()}
+                                type="button"
+                            >
+                                Remover Link
+                            </Button>
+                        </>
+                    )}
+                </div>
+            ) : (
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button
+                            onClick={() => {
+                                const url = prompt("Insira o URL");
+                                if (url) {
+                                    editor.chain().focus().setLink({ href: url }).run();
+                                }
+                            }}
+                            variant="ghost"
+                            className="p-2 h-max"
+                            type="button"
+                        >
+                            <Link className="w-4 h-4" />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Adicionar Link</TooltipContent>
+                </Tooltip>
+            )}
 
 
             {/* Input de Arquivo (escondido) */}
