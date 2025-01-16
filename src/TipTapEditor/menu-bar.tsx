@@ -17,11 +17,10 @@ import {
     Table,
     Grid2x2X,
     Link,
-    AArrowUp,
-    AArrowDown,
     Undo2Icon,
     Redo2Icon,
     RemoveFormattingIcon,
+    ArrowDownToLine,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -34,6 +33,7 @@ import {
     TooltipTrigger,
     TooltipContent,
 } from "@/components/ui/tooltip";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 type MenuBarProps = {
     editor: Editor | null;
@@ -68,7 +68,15 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
         reader.onerror = (error) => console.error("Erro ao ler o arquivo:", error);
         reader.readAsDataURL(file);
     };
-    
+
+    const FONT_SIZES = [
+        { label: "8pt", value: "10.66px" },
+        { label: "9pt", value: "12px" },
+        { label: "10pt", value: "13.33px" },
+        { label: "11pt", value: "14.66px" },
+        { label: "12pt", value: "16px" },
+        { label: "14pt", value: "18.67px" },
+    ];
 
 
 
@@ -104,19 +112,13 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().unsetAllMarks().run(),
             active: editor.isActive("orderedList"),
         },
-        
         {
-            label: "Aumentar Fonte 12pt",
-            icon: AArrowUp,
-            action: () => editor.chain().focus().setFontSize('16px').run(), // Ajuste para o tamanho desejado
-            active: false,
+            label: "Cabeçalho 5",
+            icon: Heading5,
+            action: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
+            active: editor.isActive("heading", { level: 5 }),
         },
-        {
-            label: "Diminuir Fonte 10pt",
-            icon: AArrowDown,
-            action: () => editor.chain().focus().setFontSize('12px').run(), // Ajuste para o tamanho desejado
-            active: false,
-        },
+
         {
             label: "Desfazer",
             icon: Undo2Icon,
@@ -137,7 +139,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().toggleBulletList().run(),
             active: editor.isActive("bulletList"),
         },
-        
+
         {
             label: "Lista ordenada",
             icon: ListOrdered,
@@ -145,7 +147,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             active: editor.isActive("orderedList"),
         },
 
-        
+
         {
             label: "Alinhar Esquerda",
             icon: AlignLeft,
@@ -170,13 +172,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().setTextAlign("justify").run(),
             active: editor.isActive({ textAlign: "justify" }),
         },
+
         
-        {
-            label: "Cabeçalho 5",
-            icon: Heading5,
-            action: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
-            active: editor.isActive("heading", { level: 5 }),
-        },
         {
             label: "Marcador",
             icon: Highlighter,
@@ -260,7 +257,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().deleteTable().run(),
             active: false,
         },
-        
+
         {
             label: "Adicionar Borda à Tabela",
             icon: BsBorderOuter,
@@ -292,7 +289,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
 
 
     return (
-        <div className="flex items-center border-b p-2 flex-wrap">
+        <div className="flex items-center border-b p-2 flex-wrap gap-2">
             {ACTIONS.filter(Boolean).map((action) => (
                 <Tooltip key={action.label}>
                     <TooltipTrigger asChild>
@@ -310,6 +307,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                 </Tooltip>
             ))}
             {/* Botão de Upload de Imagem */}
+
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button
@@ -329,7 +327,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                 rel="stylesheet" />
             <div className="control-group">
                 <div className="button-group flex items-center">
-                   
+
                     <Button
                         onClick={() => editor.chain().focus().setFontFamily('Calibri').run()}
                         className={editor.isActive('textStyle', { fontFamily: 'Calibri' }) ? 'is-active' : ''}
@@ -346,7 +344,28 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                     </Button>
                 </div>
             </div>
-            
+
+            {/* Dropdown de tamanhos de fonte */}
+            <div className="relative gap-3 border rounded-xl">
+                <DropdownMenu>
+                    <DropdownMenuTrigger className="p-2 border rounded-xl flex items-center gap-2">
+                        Tamanho da Fonte
+                        <ArrowDownToLine size={16}/>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        {FONT_SIZES.map((size) => (
+                            <DropdownMenuItem
+                                key={size.value}
+                                onClick={() => editor.chain().focus().setFontSize(size.value).run()}
+                            >
+                                {size.label}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+
+
             {/* Input de Arquivo (escondido) */}
             <input
                 type="file"
@@ -401,7 +420,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                 </div>
             </div>
 
-            
+
         </div>
     );
 };
