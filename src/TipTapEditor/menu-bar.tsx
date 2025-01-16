@@ -21,6 +21,7 @@ import {
     AArrowDown,
     Undo2Icon,
     Redo2Icon,
+    RemoveFormattingIcon,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -97,6 +98,12 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().toggleUnderline().run(),
             active: editor.isActive("underline"),
         },
+        {
+            label: "Remover Formatação",
+            icon: RemoveFormattingIcon,
+            action: () => editor.chain().focus().unsetAllMarks().run(),
+            active: editor.isActive("orderedList"),
+        },
         
         {
             label: "Aumentar Fonte 12pt",
@@ -137,6 +144,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().toggleOrderedList().run(),
             active: editor.isActive("orderedList"),
         },
+
+        
         {
             label: "Alinhar Esquerda",
             icon: AlignLeft,
