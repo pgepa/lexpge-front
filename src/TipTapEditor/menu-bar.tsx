@@ -272,7 +272,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                 const currentAttributes = editor.getAttributes('table');
                 editor.chain().focus().updateAttributes('table', {
                     ...currentAttributes,
-                    class: `${currentAttributes.class || ''} table-bordered`.trim(),
+                    border: '1px solid black',
+                    class: 'table-bordered'
                 }).run();
             },
             active: editor.isActive('table', { class: 'table-bordered' }),
