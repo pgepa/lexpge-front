@@ -20,6 +20,9 @@ import {
     Undo2Icon,
     Redo2Icon,
     RemoveFormattingIcon,
+    PencilLine,
+    Trash2,
+    Save,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -386,8 +389,10 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                                 variant="ghost"
                                 onClick={applyLink}
                                 type="button"
+                                className='gap-2'
                             >
-                                Aplicar
+                                <Save className="w-4 h-4" />
+                                Salvar
                             </Button>
                         </>
                     ) : (
@@ -396,14 +401,18 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                                 variant="ghost"
                                 onClick={handleEditLink}
                                 type="button"
+                                className='gap-2'
                             >
+                                <PencilLine className="w-4 h-4" />
                                 Editar Link
                             </Button>
                             <Button
                                 variant="ghost"
                                 onClick={() => editor.chain().focus().unsetLink().run()}
                                 type="button"
+                                className='gap-2'
                             >
+                                <Trash2 className='w-4 h-4' />
                                 Remover Link
                             </Button>
                         </>
