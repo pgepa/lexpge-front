@@ -24,6 +24,11 @@ import {
     Bold,
     Strikethrough,
     UnderlineIcon,
+    Heading5,
+    AlignLeft,
+    AlignCenter,
+    AlignRight,
+    AlignJustify,
     
 
 } from "lucide-react";
@@ -270,11 +275,64 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
                         onClick={() => editor.chain().focus().toggleStrike().run()}
                         className={cn(
                             "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
-                            editor.isActive('strike') ? 'bg-gray-200 font-bold text-violet-600' : 'hover:bg-gray-100'
+                            editor.isActive('strike') ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
                         )}
                     >
                         <Strikethrough className='w-4 h-4' />
                     </button>
+                    <button
+                        type="button"
+                        onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+                        className={cn(
+                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
+                            editor.isActive("heading", { level: 5 }) ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
+                        )}
+                    >
+                        <Heading5 className='w-4 h-4' />
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => editor.chain().focus().setTextAlign("left").run()}
+                        className={cn(
+                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
+                            editor.isActive({ textAlign: "left" }) ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
+                        )}
+                    >
+                        <AlignLeft className='w-4 h-4' />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => editor.chain().focus().setTextAlign("center").run()}
+                        className={cn(
+                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
+                            editor.isActive({ textAlign: "center" }) ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
+                        )}
+                    >
+                        <AlignCenter className='w-4 h-4' />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => editor.chain().focus().setTextAlign("right").run()}
+                        className={cn(
+                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
+                            editor.isActive({ textAlign: "right" }) ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
+                        )}
+                    >
+                        <AlignRight className='w-4 h-4' />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => editor.chain().focus().setTextAlign("justify").run()}
+                        className={cn(
+                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
+                            editor.isActive({ textAlign: "justify" }) ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
+                        )}
+                    >
+                        <AlignJustify className='w-4 h-4' />
+                    </button>
+
+        
                     
 
                 </BubbleMenu>
