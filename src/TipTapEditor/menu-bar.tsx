@@ -1,5 +1,5 @@
 import { Editor } from "@tiptap/core";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
     Italic,
     Bold,
@@ -16,13 +16,9 @@ import {
     Highlighter,
     Table,
     Grid2x2X,
-    Link,
     Undo2Icon,
     Redo2Icon,
     RemoveFormattingIcon,
-    PencilLine,
-    Trash2,
-    Save,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -46,25 +42,7 @@ type MenuBarProps = {
 export const MenuBar = ({ editor }: MenuBarProps) => {
     if (!editor) return null;
 
-    const [linkUrl, setLinkUrl] = useState<string>("");
-    const [isEditingLink, setIsEditingLink] = useState(false);
-
-    const handleEditLink = () => {
-        const currentLink = editor.getAttributes("link").href || "";
-        setLinkUrl(currentLink);
-        setIsEditingLink(true);
-    };
-
-    const applyLink = () => {
-        if (linkUrl) {
-            editor.chain().focus().setLink({ href: linkUrl }).run();
-        } else {
-            editor.chain().focus().unsetLink().run();
-        }
-        setIsEditingLink(false);
-    };
-
-
+    
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleButtonClick = () => {
@@ -374,70 +352,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
                 </Select>
             </div>
 
-            {editor.isActive("link") ? (
-                <div className="flex items-center gap-2">
-                    {isEditingLink ? (
-                        <>
-                            <input
-                                type="text"
-                                className="border p-1 rounded"
-                                value={linkUrl}
-                                onChange={(e) => setLinkUrl(e.target.value)}
-                                placeholder="Editar URL"
-                            />
-                            <Button
-                                variant="ghost"
-                                onClick={applyLink}
-                                type="button"
-                                className='gap-2'
-                            >
-                                <Save className="w-4 h-4" />
-                                Salvar
-                            </Button>
-                        </>
-                    ) : (
-                        <>
-                            <Button
-                                variant="ghost"
-                                onClick={handleEditLink}
-                                type="button"
-                                className='gap-2'
-                            >
-                                <PencilLine className="w-4 h-4" />
-                                Editar Link
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                onClick={() => editor.chain().focus().unsetLink().run()}
-                                type="button"
-                                className='gap-2'
-                            >
-                                <Trash2 className='w-4 h-4' />
-                                Remover Link
-                            </Button>
-                        </>
-                    )}
-                </div>
-            ) : (
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button
-                            onClick={() => {
-                                const url = prompt("Insira o URL");
-                                if (url) {
-                                    editor.chain().focus().setLink({ href: url }).run();
-                                }
-                            }}
-                            variant="ghost"
-                            className="p-2 h-max"
-                            type="button"
-                        >
-                            <Link className="w-4 h-4" />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Adicionar Link</TooltipContent>
-                </Tooltip>
-            )}
+           
 
 
             {/* Input de Arquivo (escondido) */}

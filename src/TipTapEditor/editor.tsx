@@ -13,7 +13,7 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
-
+import { useCallback } from 'react';
 import FontFamily from '@tiptap/extension-font-family';
 import logo from '@/assets/logo.svg';
 
@@ -24,12 +24,13 @@ import {
     Bold,
     Strikethrough,
     UnderlineIcon,
-    Heading5,
     AlignLeft,
     AlignCenter,
     AlignRight,
     AlignJustify,
-    
+    Link as LinkIcon,
+    Link2OffIcon,
+
 
 } from "lucide-react";
 
@@ -87,6 +88,7 @@ const TableWithClasses = Table.extend({
 
 export const EditorTip = ({ value, onChange, className }: EditorProps) => {
     const editor = useEditor({
+        editable: true,
         extensions: [
             StarterKit.configure({
                 bulletList: {
@@ -221,7 +223,24 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
 
             }
         }
+
     });
+
+    const setLink = useCallback(() => {
+        if (!editor) return; // Certifique-se de que o editor não é nulo antes de usar
+        const previousUrl = editor.getAttributes('link').href;
+        const url = window.prompt('URL', previousUrl);
+
+
+        // cancelled
+        if (url === null) {
+            return
+        }
+
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    }, [editor]);
+
+
 
 
 
@@ -279,17 +298,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
                         )}
                     >
                         <Strikethrough className='w-4 h-4' />
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-                        className={cn(
-                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
-                            editor.isActive("heading", { level: 5 }) ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
-                        )}
-                    >
-                        <Heading5 className='w-4 h-4' />
-                    </button>
+                    </button>                    
 
                     <button
                         type="button"
@@ -331,9 +340,38 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
                     >
                         <AlignJustify className='w-4 h-4' />
                     </button>
-
-        
                     
+                    
+
+                    <button
+                        type='button'
+                        onClick={setLink}
+                        className={cn(
+                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none",
+                            editor.isActive("link") ? 'bg-gray-200 font-bold text-violet-800' : 'hover:bg-gray-100'
+                        )}
+                    >
+                        <LinkIcon className='w-4 h-4' />
+                    </button>
+
+                    <button
+                        type='button'
+                        onClick={() => editor.chain().focus().unsetLink().run()}
+                        className={cn(
+                            "p-2 text-gray-700 text-sm flex items-center gap-1.5 font-medium leading-none hover:bg-gray-100",
+                            
+                          )}
+                          disabled={!editor?.isActive('link')} // Desativa o botão se o link não estiver ativo
+                        >
+                        <Link2OffIcon className='w-4 h-4' />
+                    </button>
+
+
+                    
+                    
+
+
+
 
                 </BubbleMenu>
             )}
