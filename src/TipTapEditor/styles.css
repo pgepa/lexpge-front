@@ -39,15 +39,25 @@
           margin-bottom: 0;
         }
       }
+
+      .selectedCell {
+        position: relative; /* Necessário para o texto ser posicionado corretamente */
+        z-index: 0;
+        background-color: transparent; /* Garantir que o texto esteja acima do fundo */
+    }
   
       .selectedCell:after {
-        background: #C7C7C8;
+        background:rgba(199, 199, 200, 0.5);
         content: "";
-        left: 0; right: 0; top: 0; bottom: 0;
+        left: 0; 
+        right: 0; 
+        top: 0; 
+        bottom: 0;
         pointer-events: none;
         position: absolute;
-        z-index: 2;
+        z-index: -1;
       }
+      
   
       .column-resize-handle {
         background-color: #7136F5;
