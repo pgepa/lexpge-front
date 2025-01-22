@@ -19,6 +19,8 @@ import {
     Undo2Icon,
     Redo2Icon,
     RemoveFormattingIcon,
+    Subscript,
+    Superscript,
 
 } from "lucide-react";
 import { TbColumnRemove, TbColumnInsertRight } from "react-icons/tb";
@@ -75,7 +77,7 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
         { label: "10pt", value: "13.33px" },
         { label: "11pt", value: "14.66px" },
         { label: "12pt", value: "16px" },
-        { label: "14pt", value: "18.67px" },
+        
     ];
 
 
@@ -123,6 +125,19 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             action: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
             active: editor.isActive("heading", { level: 5 }),
         },
+        {
+            label: "Subscrito",
+            icon: Subscript,
+            action: () => editor.chain().focus().toggleSubscript().run(),
+            active: editor.isActive('subscript') ? 'is-active' : '',
+        },
+        {
+            label: "Subrescrito",
+            icon: Superscript,
+            action: () => editor.chain().focus().toggleSuperscript().run(),
+            active: editor.isActive('superscript') ? 'is-active' : '',
+        },      
+        
 
         {
             label: "Desfazer",

@@ -15,6 +15,8 @@ import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
 import { useCallback } from 'react';
 import FontFamily from '@tiptap/extension-font-family';
+import Subscript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
 import logo from '@/assets/logo.svg';
 
 import Link from '@tiptap/extension-link';
@@ -169,6 +171,8 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
 
             }),
             Color,
+            Subscript,
+            Superscript,
             FontFamily,
             TextStyle.configure({}),
             Underline,
