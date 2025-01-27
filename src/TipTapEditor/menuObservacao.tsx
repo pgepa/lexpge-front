@@ -5,8 +5,6 @@ import {
     Bold,
     Strikethrough,
     Underline,
-    Link,
-
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -75,30 +73,8 @@ export const MenuBarObservacao = ({ editor }: MenuBarProps) => {
             icon: Underline,
             action: () => editor.chain().focus().toggleUnderline().run(),
             active: editor.isActive("underline"),
-        },       
-      
-        
-        {
-            label: "Link",
-            icon: Link,
-            action: () => {
-                if (editor.isActive('link')) {
-                    // Se o link já estiver ativo, remove o link
-                    editor.chain().focus().unsetLink().run();
-                } else {
-                    // Se o link não estiver ativo, define um novo link
-                    const url = prompt('Insira a URL'); // Solicita ao usuário a URL
-                    if (url) {
-                        editor.chain().focus().setLink({ href: url }).run();
-                    }
-                }
-            },
-            active: editor.isActive("link"),
-        },
-
-        
-
-
+        },   
+    
     ];
 
 
@@ -152,7 +128,7 @@ export const MenuBarObservacao = ({ editor }: MenuBarProps) => {
                         type='button'
                         variant="ghost"
                     >
-                        Red
+                        Vermelho
                     </Button>
 
 
@@ -163,7 +139,7 @@ export const MenuBarObservacao = ({ editor }: MenuBarProps) => {
                         type='button'
                         variant="ghost"
                     >
-                        Blue
+                        Azul
                     </Button>
 
 
@@ -173,7 +149,7 @@ export const MenuBarObservacao = ({ editor }: MenuBarProps) => {
                         type='button'
                         variant="ghost"
                     >
-                        Reset color
+                        Remover Cor
                     </Button>
                 </div>
             </div>

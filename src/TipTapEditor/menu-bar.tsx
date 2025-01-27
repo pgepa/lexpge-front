@@ -136,9 +136,8 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             icon: Superscript,
             action: () => editor.chain().focus().toggleSuperscript().run(),
             active: editor.isActive('superscript') ? 'is-active' : '',
-        },      
+        },   
         
-
         {
             label: "Desfazer",
             icon: Undo2Icon,
