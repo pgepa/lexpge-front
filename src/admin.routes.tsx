@@ -13,9 +13,7 @@ import { EditarRegistro } from "@/TipTapEditor/EditarAto";
 import { ManagementUser } from '@/pages/app/gestao/gestao-user';
 import { AppLayoutPublic } from '@/pages/_layouts/app-public';
 import { AppLayoutEstagiario } from '@/pages/_layouts/app-estagiario';
-import { EditarRegistroEstagiario } from '@/pages/app/atos/atos-editar-estagiario';
 import PrivateRoute from '@/utils/private-route';
-import { NovoRegistroEstagiario } from '@/pages/app/atosEstagiario/atos-registro-estagiario';
 import { AppLayoutChefia } from '@/pages/_layouts/app-chefias';
 import { TextoIntegralLayout } from '@/pages/_layouts/texto-integral';
 import SearchPage from '@/pages/SearchPage';
@@ -68,8 +66,8 @@ export const AdminRouter = createHashRouter([
       { path: '/estagiario/results', element: <PrivateRoute allowedProfiles={[3]}><ResultsPageEstagiario /></PrivateRoute> },
       { path: '/estagiario/sobre', element: <PrivateRoute allowedProfiles={[3]}><Sobre /></PrivateRoute> },
       { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosNormativosEstagiario /></PrivateRoute> },
-      { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistroEstagiario /></PrivateRoute> },
-      { path: '/estagiario/editar/:id', element: <PrivateRoute allowedProfiles={[3]}><EditarRegistroEstagiario /></PrivateRoute> },
+      { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistro /></PrivateRoute> },
+      { path: '/estagiario/editar/:id', element: <PrivateRoute allowedProfiles={[3]}><EditarRegistro /></PrivateRoute> },
     ]
   },
   {
