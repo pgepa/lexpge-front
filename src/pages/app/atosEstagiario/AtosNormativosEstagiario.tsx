@@ -15,7 +15,7 @@ const AtosNormativosEstagiario: React.FC = () => {
             <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
                     <h1 className="text-2xl font-bold tracking-tight">Atos Normativos</h1>
-                    <NavLink to="/estagiario/registro">
+                    <NavLink to="/estagiario/registro" target="_blank">
                         <Button type="submit" variant="default" size="sm">
                             <CirclePlus className="mr-2 h-4 w-4" />
                             Novo Ato Normativo
