@@ -11,10 +11,15 @@ interface TextoIntegral {
   conteudo: string;
 }
 
+// Insere <br> dentro de <p> vazios e <p> vazios com text-align: center
+const formatContent = (html: string) => {
+  return html.replace(/<p(?:\s+style="text-align:\s*center")?>\s*<\/p>/g, '<p$1><br></p>');
+};
+
 const ContentViewer = ({ content }: { content: string }) => {
   return (
     <div className="tiptap prose max-w-none">
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <div dangerouslySetInnerHTML={{ __html: formatContent(content) }} />
     </div>
   );
 };
