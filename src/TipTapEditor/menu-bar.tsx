@@ -204,9 +204,9 @@ export const MenuBar = ({ editor }: MenuBarProps) => {
             label: "Inserir Tabela",
             icon: Table,
             action: () => editor.chain().focus().insertTable({
-                rows: 2,
+                rows: 1,
                 cols: 2,
-                withHeaderRow: true,
+                withHeaderRow: false,
             }).updateAttributes('table', {
                 class: 'table-bordered',
             }).run()
