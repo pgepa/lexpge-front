@@ -117,58 +117,58 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
                 protocols: ['http', 'https'],
                 isAllowedUri: (url, ctx) => {
                     try {
-                        // construct URL
-                        const parsedUrl = url.includes(':') ? new URL(url) : new URL(`${ctx.defaultProtocol}://${url}`)
-
-                        // use default validation
+                        // Se a URL não tiver protocolo, assume https://
+                        const formattedUrl = url.includes('://') ? url : `https://lex.pge.pa.gov.br/${url}`;
+                        const parsedUrl = new URL(formattedUrl);
+            
+                        // Usa validação padrão
                         if (!ctx.defaultValidate(parsedUrl.href)) {
-                            return false
+                            return false;
                         }
-
-                        // disallowed protocols
-                        const disallowedProtocols = ['ftp', 'file', 'mailto']
-                        const protocol = parsedUrl.protocol.replace(':', '')
-
+            
+                        // Protocolos proibidos
+                        const disallowedProtocols = ['ftp', 'file', 'mailto'];
+                        const protocol = parsedUrl.protocol.replace(':', '');
+            
                         if (disallowedProtocols.includes(protocol)) {
-                            return false
+                            return false;
                         }
-
-                        // only allow protocols specified in ctx.protocols
-                        const allowedProtocols = ctx.protocols.map(p => (typeof p === 'string' ? p : p.scheme))
-
+            
+                        // Apenas permitir protocolos definidos no contexto
+                        const allowedProtocols = ctx.protocols.map(p => (typeof p === 'string' ? p : p.scheme));
+            
                         if (!allowedProtocols.includes(protocol)) {
-                            return false
+                            return false;
                         }
-
-                        // disallowed domains
-                        const disallowedDomains = ['example-phishing.com', 'malicious-site.net']
-                        const domain = parsedUrl.hostname
-
+            
+                        // Domínios proibidos
+                        const disallowedDomains = ['example-phishing.com', 'malicious-site.net'];
+                        const domain = parsedUrl.hostname;
+            
                         if (disallowedDomains.includes(domain)) {
-                            return false
+                            return false;
                         }
-
-                        // all checks have passed
-                        return true
+            
+                        return true;
                     } catch (error) {
-                        return false
+                        return false;
                     }
                 },
                 shouldAutoLink: url => {
                     try {
-                        // construct URL
-                        const parsedUrl = url.includes(':') ? new URL(url) : new URL(`https://${url}`)
-
-                        // only auto-link if the domain is not in the disallowed list
-                        const disallowedDomains = ['example-no-autolink.com', 'another-no-autolink.com']
-                        const domain = parsedUrl.hostname
-
-                        return !disallowedDomains.includes(domain)
+                        // Se a URL não tiver protocolo, assume https://
+                        const formattedUrl = url.includes('://') ? url : `https://lex.pge.pa.gov.br/${url}`;
+                        const parsedUrl = new URL(formattedUrl);
+            
+                        // Lista de domínios que não devem ser autolinkados
+                        const disallowedDomains = ['example-no-autolink.com', 'another-no-autolink.com'];
+                        const domain = parsedUrl.hostname;
+            
+                        return !disallowedDomains.includes(domain);
                     } catch (error) {
-                        return false
+                        return false;
                     }
                 },
-
             }),
             Color,
             Subscript,
