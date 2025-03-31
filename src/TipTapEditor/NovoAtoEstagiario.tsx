@@ -126,7 +126,7 @@ export function NovoRegistroEstagiario() {
                                         <SelectItem value="Decreto Lei">Decreto Lei</SelectItem>
                                         <SelectItem value="Decreto Numerado">Decreto Numerado</SelectItem>
                                         <SelectItem value="Decreto Não Numerado">Decreto Não Numerado</SelectItem>
-                                        <SelectItem value="Emenda Consitucional">Emenda Constitucional</SelectItem>
+                                        <SelectItem value="Emenda Constitucional">Emenda Constitucional</SelectItem>
                                         <SelectItem value="Instrução Normativa">Instrução Normativa</SelectItem>
                                         <SelectItem value="Lei Complementar">Lei Complementar</SelectItem>
                                         <SelectItem value="Lei Ordinária">Lei Ordinária</SelectItem>
