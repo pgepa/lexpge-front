@@ -13,51 +13,41 @@ import { useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EditorTip } from '@/TipTapEditor/editor';
 import { EditorTipObservacao } from '@/TipTapEditor/Observacao';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 
 const novoRegistroForm = z.object({
-    numero: z.string().min(1, "Número é obrigatório"),
-    titulo: z.string().min(1, "Título é obrigatório"),
-    ementa: z.string().min(1, "Ementa é obrigatória"),
-    tipo_id: z.string().min(1, "Tipo é obrigatório"),
-    situacao: z.string().min(1, "Situação é obrigatória"),
-    fonte: z.string().min(1, "Fonte é obrigatória"),
-    dataDoAto: z.date({ required_error: "Data do ato é obrigatória" }),
-    dataDaPublicacao: z.date({ required_error: "Data de publicação é obrigatória" }),
-    descritores: z.string().min(1, "Descritores são obrigatórios"),
+    numero: z.number(),
+    titulo: z.string(),
+    ementa: z.string(),
+    tipo_id: z.string(),
+    situacao: z.string(),
+    fonte: z.string(),
+    dataDoAto: z.date().nullable(),
+    dataDaPublicacao: z.date().nullable(),
+    descritores: z.string(),
     observacao: z.string(),
     editor: z.string(),
     texto_compilado: z.boolean().optional(),
-})
-
-    .refine((data) => {
-        if (data.dataDoAto && data.dataDaPublicacao) {
-            return data.dataDoAto <= data.dataDaPublicacao;
-        }
-        return true;
-    }, {
-        message: "A data da publicação não pode ser anterior à data do ato.",
-        path: ["dataDaPublicacao"],
-    });
+});
 
 type NovoRegistroForm = z.infer<typeof novoRegistroForm>;
 
 export function NovoRegistro() {
     const navigate = useNavigate();
-    const { register, handleSubmit, control, formState: { isSubmitting, errors } } = useForm<NovoRegistroForm>({
-        resolver: zodResolver(novoRegistroForm),
+    const { register, handleSubmit, control, formState: { isSubmitting } } = useForm<NovoRegistroForm>({
+        
     });
 
     async function handleNovoRegistro(data: NovoRegistroForm) {
-
-
-
+        if (data.dataDoAto && data.dataDaPublicacao && data.dataDoAto > data.dataDaPublicacao){
+            toast.error('A data da publicação não pode ser anterior à data do ato.');
+            return;
+        }
         try {
             console.log("Data being sent:", data);
 
 
-
+            // Prepare data to be sent to the backend
             const payload = {
                 numero: data.numero,
                 titulo: data.titulo,
@@ -70,7 +60,7 @@ export function NovoRegistro() {
                 descritores: data.descritores,
                 observacao: data.observacao,
                 conteudo: data.editor,
-                texto_compilado: data.texto_compilado,
+                texto_compilado: data.texto_compilado, // Optional, only for compiled texts
             };
 
             const token = localStorage.getItem('token');
@@ -110,17 +100,14 @@ export function NovoRegistro() {
                     <div className="space-y-2">
                         <Label htmlFor="numero">Número:</Label>
                         <Input id="numero" type="text" placeholder="Número" {...register('numero')} />
-                        {errors.numero && <p className="text-red-500 text-sm">{errors.numero.message}</p>}
                     </div>
                     <div className="col-span-3 space-y-2">
                         <Label htmlFor="titulo">Título:</Label>
                         <Input id="titulo" type="text" placeholder="Título" {...register('titulo')} />
-                        {errors.titulo && <p className="text-red-500 text-sm">{errors.titulo.message}</p>}
                     </div>
                     <div className="col-span-4 space-y-2">
                         <Label htmlFor="ementa">Ementa:</Label>
                         <Textarea id="ementa" placeholder="Ementa" {...register('ementa')} />
-                        {errors.ementa && <p className="text-red-500 text-sm">{errors.ementa.message}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="tipo_id">Tipo:</Label>
@@ -151,7 +138,6 @@ export function NovoRegistro() {
                                 </Select>
                             )}
                         />
-                        {errors.tipo_id && <p className="text-red-500 text-sm">{errors.tipo_id.message}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="situacao">Situação:</Label>
@@ -177,13 +163,11 @@ export function NovoRegistro() {
                                 </Select>
                             )}
                         />
-                        {errors.situacao && <p className="text-red-500 text-sm">{errors.situacao.message}</p>}
                     </div>
 
                     <div className="col-span-1 space-y-2">
                         <Label htmlFor="fonte">Fonte:</Label>
                         <Input id="fonte" placeholder="Fonte" {...register('fonte')} />
-                        {errors.fonte && <p className="text-red-500 text-sm">{errors.fonte.message}</p>}
                     </div>
 
                     <div className="flex items-center space-x-2 ">
@@ -207,7 +191,6 @@ export function NovoRegistro() {
                         >
                             Texto Compilado / Impressão
                         </Label>
-                        
                     </div>
 
                     <div className="flex flex-col gap-4" id="dataDoAto">
@@ -215,11 +198,11 @@ export function NovoRegistro() {
                         <Controller
                             name="dataDoAto"
                             control={control}
+                            defaultValue={null}
                             render={({ field }) => (
-                                <DatePicker date={field.value ?? undefined} onChange={field.onChange} />
+                                <DatePicker date={field.value!} onChange={field.onChange} />
                             )}
                         />
-                        {errors.dataDoAto && <p className="text-red-500 text-sm">{errors.dataDoAto.message}</p>}
                     </div>
 
                     <div className="flex flex-col gap-4">
@@ -227,17 +210,16 @@ export function NovoRegistro() {
                         <Controller
                             name="dataDaPublicacao"
                             control={control}
+                            defaultValue={null}
                             render={({ field }) => (
-                                <DatePicker date={field.value ?? undefined} onChange={field.onChange} />
+                                <DatePicker date={field.value!} onChange={field.onChange} />
                             )}
                         />
-                        {errors.dataDaPublicacao && <p className="text-red-500 text-sm">{errors.dataDaPublicacao.message}</p>}
                     </div>
 
                     <div className="col-span-2 space-y-2">
                         <Label htmlFor="descritores">Descritores:</Label>
                         <Input id="descritores" placeholder="Descritores" {...register('descritores')} />
-                        {errors.descritores && <p className="text-red-500 text-sm">{errors.descritores.message}</p>}
                     </div>
 
                     <div className="col-span-4 space-y-2">
@@ -248,12 +230,10 @@ export function NovoRegistro() {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <EditorTipObservacao value={field.value} onChange={field.onChange} className='h-[250px] mt-4' />
+                                    <EditorTipObservacao value={field.value} onChange={field.onChange} className='h-[250px] mt-4'/>
                                 )}
                             />
-
                         </div>
-
                     </div>
 
                     <div className="col-span-4 space-y-2">
@@ -264,7 +244,7 @@ export function NovoRegistro() {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <EditorTip value={field.value} onChange={field.onChange} className='h-[600px] mt-4' />
+                                    <EditorTip value={field.value} onChange={field.onChange} className='h-[600px] mt-4'/>
                                 )}
                             />
                         </div>
