@@ -54,8 +54,7 @@ export function EditarRegistro() {
         resolver: zodResolver(editRegistroForm),
         defaultValues: {
             ...ato,  
-            id: (ato && typeof ato.id === 'number') ? ato.id : 0,          
-            numero: ato?.numero ? String(ato.numero) : '',            
+            id: (ato && typeof ato.id === 'number') ? ato.id : 0,                      
             data_ato: ato?.data_ato ? new Date(ato.data_ato) : undefined,
             data_publicacao: ato?.data_publicacao ? new Date(ato.data_publicacao) : undefined,
         }
