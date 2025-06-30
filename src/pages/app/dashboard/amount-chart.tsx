@@ -14,7 +14,7 @@ const data = [
 
 export function AmountChart() {
   return (
-    <div className="col-span-6">
+    <div className="col-span-5">
       <Card>
         <CardHeader className="flex-row items-center justify-between pb-8">
           <div className="space-y-1">

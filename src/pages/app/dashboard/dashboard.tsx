@@ -20,7 +20,7 @@ export function Dashboard() {
             <TotalAtosAmountCard />
           </div>
 
-          <div className="grid grid-cols-9 gap-4">
+          <div className="grid grid-cols-10 gap-4">
             <AmountChart />
             <PopularAtosChart />
           </div>
