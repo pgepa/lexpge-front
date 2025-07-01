@@ -102,7 +102,7 @@ export function PopularAtosChart() {
             <p className="text-sm text-red-500">Erro ao carregar dados</p>
           )}
           {!loading && !error && data.length > 0 && (
-            <ResponsiveContainer width="100%" height={270}>
+            <ResponsiveContainer width="100%" height={330}>
               <BarChart
                 data={data}
                 layout="vertical"

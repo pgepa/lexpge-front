@@ -82,7 +82,7 @@ export function AmountChart() {
           {loading && <p className="text-sm text-muted-foreground">Carregando...</p>}
           {error && <p className="text-sm text-red-500">Erro ao carregar dados</p>}
           {!loading && !error && (
-            <ResponsiveContainer width="100%" height={240}>
+            <ResponsiveContainer width="100%" height={300}>
               <LineChart data={data} style={{ fontSize: 12 }}>
                 <XAxis dataKey="date" tickLine={false} axisLine={false} dy={16} />
                 <YAxis stroke="#888" axisLine={false} tickLine={false} width={80} />
