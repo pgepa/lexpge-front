@@ -108,7 +108,7 @@ export function PopularAtosChart() {
                 layout="vertical"
                 margin={{ left: 60, right: 5 }}
               >
-                <XAxis type="number" tick={{ fontSize: 10 }} />
+                <XAxis type="number" tick={{ fontSize: 12 }} />
                 <YAxis
                   dataKey="tipo_id"
                   type="category"
