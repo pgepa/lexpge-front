@@ -89,7 +89,7 @@ export function PopularAtosChart() {
         <CardHeader className="pb-6">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base font-medium">
-              Atos mais acessados
+              Top 10 atos mais acessados
             </CardTitle>
             <BarChartIcon className="h-4 w-4 text-muted-foreground" />
           </div>

@@ -94,7 +94,7 @@ export function YearAtosAmountCard() {
       <CardHeader className="flex flex-col gap-2 pb-2">
         <div className="flex items-center justify-between w-full">
           <CardTitle className="text-base font-semibold">
-            Total de atos cadastrados (ano)
+            Atos cadastrados por ano
           </CardTitle>
           <PieChart className="h-4 w-4 text-muted-foreground" />
         </div>

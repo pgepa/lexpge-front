@@ -74,8 +74,8 @@ export function AmountChart() {
       <Card>
         <CardHeader className="flex-row items-center justify-between pb-8">
           <div className="space-y-1">
-            <CardTitle className="text-base font-medium">Atos cadastrados no período</CardTitle>
-            <CardDescription>Total mensal de atos cadastrados nos últimos 6 meses</CardDescription>
+            <CardTitle className="text-base font-medium">Atos cadastrados no ano</CardTitle>
+            <CardDescription>Total mensal de atos cadastrados</CardDescription>
           </div>
         </CardHeader>
         <CardContent>

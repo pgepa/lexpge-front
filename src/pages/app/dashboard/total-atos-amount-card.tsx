@@ -53,7 +53,7 @@ export function TotalAtosAmountCard() {
     <Card>
       <CardHeader className="flex-row space-y-0 flex items-center justify-between pb-2">
         <CardTitle className="text-base font-semibold">
-          Total de atos cadastrados (global)
+          Total de atos cadastrados
         </CardTitle>
         <PieChart className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
