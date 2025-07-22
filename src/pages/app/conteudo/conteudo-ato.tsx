@@ -11,9 +11,13 @@ interface TextoIntegral {
   conteudo: string;
 }
 
+
 // Insere <br> dentro de <p> vazios e <p> vazios com text-align: center
 const formatContent = (html: string) => {
-  return html.replace(/<p(?:\s+style="text-align:\s*center")?>\s*<\/p>/g, '<p$1><br></p>');
+  return html.replace(
+    /<p(\s+style="text-align:\s*(?:center|justify)")?>\s*<\/p>/g,
+    '<p$1><br></p>'
+  );
 };
 
 const ContentViewer = ({ content }: { content: string }) => {

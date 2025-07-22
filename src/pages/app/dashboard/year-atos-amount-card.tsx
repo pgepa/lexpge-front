@@ -24,6 +24,7 @@ interface DashboardResponse {
   por_ano: AnoData[];
 }
 
+
 export function YearAtosAmountCard() {
   const anoAtual = new Date().getFullYear();
 
