@@ -184,7 +184,7 @@ export function EditarRegistroEstagiario() {
                                     <SelectItem value="Revogado">Revogado(a)</SelectItem>
                                     <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
                                     <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
-                                    <SelectItem value="Sem RevogacaoExpressa">Sem Revogação Expressa</SelectItem>
+                                    <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
                                     <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
                                 </SelectContent>
                             </Select>
