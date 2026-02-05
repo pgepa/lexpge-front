@@ -67,7 +67,7 @@ export function Ficha() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Ementa:</span>
-                        <span className="flex-1">{ato.ementa}</span>
+                        <span className="text-justify flex-1">{ato.ementa}</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Tipo:</span>
