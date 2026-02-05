@@ -147,13 +147,13 @@ const ResultsList: React.FC = () => {
         navigate(`/estagiario/editar/${ato.id}`, { state: { ato } });
     };
 
-    
+
 
     return (
         <div className='flex flex-col gap-4'>
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4 space-y-2 sm:space-y-0">
                 <p className="text-lg sm:text-xl font-semibold text-slate-700 dark:text-blue-300 text-center sm:text-left">
-                {Number(totalResults).toLocaleString('pt-BR')} resultados encontrados
+                    {Number(totalResults).toLocaleString('pt-BR')} resultados encontrados
                 </p>
 
                 <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
@@ -182,7 +182,12 @@ const ResultsList: React.FC = () => {
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-1">
-                        <p className="leading-7 [&:not(:first-child)]:mt-6">{ato.ementa}</p>
+                        <p
+                            style={{ textAlign: "justify" }}
+                            className="leading-7 [&:not(:first-child)]:mt-6"
+                        >
+                            {ato.ementa}
+                        </p>
                         <span>
                             <CardDescription className='mt-2'>{ato.descritores}</CardDescription>
                         </span>
@@ -207,16 +212,16 @@ const ResultsList: React.FC = () => {
                             Texto Integral
                         </Button>
                         <Button
-                                variant="default"
-                                size="xs"
-                                className="gap-2"
-                                onClick={() => handleEditClick(ato)}
-                            >
-                                <PencilLine className="h-3 w-3" />
-                                Editar
-                                <span className="sr-only">Editar ato normativo</span>
-                            </Button>
-                            
+                            variant="default"
+                            size="xs"
+                            className="gap-2"
+                            onClick={() => handleEditClick(ato)}
+                        >
+                            <PencilLine className="h-3 w-3" />
+                            Editar
+                            <span className="sr-only">Editar ato normativo</span>
+                        </Button>
+
                     </CardFooter>
                 </Card>
             ))}

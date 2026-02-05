@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'; 
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/axios';
 import { Button } from '@/components/ui/button';
@@ -160,24 +160,24 @@ export const AtosCard = () => {
             <AtosTableFilters onFilter={handleFilter} />
 
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-4 space-y-2 sm:space-y-0">
-                        <p className="text-lg sm:text-xl font-semibold text-slate-700 dark:text-blue-300 text-center sm:text-left">
-                            {Number(totalResults).toLocaleString('pt-BR')} resultados encontrados
-                        </p>
+                <p className="text-lg sm:text-xl font-semibold text-slate-700 dark:text-blue-300 text-center sm:text-left">
+                    {Number(totalResults).toLocaleString('pt-BR')} resultados encontrados
+                </p>
 
-                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
-                            <Label className="font-semibold text-sm text-gray-800 dark:text-white text-center sm:text-left">Ordenação:</Label>
-                            <Select value={sortOrder} onValueChange={handleSortOrderChange}>
-                                <SelectTrigger className="w-full sm:w-auto">
-                                    <SelectValue placeholder="Escolha uma opção" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="relevancia">Relevância dos resultados</SelectItem>
-                                    <SelectItem value="data_ato_d">Maior data do ato</SelectItem>
-                                    <SelectItem value="dataatoasc">Menor data do ato</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                    <Label className="font-semibold text-sm text-gray-800 dark:text-white text-center sm:text-left">Ordenação:</Label>
+                    <Select value={sortOrder} onValueChange={handleSortOrderChange}>
+                        <SelectTrigger className="w-full sm:w-auto">
+                            <SelectValue placeholder="Escolha uma opção" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="relevancia">Relevância dos resultados</SelectItem>
+                            <SelectItem value="data_ato_d">Maior data do ato</SelectItem>
+                            <SelectItem value="dataatoasc">Menor data do ato</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
             {loading && (
                 <div className="flex justify-center items-center h-screen">
                     <GridLoader size={16} color="#3727c9" />
@@ -204,7 +204,12 @@ export const AtosCard = () => {
                     </CardHeader>
                     <CardContent className="space-y-1">
                         <span>
-                            <p className="leading-7 [&:not(:first-child)]:mt-6">{ato.ementa}</p>
+                            <p
+                                style={{ textAlign: "justify" }}
+                                className="leading-7 [&:not(:first-child)]:mt-6"
+                            >
+                                {ato.ementa}
+                            </p>
                         </span>
                         <span>
                             <CardDescription className='mt-2'>{ato.descritores}</CardDescription>

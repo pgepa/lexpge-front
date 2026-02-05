@@ -35,7 +35,7 @@ export function YearAtosAmountCard() {
   const [error, setError] = useState(false);
 
   
-  const anosDisponiveis = [2025];
+  const anosDisponiveis = [2025, 2026];
 
   useEffect(() => {
     const fetchDadosPorAno = async (ano: number): Promise<number> => {

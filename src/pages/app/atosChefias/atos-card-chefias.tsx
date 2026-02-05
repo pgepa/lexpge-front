@@ -155,7 +155,10 @@ export const AtosCardChefia = () => {
                                 </div>
                             </CardHeader>
                             <CardContent className="space-y-1">
-                                <p className="leading-7 [&:not(:first-child)]:mt-6">
+                                <p
+                                    style={{ textAlign: "justify" }}
+                                    className="leading-7 [&:not(:first-child)]:mt-6"
+                                >
                                     {ato.ementa}
                                 </p>
                             </CardContent>

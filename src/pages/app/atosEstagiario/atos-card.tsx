@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'; 
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, PencilLine, SearchX, SquareArrowOutUpRight} from 'lucide-react';
+import { Eye, PencilLine, SearchX, SquareArrowOutUpRight } from 'lucide-react';
 import {
     Pagination,
     PaginationContent,
@@ -89,7 +89,7 @@ export const AtosCardEstagiario = () => {
         navigate(`/estagiario/editar/${ato.id}`, { state: { ato } });
     };
 
-   
+
 
     const handlePageChange = (pagina: number) => {
         if (pagina > 0 && pagina <= totalPages) {
@@ -159,7 +159,12 @@ export const AtosCardEstagiario = () => {
                     </CardHeader>
                     <CardContent className="space-y-1">
                         <span>
-                            <p className="leading-7 [&:not(:first-child)]:mt-6">{ato.ementa}</p>
+                            <p
+                                style={{ textAlign: "justify" }}
+                                className="leading-7 [&:not(:first-child)]:mt-6"
+                            >
+                                {ato.ementa}
+                            </p>
                         </span>
                         <span>
                             <CardDescription className='mt-2'>{ato.descritores}</CardDescription>
@@ -211,7 +216,7 @@ export const AtosCardEstagiario = () => {
                              * 
                              * 
                              */}
-                            
+
                         </div>
                     </CardFooter>
                 </Card>

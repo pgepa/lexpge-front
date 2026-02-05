@@ -101,7 +101,7 @@ export function MonthAtosAmountCard() {
               <SelectValue placeholder="Ano" />
             </SelectTrigger>
             <SelectContent>
-              {[2024, 2025].map((ano) => (
+              {[2024, 2025, 2026].map((ano) => (
                 <SelectItem key={ano} value={String(ano)}>
                   {ano}
                 </SelectItem>
