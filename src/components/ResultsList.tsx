@@ -67,12 +67,14 @@ const ResultsList: React.FC = () => {
             descritores: query.descritores ?? '',
             numero: query.numero ?? '',
             ano: query.ano ?? '',
-            tipo: query.tipo ?? '',
             pagina: pagina.toString(),
             limite: itemsPerPage.toString(),
             texto_compilado: 'false',
             ordem: sortOrder,
         };
+        if (query.tipo && query.tipo !== 'todos') {
+            params.tipo = query.tipo;
+        }
         if (query.situacao && query.situacao !== 'todas') {
             params.situacao = query.situacao;
         }
