@@ -8,6 +8,7 @@ export interface QueryType {
     ano: string;
     tipo: string;
     texto_compilado: boolean;
+    situacao?: string;
 }
 
 // Tipo do contexto
@@ -28,6 +29,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         ano: '',
         tipo: '',
         texto_compilado: false,
+        situacao: '',
     });
 
     return (

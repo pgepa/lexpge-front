@@ -10,7 +10,6 @@ const Editor: React.FC<{ value?: string, onChange?: (value: string) => void }> =
         showWordsCounter: false,
         showXPathInStatusbar: false,
         askBeforePasteHTML: false,
-        defaultFontSizePoints: "pt",
         disablePlugins: "ai-assistant,focus",
         readonly: false, // All options from https://xdsoft.net/jodit/doc/
         defaultMode: 1,

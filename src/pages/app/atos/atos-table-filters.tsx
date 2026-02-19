@@ -12,6 +12,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
   const [ano, setAno] = useState("");
   const [tipo, setTipo] = useState("todos");
   const [texto_compilado, setTexto_Compilado] = useState(false);
+  const [situacao, setSituacao] = useState("todas");
 
   const handleFilter = (event: React.FormEvent) => {
     event.preventDefault();
@@ -22,6 +23,7 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
       ano: ano.trim() || undefined,
       tipo: tipo !== "todos" ? tipo : undefined,
       texto_compilado: texto_compilado || undefined,
+      situacao: situacao !== "todas" ? situacao : undefined,
     });
   };
 
@@ -32,7 +34,8 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
     setAno("");
     setTipo("todos");
     setTexto_Compilado(false);
-    onFilter({ conteudo: undefined, descritores: undefined, numero: undefined, ano: undefined, tipo: undefined });
+    setSituacao("todas");
+    onFilter({ conteudo: undefined, descritores: undefined, numero: undefined, ano: undefined, tipo: undefined, situacao: undefined, texto_compilado: undefined });
   };
 
   return (
@@ -86,6 +89,23 @@ export function AtosTableFilters({ onFilter }: { onFilter: (filters: any) => voi
           <SelectItem value="Portaria">Portaria</SelectItem>
           <SelectItem value="Portaria Conjunta">Portaria Conjunta</SelectItem>
           <SelectItem value="Resolução">Resolução</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Select value={situacao} onValueChange={(value) => setSituacao(value)}>
+        <SelectTrigger className="w-full sm:w-[220px]">
+          <SelectValue placeholder="Situação" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="todas">Todas as situações</SelectItem>
+          <SelectItem value="Vigente">Vigente</SelectItem>
+          <SelectItem value="Revogado">Revogado(a)</SelectItem>
+          <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
+          <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
+          <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
+          <SelectItem value="Inconstitucional">Declarado(a) Inconstitucional</SelectItem>
+          <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
+          <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
         </SelectContent>
       </Select>
 

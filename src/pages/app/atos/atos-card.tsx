@@ -25,7 +25,20 @@ export type AtoCard = {
     descritores: string;
 };
 
-export const AtosCard = () => {
+type AtosCardFilters = {
+    conteudo?: string;
+    descritores?: string;
+    numero?: string;
+    ano?: string;
+    tipo?: string;
+    situacao?: string;
+};
+
+interface AtosCardProps {
+    initialFilters?: AtosCardFilters;
+}
+
+export const AtosCard = ({ initialFilters }: AtosCardProps) => {
     const [atos, setAtos] = useState<AtoCard[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -33,13 +46,14 @@ export const AtosCard = () => {
     const [loading, setLoading] = useState(false);
     const [sortOrder, setSortOrder] = useState<string>('data_ato_d');
     const [filters, setFilters] = useState({
-        conteudo: "",
-        descritores: "",
-        numero: "",
-        ano: "",
-        tipo: "todos",
+        conteudo: initialFilters?.conteudo ?? "",
+        descritores: initialFilters?.descritores ?? "",
+        numero: initialFilters?.numero ?? "",
+        ano: initialFilters?.ano ?? "",
+        tipo: initialFilters?.tipo ?? "todos",
+        situacao: initialFilters?.situacao ?? "",
     });
-    const [isFiltering, setIsFiltering] = useState(false);
+    const [isFiltering, setIsFiltering] = useState(!!initialFilters);
     const limit = 10;
     const navigate = useNavigate();
     const paginationRange = 5;

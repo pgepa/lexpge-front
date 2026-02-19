@@ -10,13 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const SearchForm: React.FC = () => {
     const { query, setQuery } = useContext(SearchContext)!;
-    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; }>({
-        conteudo: query.conteudo,
-        descritores: query.descritores,
-        numero: query.numero,
-        ano: query.ano,
-        tipo: query.tipo,
+    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; }>({
+        conteudo: query.conteudo ?? '',
+        descritores: query.descritores ?? '',
+        numero: query.numero ?? '',
+        ano: query.ano ?? '',
+        tipo: query.tipo || 'todos',
         texto_compilado: query.texto_compilado || false,
+        situacao: query.situacao || 'todas',
     });
     const navigate = useNavigate();
 
@@ -33,8 +34,9 @@ const SearchForm: React.FC = () => {
             descritores: '',
             numero: '',
             ano: '',
-            tipo: '',
+            tipo: 'todos',
             texto_compilado: false,
+            situacao: 'todas',
         });
 
         // Também reseta o contexto se necessário
@@ -43,8 +45,9 @@ const SearchForm: React.FC = () => {
             descritores: '',
             numero: '',
             ano: '',
-            tipo: '',
+            tipo: 'todos',
             texto_compilado: false,
+            situacao: 'todas',
         });
     };
 
@@ -58,11 +61,11 @@ const SearchForm: React.FC = () => {
                 <h2 className="text-lg sm:text-xl tracking-tight text-muted-foreground">Base de Atos Normativos - LEXPGE</h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl">
-
                     <Input
-                        placeholder='Número'
+                        placeholder="Número"
                         value={localQuery.numero}
                         onChange={(e) => setLocalQuery({ ...localQuery, numero: e.target.value })}
+                        className="w-full"
                     />
                     <Input
                         placeholder="Ano"
@@ -70,14 +73,12 @@ const SearchForm: React.FC = () => {
                         onChange={(e) => setLocalQuery({ ...localQuery, ano: e.target.value })}
                         className="w-full"
                     />
-
                     <Input
                         placeholder="Busca por descritores"
                         value={localQuery.descritores}
                         onChange={(e) => setLocalQuery({ ...localQuery, descritores: e.target.value })}
-                        className="w-full sm:w-auto"
+                        className="w-full"
                     />
-
                     <Select
                         value={localQuery.tipo}
                         onValueChange={(value) => setLocalQuery({ ...localQuery, tipo: value })}
@@ -86,6 +87,7 @@ const SearchForm: React.FC = () => {
                             <SelectValue placeholder="Selecione o tipo" />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value="todos">Todos os tipos</SelectItem>
                             <SelectItem value="Constituição Estadual">Constituição Estadual</SelectItem>
                             <SelectItem value="Decreto Legislativo">Decreto Legislativo</SelectItem>
                             <SelectItem value="Decreto Lei">Decreto Lei</SelectItem>
@@ -101,15 +103,31 @@ const SearchForm: React.FC = () => {
                             <SelectItem value="Resolução">Resolução</SelectItem>
                         </SelectContent>
                     </Select>
-
-
+                    <Select
+                        value={localQuery.situacao}
+                        onValueChange={(value) => setLocalQuery({ ...localQuery, situacao: value })}
+                    >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Situação" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="todas">Todas as situações</SelectItem>
+                            <SelectItem value="Vigente">Vigente</SelectItem>
+                            <SelectItem value="Revogado">Revogado(a)</SelectItem>
+                            <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
+                            <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
+                            <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
+                            <SelectItem value="Inconstitucional">Declarado(a) Inconstitucional</SelectItem>
+                            <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
+                            <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
+                        </SelectContent>
+                    </Select>
                     <Input
-                        placeholder="Busca por avançada por termos"
+                        placeholder="Busca avançada por termos"
                         value={localQuery.conteudo}
                         onChange={(e) => setLocalQuery({ ...localQuery, conteudo: e.target.value })}
-                        className="w-full sm:col-span-2 md:col-span-4"
+                        className="w-full sm:col-span-2 md:col-span-3"
                     />
-
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 items-center mt-4">

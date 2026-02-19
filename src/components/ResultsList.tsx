@@ -62,17 +62,21 @@ const ResultsList: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const queryString = new URLSearchParams({
-            conteudo: query.conteudo,
-            descritores: query.descritores,
-            numero: query.numero,
-            ano: query.ano,
-            tipo: query.tipo,
+        const params: Record<string, string> = {
+            conteudo: query.conteudo ?? '',
+            descritores: query.descritores ?? '',
+            numero: query.numero ?? '',
+            ano: query.ano ?? '',
+            tipo: query.tipo ?? '',
             pagina: pagina.toString(),
             limite: itemsPerPage.toString(),
             texto_compilado: 'false',
-            ordem: sortOrder // Atualizado para 'ordem'
-        }).toString();
+            ordem: sortOrder,
+        };
+        if (query.situacao && query.situacao !== 'todas') {
+            params.situacao = query.situacao;
+        }
+        const queryString = new URLSearchParams(params).toString();
 
         try {
             const response = await api.get(`/atos/busca?${queryString}`);

@@ -11,6 +11,7 @@ export function Inicio() {
   const [numero, setNumero] = useState("");
   const [ano, setAno] = useState("");
   const [tipo, setTipo] = useState("todos");
+  const [situacao, setSituacao] = useState("todas");
   const [termosBusca, setTermosBusca] = useState("");
   const [isSearchPerformed, setIsSearchPerformed] = useState(false);
 
@@ -22,6 +23,7 @@ export function Inicio() {
     setNumero("");
     setAno("");
     setTipo("todos");
+    setSituacao("todas");
     setTermosBusca("");
     setIsSearchPerformed(false);
   };
@@ -58,19 +60,38 @@ export function Inicio() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="todos">Todos os tipos</SelectItem>
-                <SelectItem value="constituicaoEstadual">Constituição Estadual</SelectItem>
-                <SelectItem value="decretoLegislativo">Decreto Legislativo</SelectItem>
-                <SelectItem value="decretoLei">Decreto Lei</SelectItem>
-                <SelectItem value="decretoNumerado">Decreto Numerado</SelectItem>
-                <SelectItem value="decretoNaoNumerado">Decreto Não Numerado</SelectItem>
-                <SelectItem value="emendaConsitucional">Emenda Constitucional</SelectItem>
-                <SelectItem value="instrucaoNormativa">Instrução Normativa</SelectItem>
-                <SelectItem value="leiComplementar">Lei Complementar</SelectItem>
-                <SelectItem value="leiOrdinaria">Lei Ordinária</SelectItem>
-                <SelectItem value="mensagemDoGovernador">Mensagem do Governador</SelectItem>
-                <SelectItem value="portaria">Portaria</SelectItem>
-                <SelectItem value="portariaConjunta">Portaria Conjunta</SelectItem>
-                <SelectItem value="resolucao">Resolução</SelectItem>
+                <SelectItem value="Constituição Estadual">Constituição Estadual</SelectItem>
+                <SelectItem value="Decreto Legislativo">Decreto Legislativo</SelectItem>
+                <SelectItem value="Decreto Lei">Decreto Lei</SelectItem>
+                <SelectItem value="Decreto Numerado">Decreto Numerado</SelectItem>
+                <SelectItem value="Decreto Não Numerado">Decreto Não Numerado</SelectItem>
+                <SelectItem value="Emenda Constitucional">Emenda Constitucional</SelectItem>
+                <SelectItem value="Instrução Normativa">Instrução Normativa</SelectItem>
+                <SelectItem value="Lei Complementar">Lei Complementar</SelectItem>
+                <SelectItem value="Lei Ordinária">Lei Ordinária</SelectItem>
+                <SelectItem value="Mensagem do Governador">Mensagem do Governador</SelectItem>
+                <SelectItem value="Portaria">Portaria</SelectItem>
+                <SelectItem value="Portaria Conjunta">Portaria Conjunta</SelectItem>
+                <SelectItem value="Resolução">Resolução</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={situacao}
+              onValueChange={(value) => setSituacao(value)}
+            >
+              <SelectTrigger className="w-full sm:col-span-2">
+                <SelectValue placeholder="Situação" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="todas">Todas as situações</SelectItem>
+                <SelectItem value="Vigente">Vigente</SelectItem>
+                <SelectItem value="Revogado">Revogado(a)</SelectItem>
+                <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
+                <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
+                <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
+                <SelectItem value="Inconstitucional">Declarado(a) Inconstitucional</SelectItem>
+                <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
+                <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
               </SelectContent>
             </Select>
             <Input
@@ -105,7 +126,15 @@ export function Inicio() {
           </div>
         </div>
       ) : (
-        <AtosCard />
+        <AtosCard
+          initialFilters={{
+            conteudo: termosBusca || undefined,
+            numero: numero || undefined,
+            ano: ano || undefined,
+            tipo: tipo !== "todos" ? tipo : undefined,
+            situacao: situacao !== "todas" ? situacao : undefined,
+          }}
+        />
       )}
     </>
   );
