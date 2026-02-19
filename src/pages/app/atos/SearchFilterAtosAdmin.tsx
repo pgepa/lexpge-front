@@ -14,6 +14,7 @@ type LocalQuery = {
     ano: string;
     tipo: string;
     texto_compilado: boolean;
+    situacao: string;
 };
 
 const SearchFilter: React.FC = () => {
@@ -28,8 +29,9 @@ const SearchFilter: React.FC = () => {
         descritores: query.descritores || '',
         numero: query.numero || '',
         ano: query.ano || '',
-        tipo: query.tipo || '',
+        tipo: query.tipo || 'todos',
         texto_compilado: query.texto_compilado || false,
+        situacao: query.situacao || 'todas',
     });
 
     const navigate = useNavigate();
@@ -46,8 +48,9 @@ const SearchFilter: React.FC = () => {
             descritores: '',
             numero: '',
             ano: '',
-            tipo: '',
+            tipo: 'todos',
             texto_compilado: false,
+            situacao: 'todas',
         };
         setLocalQuery(resetQuery);
         setQuery(resetQuery);
@@ -92,6 +95,7 @@ const SearchFilter: React.FC = () => {
                     <SelectValue placeholder="Selecione o tipo" />
                 </SelectTrigger>
                 <SelectContent>
+                    <SelectItem value="todos">Todos os tipos</SelectItem>
                     <SelectItem value="Constituição Estadual">Constituição Estadual</SelectItem>
                     <SelectItem value="Decreto Legislativo">Decreto Legislativo</SelectItem>
                     <SelectItem value="Decreto Lei">Decreto Lei</SelectItem>
@@ -105,6 +109,26 @@ const SearchFilter: React.FC = () => {
                     <SelectItem value="Portaria">Portaria</SelectItem>
                     <SelectItem value="Portaria Conjunta">Portaria Conjunta</SelectItem>
                     <SelectItem value="Resolução">Resolução</SelectItem>
+                </SelectContent>
+            </Select>
+
+            <Select
+                value={localQuery.situacao}
+                onValueChange={(value) => setLocalQuery({ ...localQuery, situacao: value })}
+            >
+                <SelectTrigger className="w-full sm:w-[220px]">
+                    <SelectValue placeholder="Situação" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="todas">Todas as situações</SelectItem>
+                    <SelectItem value="Vigente">Vigente</SelectItem>
+                    <SelectItem value="Revogado">Revogado(a)</SelectItem>
+                    <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
+                    <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
+                    <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
+                    <SelectItem value="Inconstitucional">Declarado(a) Inconstitucional</SelectItem>
+                    <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
+                    <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
                 </SelectContent>
             </Select>
 

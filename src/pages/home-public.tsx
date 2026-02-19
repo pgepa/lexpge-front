@@ -11,6 +11,7 @@ import { SearchContext } from "@/Context/SearchContext";
 export function HomePublic() {
   const [numero, setNumero] = useState("");
   const [ano, setAno] = useState("");
+  const [descritores, setDescritores] = useState("");
   const [tipo, setTipo] = useState("todos");
   const [situacao, setSituacao] = useState("todas");
   const [termosBusca, setTermosBusca] = useState("");
@@ -20,7 +21,7 @@ export function HomePublic() {
   const handleSearch = () => {
     setQuery({
       conteudo: termosBusca,
-      descritores: "",
+      descritores,
       numero,
       ano,
       tipo,
@@ -33,6 +34,7 @@ export function HomePublic() {
   const handleClearFilters = () => {
     setNumero("");
     setAno("");
+    setDescritores("");
     setTipo("todos");
     setSituacao("todas");
     setTermosBusca("");
@@ -60,12 +62,18 @@ export function HomePublic() {
               onChange={(e) => setAno(e.target.value)}
               className="w-full"
             />
+            <Input
+              placeholder="Busca por descritores"
+              value={descritores}
+              onChange={(e) => setDescritores(e.target.value)}
+              className="w-full"
+            />
             <Select
               value={tipo}
               onValueChange={(value) => setTipo(value)}
             >
-              <SelectTrigger  className="w-full sm:col-span-2">
-                <SelectValue placeholder="Selecione um tipo" />
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecione o tipo" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="todos">Todos os tipos</SelectItem>
@@ -88,7 +96,7 @@ export function HomePublic() {
               value={situacao}
               onValueChange={(value) => setSituacao(value)}
             >
-              <SelectTrigger className="w-full sm:col-span-2">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Situação" />
               </SelectTrigger>
               <SelectContent>
@@ -104,20 +112,20 @@ export function HomePublic() {
               </SelectContent>
             </Select>
             <Input
-              placeholder="Busca por termos"
+              placeholder="Busca avançada por termos"
               value={termosBusca}
               onChange={(e) => setTermosBusca(e.target.value)}
-              className="w-full sm:col-span-2 md:col-span-4"
+              className="w-full sm:col-span-2 md:col-span-3"
             />
           </div>
 
-          <div className="flex flex-row gap-4 items-center mt-4">
+          <div className="flex flex-col sm:flex-row gap-4 items-center mt-4">
             <Button
               type="button"
               variant="secondary"
               size="lg"
               onClick={handleSearch}
-              className="flex items-center"
+              className="w-full sm:w-auto flex items-center"
             >
               <Search className="h-4 w-4 mr-2" />
               Pesquisar
@@ -127,7 +135,7 @@ export function HomePublic() {
               variant="outline"
               size="lg"
               onClick={handleClearFilters}
-              className="flex items-center"
+              className="w-full sm:w-auto flex items-center"
             >
               <X className="h-4 w-4 mr-2" />
               Remover filtros

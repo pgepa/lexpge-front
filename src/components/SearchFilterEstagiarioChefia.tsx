@@ -8,13 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const SearchFilter: React.FC = () => {
     const { query, setQuery } = useContext(SearchContext)!;
-    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; }>({
+    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; }>({
         conteudo: query.conteudo || '',
         descritores: query.descritores || '',
         numero: query.numero || '',
         ano: query.ano || '',
-        tipo: query.tipo || '',
+        tipo: query.tipo || 'todos',
         texto_compilado: query.texto_compilado || false,
+        situacao: query.situacao || 'todas',
     });
     const navigate = useNavigate();
 
@@ -31,8 +32,9 @@ const SearchFilter: React.FC = () => {
             descritores: '',
             numero: '',
             ano: '',
-            tipo: '',
+            tipo: 'todos',
             texto_compilado: false,
+            situacao: 'todas',
         });
 
         // Também reseta o contexto se necessário
@@ -41,8 +43,9 @@ const SearchFilter: React.FC = () => {
             descritores: '',
             numero: '',
             ano: '',
-            tipo: '',
+            tipo: 'todos',
             texto_compilado: false,
+            situacao: 'todas',
         });
     };
 
@@ -84,6 +87,7 @@ const SearchFilter: React.FC = () => {
                     <SelectValue placeholder="Selecione o tipo" />
                 </SelectTrigger>
                 <SelectContent>
+                    <SelectItem value="todos">Todos os tipos</SelectItem>
                     <SelectItem value="Constituição Estadual">Constituição Estadual</SelectItem>
                     <SelectItem value="Decreto Legislativo">Decreto Legislativo</SelectItem>
                     <SelectItem value="Decreto Lei">Decreto Lei</SelectItem>
@@ -100,9 +104,25 @@ const SearchFilter: React.FC = () => {
                 </SelectContent>
             </Select>
 
-            
-
-
+            <Select
+                value={localQuery.situacao}
+                onValueChange={(value) => setLocalQuery({ ...localQuery, situacao: value })}
+            >
+                <SelectTrigger className="w-full sm:w-[220px]">
+                    <SelectValue placeholder="Situação" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="todas">Todas as situações</SelectItem>
+                    <SelectItem value="Vigente">Vigente</SelectItem>
+                    <SelectItem value="Revogado">Revogado(a)</SelectItem>
+                    <SelectItem value="Revogado Parcialmente">Revogado(a) Parcialmente</SelectItem>
+                    <SelectItem value="Sem Efeito">Sem Efeito</SelectItem>
+                    <SelectItem value="Sem Revogação Expressa">Sem Revogação Expressa</SelectItem>
+                    <SelectItem value="Inconstitucional">Declarado(a) Inconstitucional</SelectItem>
+                    <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
+                    <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
+                </SelectContent>
+            </Select>
 
             <Button onClick={handleSearch} type="submit"  size="default" className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 w-full sm:w-auto">
                 <Search className="h-4 w-4 mr-2" />
