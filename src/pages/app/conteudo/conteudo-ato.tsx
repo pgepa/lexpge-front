@@ -20,10 +20,35 @@ const formatContent = (html: string) => {
   );
 };
 
+// Aplica width, height, margin e display do atributo containerstyle (ImageResize) no style da img para a exibição respeitar tamanho e alinhamento
+const normalizeImageDimensions = (html: string): string => {
+  if (typeof document === 'undefined') return html;
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const imgs = div.querySelectorAll<HTMLImageElement>('img[containerstyle]');
+  imgs.forEach((img) => {
+    const containerStyle = img.getAttribute('containerstyle');
+    if (!containerStyle) return;
+    const widthMatch = containerStyle.match(/width:\s*([0-9.]+)px/);
+    const heightMatch = containerStyle.match(/height:\s*([0-9.]+)px/);
+    const marginMatch = containerStyle.match(/margin:\s*([^;]+)/);
+    const displayMatch = containerStyle.match(/display:\s*([^;]+)/);
+    let style = img.getAttribute('style') || '';
+    if (widthMatch) style = (style ? style.trimEnd() + '; ' : '') + `width: ${widthMatch[1]}px`;
+    if (heightMatch) style = (style ? style.trimEnd() + '; ' : '') + `height: ${heightMatch[1]}px`;
+    if (marginMatch) style = (style ? style.trimEnd() + '; ' : '') + `margin: ${marginMatch[1].trim()}`;
+    if (displayMatch) style = (style ? style.trimEnd() + '; ' : '') + `display: ${displayMatch[1].trim()}`;
+    if (style) img.setAttribute('style', style);
+    img.removeAttribute('containerstyle');
+  });
+  return div.innerHTML;
+};
+
 const ContentViewer = ({ content }: { content: string }) => {
+  const normalized = normalizeImageDimensions(formatContent(content));
   return (
-    <div className="tiptap prose max-w-none">
-      <div dangerouslySetInnerHTML={{ __html: formatContent(content) }} />
+    <div className="tiptap max-w-none conteudo-ato-viewer">
+      <div dangerouslySetInnerHTML={{ __html: normalized }} />
     </div>
   );
 };

@@ -3,6 +3,20 @@
       margin-top: 0;
     }
 
+    /* Negrito aplicado no editor: sem sombra/desfoque (strong/b do conteúdo editável) */
+    strong,
+    b,
+    .ProseMirror strong,
+    .ProseMirror b {
+      text-shadow: none !important;
+      -webkit-text-stroke: 0 transparent;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-weight: 600;
+      text-rendering: geometricPrecision;
+      filter: none !important;
+    }
+
     .table-no-border {
         border: none !important;
     }
@@ -187,9 +201,15 @@
     font-size: 1rem; 
   }
 
-
-  
-
+  /* Preservar dimensões das imagens na exibição do ato (viewer e editor) */
+  img[width],
+  img[style*="width"] {
+    max-width: none;
+  }
+  img[height],
+  img[style*="height"] {
+    height: revert;
+  }
 
       
 }

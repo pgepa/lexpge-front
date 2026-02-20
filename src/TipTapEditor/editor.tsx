@@ -5,7 +5,6 @@ import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
 import { cn } from '@/lib/utils';
 import { MenuBar } from './menu-bar';
-import Image from '@tiptap/extension-image';
 import ImageResize from "tiptap-extension-resize-image";
 import Table from "@tiptap/extension-table";
 import TableCell from '@tiptap/extension-table-cell'
@@ -176,7 +175,8 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             FontFamily,
             TextStyle.configure({}),
             Underline,
-            ImageResize,
+            // allowBase64 é opção da Image (pai); ImageResizeOptions não a declara no tipo, mas é aceita em runtime
+            ImageResize.configure({ allowBase64: true } as Parameters<typeof ImageResize.configure>[0]),
             FontSize,
             TableRow,
             TableHeader,
@@ -192,9 +192,6 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
 
             TextAlign.configure({
                 types: ["heading", "paragraph", "table"]
-            }),
-            Image.configure({
-                allowBase64: true,
             }),
 
 
