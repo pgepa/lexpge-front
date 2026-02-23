@@ -191,7 +191,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
             }),
 
             TextAlign.configure({
-                types: ["heading", "paragraph", "table"]
+                types: ["heading", "paragraph", "tableCell", "tableHeader"]
             }),
 
 

@@ -3,6 +3,17 @@
       margin-top: 0;
     }
 
+    /* Espaçamento entre parágrafos (editor e exibição do ato / .conteudo-ato-viewer) */
+    p {
+      margin-bottom: 1em;
+    }
+    p:first-child {
+      margin-top: 0;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+
     /* Negrito aplicado no editor: sem sombra/desfoque (strong/b do conteúdo editável) */
     strong,
     b,
@@ -212,4 +223,13 @@
   }
 
       
+}
+
+/* Exibição do conteúdo do ato: garantir espaçamento entre parágrafos (Enter) mesmo com reset do Tailwind */
+.conteudo-ato-viewer .conteudo-ato-body p {
+  margin-top: 0 !important;
+  margin-bottom: 1em !important;
+}
+.conteudo-ato-viewer .conteudo-ato-body p:last-child {
+  margin-bottom: 0 !important;
 }

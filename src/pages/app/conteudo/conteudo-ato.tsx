@@ -11,16 +11,12 @@ interface TextoIntegral {
   conteudo: string;
 }
 
-
-// Insere <br> dentro de <p> vazios e <p> vazios com text-align: center
+// Parágrafos vazios ganham <br> para manter altura na exibição
 const formatContent = (html: string) => {
-  return html.replace(
-    /<p(\s+style="text-align:\s*(?:center|justify)")?>\s*<\/p>/g,
-    '<p$1><br></p>'
-  );
+  return html.replace(/<p(\s[^>]*)?>\s*<\/p>/gi, '<p$1><br></p>');
 };
 
-// Aplica width, height, margin e display do atributo containerstyle (ImageResize) no style da img para a exibição respeitar tamanho e alinhamento
+// Aplica width, height, margin e display do atributo containerstyle (ImageResize) no style da img
 const normalizeImageDimensions = (html: string): string => {
   if (typeof document === 'undefined') return html;
   const div = document.createElement('div');
@@ -48,7 +44,15 @@ const ContentViewer = ({ content }: { content: string }) => {
   const normalized = normalizeImageDimensions(formatContent(content));
   return (
     <div className="tiptap max-w-none conteudo-ato-viewer">
-      <div dangerouslySetInnerHTML={{ __html: normalized }} />
+      <style>{`
+        .conteudo-ato-viewer .conteudo-ato-body p {
+          margin: 0 0 1em 0 !important;
+        }
+        .conteudo-ato-viewer .conteudo-ato-body p:last-child {
+          margin-bottom: 0 !important;
+        }
+      `}</style>
+      <div className="conteudo-ato-body" dangerouslySetInnerHTML={{ __html: normalized }} />
     </div>
   );
 };

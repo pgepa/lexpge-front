@@ -189,7 +189,7 @@ export const EditorTipObservacao = ({ value, onChange, className }: EditorProps)
             }),
 
             TextAlign.configure({
-                types: ["heading", "paragraph", "table"]
+                types: ["heading", "paragraph", "tableCell", "tableHeader"]
             }),
             Image.configure({
                 allowBase64: true,
