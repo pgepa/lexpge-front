@@ -3,14 +3,10 @@
       margin-top: 0;
     }
 
-    /* Espaçamento entre parágrafos (editor e exibição do ato / .conteudo-ato-viewer) */
+    /* Espaçamento de parágrafos no editor TipTap (baseline único usado também na exibição) */
     p {
-      margin-bottom: 1em;
-    }
-    p:first-child {
+      line-height: 1.25; /* mais próximo do Word */
       margin-top: 0;
-    }
-    p:last-child {
       margin-bottom: 0;
     }
 
@@ -168,12 +164,13 @@
 
   ul, 
   ol {
-    padding-left: 1.5rem;
-    margin: 1rem 0;
+    padding-left: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 0;
     
     li p {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
 
@@ -186,12 +183,8 @@
   h6 {
     line-height: 1.1;
     overflow-wrap: break-word;
-  }
-
-  h1, 
-  h2 {
-    margin-top: 3.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   h1 { 
@@ -225,12 +218,13 @@
       
 }
 
-/* Exibição do conteúdo do ato: ajustar espaçamento para que um Enter não pareça \"duas linhas\" */
+/* Exibição do conteúdo do ato: reutiliza o mesmo baseline de parágrafo da classe .tiptap */
 .conteudo-ato-viewer .conteudo-ato-body p {
-  margin-top: 0 !important;
-  margin-bottom: 0.5em !important; /* espaçamento mais contido entre parágrafos */
-  line-height: 1.5;
+  line-height: 1.25;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .conteudo-ato-viewer .conteudo-ato-body p:last-child {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
+
