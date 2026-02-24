@@ -225,10 +225,11 @@
       
 }
 
-/* Exibição do conteúdo do ato: garantir espaçamento entre parágrafos (Enter) mesmo com reset do Tailwind */
+/* Exibição do conteúdo do ato: ajustar espaçamento para que um Enter não pareça \"duas linhas\" */
 .conteudo-ato-viewer .conteudo-ato-body p {
   margin-top: 0 !important;
-  margin-bottom: 1em !important;
+  margin-bottom: 0.5em !important; /* espaçamento mais contido entre parágrafos */
+  line-height: 1.5;
 }
 .conteudo-ato-viewer .conteudo-ato-body p:last-child {
   margin-bottom: 0 !important;

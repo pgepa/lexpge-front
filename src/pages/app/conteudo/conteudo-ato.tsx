@@ -44,14 +44,6 @@ const ContentViewer = ({ content }: { content: string }) => {
   const normalized = normalizeImageDimensions(formatContent(content));
   return (
     <div className="tiptap max-w-none conteudo-ato-viewer">
-      <style>{`
-        .conteudo-ato-viewer .conteudo-ato-body p {
-          margin: 0 0 1em 0 !important;
-        }
-        .conteudo-ato-viewer .conteudo-ato-body p:last-child {
-          margin-bottom: 0 !important;
-        }
-      `}</style>
       <div className="conteudo-ato-body" dangerouslySetInnerHTML={{ __html: normalized }} />
     </div>
   );
