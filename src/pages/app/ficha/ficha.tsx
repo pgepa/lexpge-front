@@ -40,7 +40,7 @@ export function Ficha() {
             if (location.state && location.state.ato) {
                 setAto(location.state.ato);
             } else {
-                const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${id}`);
+                const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${id}?exibir=false`);
                 const data = await response.json();
                 setAto(data);
             }
