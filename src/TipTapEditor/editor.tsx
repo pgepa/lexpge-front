@@ -228,7 +228,7 @@ export const EditorTip = ({ value, onChange, className }: EditorProps) => {
     });
 
     useEffect(() => {
-        if (editor && value !== undefined && value !== null && value !== editor.getHTML()) {
+        if (editor && value && value.trim() !== '' && value !== editor.getHTML()) {
             editor.commands.setContent(value);
         }
     }, [editor, value]);
