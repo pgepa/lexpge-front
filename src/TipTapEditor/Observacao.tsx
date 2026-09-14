@@ -12,7 +12,7 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import { Color } from '@tiptap/extension-color';
 import TextStyle from '@tiptap/extension-text-style';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import FontFamily from '@tiptap/extension-font-family';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
@@ -200,14 +200,8 @@ export const EditorTipObservacao = ({ value, onChange, className }: EditorProps)
 
         ],
         content: value,
-        onCreate: ({ editor }) => {
-            onChange?.(editor.getHTML());
-
-        },
         onUpdate: ({ editor }) => {
             onChange?.(editor.getHTML());
-
-
         },
 
         autofocus: false,
@@ -220,6 +214,12 @@ export const EditorTipObservacao = ({ value, onChange, className }: EditorProps)
         }
 
     });
+
+    useEffect(() => {
+        if (editor && value !== undefined && value !== null && value !== editor.getHTML()) {
+            editor.commands.setContent(value);
+        }
+    }, [editor, value]);
 
     const setLink = useCallback(() => {
         if (!editor) return; // Certifique-se de que o editor não é nulo antes de usar

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Save, SquareX } from 'lucide-react';
 import { toast } from 'sonner';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import GridLoader from "react-spinners/GridLoader";
 import './styles.css'
 import { EditorTipObservacao } from '@/TipTapEditor/Observacao';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,8 +28,8 @@ const editRegistroEstagiarioForm = z.object({
     data_ato: z.date({ required_error: "Data do ato é obrigatória" }),
     data_publicacao: z.date({ required_error: "Data de publicação é obrigatória" }),
     descritores: z.string().min(1, { message: 'Descritores são obrigatórios' }),
-    observacao: z.string(),
-    conteudo: z.string(),
+    observacao: z.string().optional().nullable().or(z.literal('')),
+    conteudo: z.string().optional().nullable().or(z.literal('')),
     texto_compilado: z.boolean().optional(),
 })
     .refine((data) => {
@@ -44,35 +45,102 @@ const editRegistroEstagiarioForm = z.object({
 type EditRegistroEstagiarioForm = z.infer<typeof editRegistroEstagiarioForm>;
 
 export function EditarRegistroEstagiario() {
+    const { id } = useParams<{ id: string }>();
     const location = useLocation();
     const navigate = useNavigate();
-    const ato = location.state?.ato as EditRegistroEstagiarioForm;
+    const atoFromState = location.state?.ato;
+    const [loading, setLoading] = useState(true);
 
-    const { register, handleSubmit, control, formState: { isSubmitting, errors }, setValue } = useForm<EditRegistroEstagiarioForm>({
-
+    const { register, handleSubmit, control, formState: { isSubmitting, errors }, reset } = useForm<EditRegistroEstagiarioForm>({
         resolver: zodResolver(editRegistroEstagiarioForm),
-
         defaultValues: {
-            ...ato,
-            id: (ato && typeof ato.id === 'number') ? ato.id : 0,
-            data_ato: ato?.data_ato ? new Date(ato.data_ato) : undefined,
-            data_publicacao: ato?.data_publicacao ? new Date(ato.data_publicacao) : undefined,
+            id: (atoFromState && typeof atoFromState.id === 'number') ? atoFromState.id : Number(id || 0),
+            numero: atoFromState?.numero ? String(atoFromState.numero) : '',
+            titulo: atoFromState?.titulo || '',
+            ementa: atoFromState?.ementa || '',
+            tipo_id: atoFromState?.tipo_id || '',
+            situacao: atoFromState?.situacao || '',
+            fonte: atoFromState?.fonte || '',
+            descritores: atoFromState?.descritores || '',
+            observacao: atoFromState?.observacao || '',
+            conteudo: atoFromState?.conteudo || '',
+            data_ato: atoFromState?.data_ato ? new Date(atoFromState.data_ato) : undefined,
+            data_publicacao: atoFromState?.data_publicacao ? new Date(atoFromState.data_publicacao) : undefined,
+            texto_compilado: Boolean(atoFromState?.texto_compilado),
         },
     });
 
+    useEffect(() => {
+        async function carregarAto() {
+            const targetId = id || atoFromState?.id;
+            if (!targetId) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                setLoading(true);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/atos/${targetId}`);
+                if (!response.ok) {
+                    throw new Error('Não foi possível carregar os dados do ato.');
+                }
+                const data = await response.json();
+
+                let processedContent = data.conteudo || "";
+                processedContent = processedContent.replace(
+                    /src="(https?:\/\/[^\s"]+|data:image\/[a-zA-Z]+;base64,[^\s"]+|\/images\/[^\s"]+)"/g,
+                    (_: string, src: string) => {
+                        if (src.startsWith("http") || src.startsWith("data:image")) {
+                            return `src="${src}"`;
+                        }
+                        if (src.startsWith("/images")) {
+                            return `src="${import.meta.env.VITE_PUBLIC_URL}${src}"`;
+                        }
+                        return `src="${src}"`;
+                    }
+                );
+
+                reset({
+                    id: Number(data.id),
+                    numero: String(data.numero_formatado || data.numero || ''),
+                    titulo: data.titulo || '',
+                    ementa: data.ementa || '',
+                    tipo_id: data.tipo_id || '',
+                    situacao: data.situacao || '',
+                    fonte: data.fonte || '',
+                    data_ato: data.data_ato ? new Date(data.data_ato) : undefined,
+                    data_publicacao: data.data_publicacao ? new Date(data.data_publicacao) : undefined,
+                    descritores: data.descritores || '',
+                    observacao: data.observacao || '',
+                    conteudo: processedContent,
+                    texto_compilado: Boolean(data.texto_compilado),
+                });
+            } catch (error) {
+                console.error('Erro ao carregar dados do ato:', error);
+                toast.error('Erro ao carregar dados do ato normativo.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        carregarAto();
+    }, [id, reset]);
+
     async function handleEditRegistroEstagiario(data: EditRegistroEstagiarioForm) {
         try {
-
+            const targetId = data.id || Number(id);
             const payload = {
                 ...data,
                 numero: String(data.numero),
+                observacao: data.observacao || '',
+                conteudo: data.conteudo || '',
                 data_ato: data.data_ato ? new Date(data.data_ato).toISOString().split('T')[0] : null,
                 data_publicacao: data.data_publicacao ? new Date(data.data_publicacao).toISOString().split('T')[0] : null,
             };
 
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/atos/${ato.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/atos/${targetId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,24 +162,13 @@ export function EditarRegistroEstagiario() {
         }
     }
 
-    useEffect(() => {
-
-        if (ato?.conteudo) {
-            const processedContent = ato.conteudo.replace(
-                /src="(https?:\/\/[^\s"]+|data:image\/[a-zA-Z]+;base64,[^\s"]+|\/images\/[^\s"]+)"/g,
-                (_, src) => {
-                    if (src.startsWith("http") || src.startsWith("data:image")) {
-                        return `src="${src}"`; // Mantém URLs externas e base64 inalteradas
-                    }
-                    if (src.startsWith("/images")) {
-                        return `src="${import.meta.env.VITE_PUBLIC_URL}${src}"`; // Corrige caminhos relativos
-                    }
-                    return `src="${src}"`;
-                }
-            );
-            setValue("conteudo", processedContent); // Define o conteúdo processado
-        }
-    }, [ato, setValue]);
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <GridLoader size={16} color="#3727c9" />
+            </div>
+        );
+    }
 
 
 
@@ -259,7 +316,7 @@ export function EditarRegistroEstagiario() {
                         name="observacao"
                         control={control}
                         render={({ field }) => (
-                            <EditorTipObservacao value={field.value} onChange={field.onChange} className='h-[250px] mt-4' />
+                            <EditorTipObservacao value={field.value || ''} onChange={field.onChange} className='h-[250px] mt-4' />
                         )}
                     />
                 </div>
@@ -269,7 +326,7 @@ export function EditarRegistroEstagiario() {
                         name="conteudo"
                         control={control}
                         render={({ field }) => (
-                            <EditorTip value={field.value} onChange={field.onChange} className='h-[600px] mt-4' />
+                            <EditorTip value={field.value || ''} onChange={field.onChange} className='h-[600px] mt-4' />
                         )}
                     />
                 </div>
