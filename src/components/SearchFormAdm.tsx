@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const SearchFormAdmin: React.FC = () => {
     const { query, setQuery } = useContext(SearchContext)!;
-    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; }>({
+    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; fonte: string; }>({
         conteudo: query.conteudo ?? '',
         descritores: query.descritores ?? '',
         numero: query.numero ?? '',
@@ -21,6 +21,7 @@ const SearchFormAdmin: React.FC = () => {
         tipo: query.tipo || 'todos',
         texto_compilado: query.texto_compilado || false,
         situacao: query.situacao || 'todas',
+        fonte: query.fonte || 'todas',
     });
     const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const SearchFormAdmin: React.FC = () => {
             tipo: 'todos',
             texto_compilado: false,
             situacao: 'todas',
+            fonte: 'todas',
         });
 
         // Também reseta o contexto se necessário
@@ -51,6 +53,7 @@ const SearchFormAdmin: React.FC = () => {
             tipo: 'todos',
             texto_compilado: false,
             situacao: 'todas',
+            fonte: 'todas',
         });
     };
 
@@ -127,6 +130,20 @@ const SearchFormAdmin: React.FC = () => {
                             <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
                         </SelectContent>
                     </Select>
+            <Select
+                value={localQuery.fonte}
+                onValueChange={(value) => setLocalQuery({ ...localQuery, fonte: value })}
+            >
+                <SelectTrigger className="w-full sm:w-[220px]">
+                    <SelectValue placeholder="Diário Oficial" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="todas">Todos os Diários</SelectItem>
+                    <SelectItem value="DOE">DOE</SelectItem>
+                    <SelectItem value="DO-E/SEFA">DO-e/SEFA</SelectItem>
+                </SelectContent>
+            </Select>
+
 
                     <Input
                         placeholder="Busca avançada por termos"

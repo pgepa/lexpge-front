@@ -14,8 +14,7 @@ type LocalQuery = {
     ano: string;
     tipo: string;
     texto_compilado: boolean;
-    situacao: string;
-};
+    situacao: string; fonte: string; };
 
 const SearchFilter: React.FC = () => {
     const searchContext = useContext(SearchContext);
@@ -32,6 +31,7 @@ const SearchFilter: React.FC = () => {
         tipo: query.tipo || 'todos',
         texto_compilado: query.texto_compilado || false,
         situacao: query.situacao || 'todas',
+        fonte: query.fonte || 'todas',
     });
 
     const navigate = useNavigate();
@@ -52,6 +52,7 @@ const SearchFilter: React.FC = () => {
             tipo: 'todos',
             texto_compilado: false,
             situacao: 'todas',
+            fonte: 'todas',
         };
         setLocalQuery(resetQuery);
         setQuery(resetQuery);
@@ -130,6 +131,20 @@ const SearchFilter: React.FC = () => {
                     <SelectItem value="Inconstitucional">Declarado(a) Inconstitucional</SelectItem>
                     <SelectItem value="Vetado(a)">Vetado(a)</SelectItem>
                     <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
+                </SelectContent>
+            </Select>
+
+            <Select
+                value={localQuery.fonte}
+                onValueChange={(value) => setLocalQuery({ ...localQuery, fonte: value })}
+            >
+                <SelectTrigger className="w-full sm:w-[220px]">
+                    <SelectValue placeholder="Diário Oficial" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="todas">Todos os Diários</SelectItem>
+                    <SelectItem value="DOE">DOE</SelectItem>
+                    <SelectItem value="DO-E/SEFA">DO-e/SEFA</SelectItem>
                 </SelectContent>
             </Select>
 

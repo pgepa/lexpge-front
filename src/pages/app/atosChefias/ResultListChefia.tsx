@@ -76,6 +76,7 @@ const ResultsList: React.FC = () => {
         };
         if (query.tipo && query.tipo !== 'todos') params.tipo = query.tipo;
         if (query.situacao && query.situacao !== 'todas') params.situacao = query.situacao;
+        if (query.fonte && query.fonte !== 'todas') params.fonte = query.fonte;
         const queryString = new URLSearchParams(params).toString();
 
         try {

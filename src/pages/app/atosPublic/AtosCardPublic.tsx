@@ -81,6 +81,10 @@ const ResultsList: React.FC = () => {
             queryParams.situacao = query.situacao;
         }
 
+        
+        if (query.fonte && query.fonte !== 'todas') { 
+            queryParams.fonte = query.fonte;
+        } 
         const queryString = new URLSearchParams(queryParams).toString();
 
         try {
