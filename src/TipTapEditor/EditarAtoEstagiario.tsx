@@ -30,6 +30,7 @@ const editRegistroEstagiarioForm = z.object({
     descritores: z.string().min(1, { message: 'Descritores são obrigatórios' }),
     observacao: z.string().optional().nullable().or(z.literal('')),
     conteudo: z.string().optional().nullable().or(z.literal('')),
+    origem: z.string().optional().nullable().or(z.literal('')),
     texto_compilado: z.boolean().optional(),
 })
     .refine((data) => {
@@ -51,7 +52,7 @@ export function EditarRegistroEstagiario() {
     const atoFromState = location.state?.ato;
     const [loading, setLoading] = useState(true);
 
-    const { register, handleSubmit, control, formState: { isSubmitting, errors }, reset } = useForm<EditRegistroEstagiarioForm>({
+    const { register, handleSubmit, control, watch, formState: { isSubmitting, errors }, reset } = useForm<EditRegistroEstagiarioForm>({
         resolver: zodResolver(editRegistroEstagiarioForm),
         defaultValues: {
             id: (atoFromState && typeof atoFromState.id === 'number') ? atoFromState.id : Number(id || 0),
@@ -61,6 +62,7 @@ export function EditarRegistroEstagiario() {
             tipo_id: atoFromState?.tipo_id || '',
             situacao: atoFromState?.situacao || '',
             fonte: atoFromState?.fonte || '',
+            origem: atoFromState?.origem || '',
             descritores: atoFromState?.descritores || '',
             observacao: atoFromState?.observacao || '',
             conteudo: atoFromState?.conteudo || '',
@@ -69,6 +71,9 @@ export function EditarRegistroEstagiario() {
             texto_compilado: Boolean(atoFromState?.texto_compilado),
         },
     });
+
+    const tipoId = watch('tipo_id');
+    const isOrigemApplicable = ['Portaria', 'Portaria Conjunta', 'Resolução', 'Instrução Normativa', 'Decreto Legislativo'].includes(tipoId);
 
     useEffect(() => {
         async function carregarAto() {
@@ -108,6 +113,7 @@ export function EditarRegistroEstagiario() {
                     tipo_id: data.tipo_id || '',
                     situacao: data.situacao || '',
                     fonte: data.fonte || '',
+                    origem: data.origem || '',
                     data_ato: data.data_ato ? new Date(data.data_ato) : undefined,
                     data_publicacao: data.data_publicacao ? new Date(data.data_publicacao) : undefined,
                     descritores: data.descritores || '',
@@ -132,6 +138,7 @@ export function EditarRegistroEstagiario() {
             const payload = {
                 ...data,
                 numero: String(data.numero),
+                origem: data.origem ? data.origem.trim().toUpperCase() : null,
                 observacao: data.observacao || '',
                 conteudo: data.conteudo || '',
                 data_ato: data.data_ato ? new Date(data.data_ato).toISOString().split('T')[0] : null,
@@ -253,6 +260,17 @@ export function EditarRegistroEstagiario() {
                     <Label htmlFor="fonte">Fonte:</Label>
                     <Input id="fonte" placeholder="Fonte" {...register('fonte')} />
                     {errors.fonte && <p className="text-red-500 text-sm">{errors.fonte.message}</p>}
+                </div>
+
+                <div className="col-span-1 space-y-2">
+                    <Label htmlFor="origem">Origem (Secretaria/Órgão):</Label>
+                    <Input 
+                        id="origem" 
+                        placeholder={isOrigemApplicable ? "Ex: SEDUC, SEPLAD, PGE" : "Não aplicável a este tipo"} 
+                        disabled={!isOrigemApplicable}
+                        {...register('origem')} 
+                    />
+                    {errors.origem && <p className="text-red-500 text-sm">{errors.origem.message}</p>}
                 </div>
 
                 <div className="flex items-center space-x-2 ">

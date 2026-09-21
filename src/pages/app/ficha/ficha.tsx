@@ -12,6 +12,7 @@ interface AtoCard {
     ementa: string;
     tipo_id: string;
     fonte: string;
+    origem?: string;
     situacao: string;
     data_ato: string;
     data_publicacao: string;
@@ -32,7 +33,7 @@ export function Ficha() {
     const { id } = useParams<{ id: string }>();
 
     const [ato, setAto] = useState<AtoCard>({
-        id: 0, numero_formatado: '', titulo: '', ementa: '', tipo_id: '', fonte: '', situacao: '', data_ato: '', data_publicacao: '', observacao: ''
+        id: 0, numero_formatado: '', titulo: '', ementa: '', tipo_id: '', fonte: '', origem: '', situacao: '', data_ato: '', data_publicacao: '', observacao: ''
     });
 
     useEffect(() => {
@@ -73,6 +74,12 @@ export function Ficha() {
                         <span className="text-muted-foreground font-semibold w-32">Tipo:</span>
                         <span className="flex-1">{ato.tipo_id}</span>
                     </div>
+                    {ato.origem && (
+                        <div className="flex flex-wrap items-center gap-2 p-2 border-b">
+                            <span className="text-muted-foreground font-semibold w-32">Origem:</span>
+                            <span className="flex-1 font-medium text-blue-600 dark:text-blue-400">{ato.origem}</span>
+                        </div>
+                    )}
                     <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                         <span className="text-muted-foreground font-semibold w-32">Fonte:</span>
                         <span className="flex-1">{ato.fonte}</span>

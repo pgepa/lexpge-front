@@ -6,9 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Search, X } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+const isOrigemApplicable = (tipo: string) => {
+    return !tipo || tipo === 'todos' || ['Portaria', 'Portaria Conjunta', 'Resolução', 'Instrução Normativa', 'Decreto Legislativo'].includes(tipo);
+};
+
 const SearchFilter: React.FC = () => {
     const { query, setQuery } = useContext(SearchContext)!;
-    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; fonte: string; }>({
+    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; fonte: string; origem: string; }>({
         conteudo: query.conteudo || '',
         descritores: query.descritores || '',
         numero: query.numero || '',
@@ -17,6 +21,7 @@ const SearchFilter: React.FC = () => {
         texto_compilado: query.texto_compilado || false,
         situacao: query.situacao || 'todas',
         fonte: query.fonte || 'todas',
+        origem: query.origem ?? '',
     });
     const navigate = useNavigate();
 
@@ -37,6 +42,7 @@ const SearchFilter: React.FC = () => {
             texto_compilado: false,
             situacao: 'todas',
             fonte: 'todas',
+            origem: '',
         });
 
         // Também reseta o contexto se necessário
@@ -49,6 +55,7 @@ const SearchFilter: React.FC = () => {
             texto_compilado: false,
             situacao: 'todas',
             fonte: 'todas',
+            origem: '',
         });
     };
 
@@ -139,6 +146,13 @@ const SearchFilter: React.FC = () => {
                     <SelectItem value="DO-E/SEFA">DO-e/SEFA</SelectItem>
                 </SelectContent>
             </Select>
+            <Input
+                placeholder={isOrigemApplicable(localQuery.tipo) ? "Origem / Secretaria (ex: SEDUC)" : "Origem (não aplicável)"}
+                value={localQuery.origem}
+                disabled={!isOrigemApplicable(localQuery.tipo)}
+                onChange={(e) => setLocalQuery({ ...localQuery, origem: e.target.value })}
+                className="w-full sm:w-[200px]"
+            />
 
 
             <Button onClick={handleSearch} type="submit"  size="default" className="bg-gradient-to-r from-teal-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 w-full sm:w-auto">

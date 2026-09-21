@@ -14,7 +14,11 @@ type LocalQuery = {
     ano: string;
     tipo: string;
     texto_compilado: boolean;
-    situacao: string; fonte: string; };
+    situacao: string; fonte: string; origem: string; };
+
+const isOrigemApplicable = (tipo: string) => {
+    return !tipo || tipo === 'todos' || ['Portaria', 'Portaria Conjunta', 'Resolução', 'Instrução Normativa', 'Decreto Legislativo'].includes(tipo);
+};
 
 const SearchFilter: React.FC = () => {
     const searchContext = useContext(SearchContext);
@@ -32,6 +36,7 @@ const SearchFilter: React.FC = () => {
         texto_compilado: query.texto_compilado || false,
         situacao: query.situacao || 'todas',
         fonte: query.fonte || 'todas',
+        origem: query.origem ?? '',
     });
 
     const navigate = useNavigate();
@@ -52,6 +57,7 @@ const SearchFilter: React.FC = () => {
             texto_compilado: false,
             situacao: 'todas',
             fonte: 'todas',
+            origem: '',
         };
         setLocalQuery(resetQuery);
         setQuery(resetQuery);
@@ -146,6 +152,13 @@ const SearchFilter: React.FC = () => {
                     <SelectItem value="DO-E/SEFA">DO-e/SEFA</SelectItem>
                 </SelectContent>
             </Select>
+            <Input
+                placeholder={isOrigemApplicable(localQuery.tipo) ? "Origem / Secretaria (ex: SEDUC)" : "Origem (não aplicável)"}
+                value={localQuery.origem}
+                disabled={!isOrigemApplicable(localQuery.tipo)}
+                onChange={(e) => setLocalQuery({ ...localQuery, origem: e.target.value })}
+                className="w-full sm:w-[200px]"
+            />
 
             <div className="flex items-center">
                 <span className="mr-2 font-semibold tracking-tight">Texto Compilado</span>

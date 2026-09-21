@@ -10,6 +10,7 @@ export interface QueryType {
     texto_compilado: boolean;
     situacao?: string;
     fonte?: string;
+    origem?: string;
 }
 
 // Tipo do contexto
@@ -32,6 +33,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         texto_compilado: false,
         situacao: '',
         fonte: 'todas',
+        origem: '',
     });
 
     return (
