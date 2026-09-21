@@ -82,7 +82,9 @@ const ResultsList: React.FC = () => {
         
         if (query.fonte && query.fonte !== 'todas') { 
             params.fonte = query.fonte;
-        if (query.origem && query.origem.trim() !== '') params.origem = query.origem.trim();
+        }
+        if (query.origem && query.origem.trim() !== '') {
+            params.origem = query.origem.trim();
         } 
         const queryString = new URLSearchParams(params).toString();
 
