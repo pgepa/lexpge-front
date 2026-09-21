@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Scale, BookOpenText, List, Home, Menu } from "lucide-react";
+import { Scale, BookOpenText, List, Home, Menu, CalendarDays } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme/theme-toggle";
@@ -46,7 +46,10 @@ export function HeaderEstagiario() {
             <BookOpenText className="h-4 w-4" />
             Atos Normativos
           </NavLink>
-          
+          <NavLink to="/estagiario/resenha" onClick={closeMenu}>
+            <CalendarDays className="h-4 w-4" />
+            Resenha
+          </NavLink>
           <NavLink to="/estagiario/sobre" onClick={closeMenu}>
             <List className="h-4 w-4" />
             Sobre

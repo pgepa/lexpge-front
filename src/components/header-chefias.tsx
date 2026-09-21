@@ -1,4 +1,4 @@
-import { Scale, BookOpenText, List, Home, AreaChart} from "lucide-react"
+import { Scale, BookOpenText, List, Home, AreaChart, CalendarDays } from "lucide-react"
 import { Separator} from './ui/separator'
 import { NavLink } from "./nav-link"
 import { ThemeToggle } from "./theme/theme-toggle"
@@ -26,6 +26,11 @@ export function HeaderChefia() {
           <BookOpenText className="h-4 w-4" />
             Atos Normativos
           </NavLink>  
+
+          <NavLink to="/chefia/resenha">
+            <CalendarDays className="h-4 w-4" />
+            Resenha
+          </NavLink>
 
           <NavLink to="/chefia/dashboard">
             <AreaChart  className="h-4 w-4" />            
