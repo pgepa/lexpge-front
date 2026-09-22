@@ -39,7 +39,8 @@ import {
   BadgeAlert,
   Clock,
   ArrowUpDown,
-  Tag
+  Tag,
+  Check
 } from "lucide-react";
 import GridLoader from "react-spinners/GridLoader";
 import { format, subDays, startOfMonth, endOfMonth, subMonths } from 'date-fns';
@@ -113,6 +114,7 @@ interface DetalhesResponse {
 
 export function TeamProductivity() {
   // Filtros principais
+  const [presetSelecionado, setPresetSelecionado] = useState<'este_mes' | 'mes_anterior' | 'ultimos_30' | 'ano_atual' | 'tudo' | null>('este_mes');
   const [dataInicio, setDataInicio] = useState<Date | undefined>(startOfMonth(new Date()));
   const [dataFim, setDataFim] = useState<Date | undefined>(new Date());
   const [filtroPerfil, setFiltroPerfil] = useState<string>("todos");
@@ -138,6 +140,7 @@ export function TeamProductivity() {
 
   // Presets de data
   const aplicarPreset = (tipo: 'este_mes' | 'mes_anterior' | 'ultimos_30' | 'ano_atual' | 'tudo') => {
+    setPresetSelecionado(tipo);
     const hoje = new Date();
     if (tipo === 'este_mes') {
       setDataInicio(startOfMonth(hoje));
@@ -413,47 +416,72 @@ export function TeamProductivity() {
             <div className="flex flex-wrap items-center gap-1.5">
               <Button
                 type="button"
-                variant="outline"
+                variant={presetSelecionado === 'este_mes' ? 'default' : 'outline'}
                 size="xs"
-                className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                className={`text-xs h-7 px-3 rounded-md transition-all ${
+                  presetSelecionado === 'este_mes'
+                    ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                }`}
                 onClick={() => aplicarPreset('este_mes')}
               >
+                {presetSelecionado === 'este_mes' && <Check className="h-3 w-3 mr-1" />}
                 Este Mês
               </Button>
               <Button
                 type="button"
-                variant="outline"
+                variant={presetSelecionado === 'mes_anterior' ? 'default' : 'outline'}
                 size="xs"
-                className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                className={`text-xs h-7 px-3 rounded-md transition-all ${
+                  presetSelecionado === 'mes_anterior'
+                    ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                }`}
                 onClick={() => aplicarPreset('mes_anterior')}
               >
+                {presetSelecionado === 'mes_anterior' && <Check className="h-3 w-3 mr-1" />}
                 Mês Anterior
               </Button>
               <Button
                 type="button"
-                variant="outline"
+                variant={presetSelecionado === 'ultimos_30' ? 'default' : 'outline'}
                 size="xs"
-                className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                className={`text-xs h-7 px-3 rounded-md transition-all ${
+                  presetSelecionado === 'ultimos_30'
+                    ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                }`}
                 onClick={() => aplicarPreset('ultimos_30')}
               >
+                {presetSelecionado === 'ultimos_30' && <Check className="h-3 w-3 mr-1" />}
                 Últimos 30 dias
               </Button>
               <Button
                 type="button"
-                variant="outline"
+                variant={presetSelecionado === 'ano_atual' ? 'default' : 'outline'}
                 size="xs"
-                className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                className={`text-xs h-7 px-3 rounded-md transition-all ${
+                  presetSelecionado === 'ano_atual'
+                    ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                }`}
                 onClick={() => aplicarPreset('ano_atual')}
               >
+                {presetSelecionado === 'ano_atual' && <Check className="h-3 w-3 mr-1" />}
                 Ano Atual
               </Button>
               <Button
                 type="button"
-                variant="outline"
+                variant={presetSelecionado === 'tudo' ? 'default' : 'outline'}
                 size="xs"
-                className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                className={`text-xs h-7 px-3 rounded-md transition-all ${
+                  presetSelecionado === 'tudo'
+                    ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                }`}
                 onClick={() => aplicarPreset('tudo')}
               >
+                {presetSelecionado === 'tudo' && <Check className="h-3 w-3 mr-1" />}
                 Histórico Completo
               </Button>
             </div>
@@ -465,14 +493,28 @@ export function TeamProductivity() {
               <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Data Inicial:
               </Label>
-              <DatePicker date={dataInicio} onChange={setDataInicio} className="w-full" />
+              <DatePicker
+                date={dataInicio}
+                onChange={(d) => {
+                  setPresetSelecionado(null);
+                  setDataInicio(d);
+                }}
+                className="w-full"
+              />
             </div>
 
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                 Data Final:
               </Label>
-              <DatePicker date={dataFim} onChange={setDataFim} className="w-full" />
+              <DatePicker
+                date={dataFim}
+                onChange={(d) => {
+                  setPresetSelecionado(null);
+                  setDataFim(d);
+                }}
+                className="w-full"
+              />
             </div>
 
             <div className="space-y-1.5">

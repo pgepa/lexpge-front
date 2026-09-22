@@ -18,7 +18,7 @@ import {
   Building,
   AlertCircle,
   Clock,
-  Sparkles,
+  Check,
 } from 'lucide-react';
 import GridLoader from 'react-spinners/GridLoader';
 import { format, subDays, startOfMonth } from 'date-fns';
@@ -99,6 +99,7 @@ function toIsoDate(date: Date): string {
 
 export const ResenhaPage: React.FC = () => {
   // Estado de filtros
+  const [periodoSelecionado, setPeriodoSelecionado] = useState<'7' | '15' | '30' | 'mes' | null>('7');
   const [dataInicio, setDataInicio] = useState<Date | undefined>(() => subDays(new Date(), 7));
   const [dataFim, setDataFim] = useState<Date | undefined>(() => new Date());
   const [campoData, setCampoData] = useState<'data_publicacao' | 'data_ato'>('data_publicacao');
@@ -163,6 +164,7 @@ export const ResenhaPage: React.FC = () => {
   };
 
   const handleLimparFiltros = () => {
+    setPeriodoSelecionado('7');
     setDataInicio(subDays(new Date(), 7));
     setDataFim(new Date());
     setCampoData('data_publicacao');
@@ -173,11 +175,13 @@ export const ResenhaPage: React.FC = () => {
   };
 
   const setPreset = (diasAtras: number) => {
+    setPeriodoSelecionado(String(diasAtras) as '7' | '15' | '30');
     setDataInicio(subDays(new Date(), diasAtras));
     setDataFim(new Date());
   };
 
   const setMesAtual = () => {
+    setPeriodoSelecionado('mes');
     setDataInicio(startOfMonth(new Date()));
     setDataFim(new Date());
   };
@@ -224,8 +228,7 @@ export const ResenhaPage: React.FC = () => {
         <CardHeader className="pb-3 pt-5 px-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-amber-500" />
+              <CardTitle className="text-lg font-semibold">
                 Parâmetros da Resenha
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground mt-1">
@@ -246,38 +249,58 @@ export const ResenhaPage: React.FC = () => {
               <div className="flex flex-wrap items-center gap-1.5">
                 <Button
                   type="button"
-                  variant="outline"
+                  variant={periodoSelecionado === '7' ? 'default' : 'outline'}
                   size="xs"
-                  className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                  className={`text-xs h-7 px-3 rounded-md transition-all ${
+                    periodoSelecionado === '7'
+                      ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                      : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                  }`}
                   onClick={() => setPreset(7)}
                 >
+                  {periodoSelecionado === '7' && <Check className="h-3 w-3 mr-1" />}
                   Últimos 7 dias
                 </Button>
                 <Button
                   type="button"
-                  variant="outline"
+                  variant={periodoSelecionado === '15' ? 'default' : 'outline'}
                   size="xs"
-                  className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                  className={`text-xs h-7 px-3 rounded-md transition-all ${
+                    periodoSelecionado === '15'
+                      ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                      : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                  }`}
                   onClick={() => setPreset(15)}
                 >
+                  {periodoSelecionado === '15' && <Check className="h-3 w-3 mr-1" />}
                   Últimos 15 dias
                 </Button>
                 <Button
                   type="button"
-                  variant="outline"
+                  variant={periodoSelecionado === '30' ? 'default' : 'outline'}
                   size="xs"
-                  className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                  className={`text-xs h-7 px-3 rounded-md transition-all ${
+                    periodoSelecionado === '30'
+                      ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                      : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                  }`}
                   onClick={() => setPreset(30)}
                 >
+                  {periodoSelecionado === '30' && <Check className="h-3 w-3 mr-1" />}
                   Últimos 30 dias
                 </Button>
                 <Button
                   type="button"
-                  variant="outline"
+                  variant={periodoSelecionado === 'mes' ? 'default' : 'outline'}
                   size="xs"
-                  className="text-xs h-7 px-3 rounded-md bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700"
+                  className={`text-xs h-7 px-3 rounded-md transition-all ${
+                    periodoSelecionado === 'mes'
+                      ? 'bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-xs'
+                      : 'bg-white dark:bg-slate-800 hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-700'
+                  }`}
                   onClick={setMesAtual}
                 >
+                  {periodoSelecionado === 'mes' && <Check className="h-3 w-3 mr-1" />}
                   Mês Atual
                 </Button>
               </div>
@@ -289,14 +312,28 @@ export const ResenhaPage: React.FC = () => {
                 <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Data Inicial:
                 </Label>
-                <DatePicker date={dataInicio} onChange={setDataInicio} className="w-full" />
+                <DatePicker
+                  date={dataInicio}
+                  onChange={(d) => {
+                    setPeriodoSelecionado(null);
+                    setDataInicio(d);
+                  }}
+                  className="w-full"
+                />
               </div>
 
               <div className="space-y-1.5 min-w-0">
                 <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Data Final:
                 </Label>
-                <DatePicker date={dataFim} onChange={setDataFim} className="w-full" />
+                <DatePicker
+                  date={dataFim}
+                  onChange={(d) => {
+                    setPeriodoSelecionado(null);
+                    setDataFim(d);
+                  }}
+                  className="w-full"
+                />
               </div>
 
               <div className="space-y-1.5 min-w-0">
