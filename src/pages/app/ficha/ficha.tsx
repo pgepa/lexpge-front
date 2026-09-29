@@ -38,12 +38,18 @@ export function Ficha() {
 
     useEffect(() => {
         async function loadAto() {
-            if (location.state && location.state.ato) {
+            if (location.state && location.state.ato && location.state.ato.origem) {
                 setAto(location.state.ato);
-            } else {
-                const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${id}?exibir=false`);
-                const data = await response.json();
-                setAto(data);
+            } else if (id) {
+                try {
+                    const response = await fetch(import.meta.env.VITE_API_URL + `/atos/${id}?exibir=false`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setAto(data);
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar dados da ficha:", error);
+                }
             }
         }
         loadAto();
@@ -74,7 +80,7 @@ export function Ficha() {
                         <span className="text-muted-foreground font-semibold w-32">Tipo:</span>
                         <span className="flex-1">{ato.tipo_id}</span>
                     </div>
-                    {ato.origem && (
+                    {ato.origem && ato.origem.trim() !== '' && (
                         <div className="flex flex-wrap items-center gap-2 p-2 border-b">
                             <span className="text-muted-foreground font-semibold w-32">Origem:</span>
                             <span className="flex-1 font-medium text-blue-600 dark:text-blue-400">{ato.origem}</span>
