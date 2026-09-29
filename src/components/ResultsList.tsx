@@ -24,6 +24,7 @@ interface AtosData {
     descritores: string;
     ementa: string;
     fonte: string;
+    origem?: string | null;
     id: string;
     numero: number;
     numero_formatado: string;
@@ -78,6 +79,13 @@ const ResultsList: React.FC = () => {
         if (query.situacao && query.situacao !== 'todas') {
             params.situacao = query.situacao;
         }
+        
+        if (query.fonte && query.fonte !== 'todas') { 
+            params.fonte = query.fonte;
+        }
+        if (query.origem && query.origem.trim() !== '') {
+            params.origem = query.origem.trim();
+        } 
         const queryString = new URLSearchParams(params).toString();
 
         try {
@@ -171,7 +179,7 @@ const ResultsList: React.FC = () => {
                             <CardTitle className="text-base font-medium -tracking-tight text-blue-700 dark:text-blue-300">
                                 {ato.titulo}
                             </CardTitle>
-                            <CardDescription>{ato.situacao}</CardDescription>
+                            <CardDescription>{ato.situacao}{ato.origem && <span className="ml-2 font-medium text-blue-600 dark:text-blue-400">• Origem: {ato.origem}</span>}</CardDescription>
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-1">

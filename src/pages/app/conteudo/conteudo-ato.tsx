@@ -9,6 +9,7 @@ import '../../../TipTapEditor/styles.css';
 interface TextoIntegral {
   id: number;
   conteudo: string;
+  fonte?: string;
 }
 
 // Parágrafos vazios ganham <br> para manter altura na exibição
@@ -104,6 +105,18 @@ export function TextoIntegral() {
   return (
     <>
       <Helmet title={`Ato Normativo ${id ? `| ${id}` : ''}`} />
+      
+      {ato.fonte && ato.fonte.toLowerCase() !== 'todas' && (
+        <div 
+          className={`fixed top-24 right-8 z-50 px-4 py-2 rounded-full text-white font-semibold text-sm shadow-lg border-2 ${
+            ato.fonte.toUpperCase() === 'DOE' ? 'bg-blue-600 border-blue-400' : 'bg-emerald-600 border-emerald-400'
+          }`}
+          title="Diário Oficial de Publicação"
+        >
+          {ato.fonte.toUpperCase() === 'DOE' ? 'Publicado no DOE' : `Publicado no ${ato.fonte}`}
+        </div>
+      )}
+
       <div className="space-y-6 p-4">
         <div className="flex flex-wrap items-center gap-2 p-2">
           <ContentViewer content={ato.conteudo} />

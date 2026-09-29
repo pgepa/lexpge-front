@@ -20,6 +20,7 @@ export type AtoCardPublic = {
     situacao: string;
     ementa: string;
     descritores: string;
+    origem?: string;
 };
 
 export const AtosCardChefia = () => {
@@ -151,7 +152,7 @@ export const AtosCardChefia = () => {
                                     <CardTitle className="text-base font-medium -tracking-tight text-blue-700 dark:text-blue-300">
                                         {ato.titulo}
                                     </CardTitle>
-                                    <CardDescription>{ato.situacao}</CardDescription>
+                                    <CardDescription>{ato.situacao}{ato.origem && <span className="ml-2 font-medium text-blue-600 dark:text-blue-400">• Origem: {ato.origem}</span>}</CardDescription>
                                 </div>
                             </CardHeader>
                             <CardContent className="space-y-1">

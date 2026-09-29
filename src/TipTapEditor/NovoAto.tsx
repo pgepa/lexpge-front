@@ -28,6 +28,7 @@ const novoRegistroForm = z.object({
     descritores: z.string().min(1, "Descritores são obrigatórios"),
     observacao: z.string(),
     editor: z.string(),
+    origem: z.string().optional().nullable().or(z.literal('')),
     texto_compilado: z.boolean().optional(),
 })
 
@@ -45,9 +46,12 @@ type NovoRegistroForm = z.infer<typeof novoRegistroForm>;
 
 export function NovoRegistro() {
     const navigate = useNavigate();
-    const { register, handleSubmit, control, formState: { isSubmitting, errors } } = useForm<NovoRegistroForm>({
+    const { register, handleSubmit, control, watch, formState: { isSubmitting, errors } } = useForm<NovoRegistroForm>({
         resolver: zodResolver(novoRegistroForm),
     });
+
+    const tipoId = watch('tipo_id');
+    const isOrigemApplicable = ['Portaria', 'Portaria Conjunta', 'Resolução', 'Instrução Normativa', 'Decreto Legislativo'].includes(tipoId);
 
     async function handleNovoRegistro(data: NovoRegistroForm) {
 
@@ -65,6 +69,7 @@ export function NovoRegistro() {
                 tipo_id: data.tipo_id,
                 situacao: data.situacao,
                 fonte: data.fonte,
+                origem: data.origem ? data.origem.trim().toUpperCase() : null,
                 data_ato: data.dataDoAto ? data.dataDoAto.toISOString().split('T')[0] : null,
                 data_publicacao: data.dataDaPublicacao ? data.dataDaPublicacao.toISOString().split('T')[0] : null,
                 descritores: data.descritores,
@@ -184,6 +189,17 @@ export function NovoRegistro() {
                         <Label htmlFor="fonte">Fonte:</Label>
                         <Input id="fonte" placeholder="Fonte" {...register('fonte')} />
                         {errors.fonte && <p className="text-red-500 text-sm">{errors.fonte.message}</p>}
+                    </div>
+
+                    <div className="col-span-1 space-y-2">
+                        <Label htmlFor="origem">Origem (Secretaria/Órgão):</Label>
+                        <Input 
+                            id="origem" 
+                            placeholder={isOrigemApplicable ? "Ex: SEDUC, SEPLAD, PGE" : "Não aplicável a este tipo"} 
+                            disabled={!isOrigemApplicable}
+                            {...register('origem')} 
+                        />
+                        {errors.origem && <p className="text-red-500 text-sm">{errors.origem.message}</p>}
                     </div>
 
                     <div className="flex items-center space-x-2 ">

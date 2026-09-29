@@ -31,6 +31,7 @@ import AtosNormativosChefia from '@/pages/app/atosChefias/AtosNormativosChefia';
 import ResultsPageAdmin from '@/pages/ResultsPageAdmin';
 import ResultsPageEstagiario from '@/pages/ResultsPageEstagiario';
 import ResultsPageChefia from '@/pages/ResultsPageChefia';
+import ResenhaPage from '@/pages/app/resenha/ResenhaPage';
 
 export const AdminRouter = createHashRouter([
   {
@@ -42,6 +43,7 @@ export const AdminRouter = createHashRouter([
       { path: '/results', element: <ResultsPage /> },
       { path: '/sobre', element: <Sobre /> },
       { path: '/atos', element: <AtosNormativosPublic /> },
+      { path: '/resenha', element: <ResenhaPage /> },
       
     ]
   },
@@ -57,6 +59,7 @@ export const AdminRouter = createHashRouter([
       { path: '/chefia/atos', element: <PrivateRoute allowedProfiles={[2]}><AtosNormativosChefia /></PrivateRoute>  },
       { path: '/chefia/ficha/:id', element:<PrivateRoute allowedProfiles={[2]}><Ficha /></PrivateRoute>  },
       { path: '/chefia/dashboard', element: <PrivateRoute allowedProfiles={[2]}><Dashboard /></PrivateRoute> },
+      { path: '/chefia/resenha', element: <PrivateRoute allowedProfiles={[2]}><ResenhaPage /></PrivateRoute> },
     ]
   },
   {
@@ -70,6 +73,7 @@ export const AdminRouter = createHashRouter([
       { path: '/estagiario/atos', element: <PrivateRoute allowedProfiles={[3]}><AtosNormativosEstagiario /></PrivateRoute> },
       { path: '/estagiario/registro', element: <PrivateRoute allowedProfiles={[3]}><NovoRegistroEstagiario /></PrivateRoute> },
       { path: '/estagiario/editar/:id', element: <PrivateRoute allowedProfiles={[3]}><EditarRegistroEstagiario /></PrivateRoute> },
+      { path: '/estagiario/resenha', element: <PrivateRoute allowedProfiles={[3]}><ResenhaPage /></PrivateRoute> },
     ]
   },
   {
@@ -108,6 +112,7 @@ export const AdminRouter = createHashRouter([
       { path: '/admin/registro', element: <PrivateRoute allowedProfiles={[1]}><NovoRegistro /></PrivateRoute> },
       { path: '/admin/editar/:id', element: <PrivateRoute allowedProfiles={[1]}><EditarRegistro /></PrivateRoute> },
       { path: '/admin/usuario', element: <PrivateRoute allowedProfiles={[1]}><ManagementUser /></PrivateRoute> },
+      { path: '/admin/resenha', element: <PrivateRoute allowedProfiles={[1]}><ResenhaPage /></PrivateRoute> },
     ]
   },
 ]);

@@ -11,9 +11,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 
 
+const isOrigemApplicable = (tipo: string) => {
+    return !tipo || tipo === 'todos' || ['Portaria', 'Portaria Conjunta', 'Resolução', 'Instrução Normativa', 'Decreto Legislativo'].includes(tipo);
+};
+
 const SearchFormAdmin: React.FC = () => {
     const { query, setQuery } = useContext(SearchContext)!;
-    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; }>({
+    const [localQuery, setLocalQuery] = useState<{ conteudo: string; descritores: string; numero: string; ano: string; tipo: string; texto_compilado: boolean; situacao: string; fonte: string; origem: string; }>({
         conteudo: query.conteudo ?? '',
         descritores: query.descritores ?? '',
         numero: query.numero ?? '',
@@ -21,6 +25,8 @@ const SearchFormAdmin: React.FC = () => {
         tipo: query.tipo || 'todos',
         texto_compilado: query.texto_compilado || false,
         situacao: query.situacao || 'todas',
+        fonte: query.fonte || 'todas',
+        origem: query.origem ?? '',
     });
     const navigate = useNavigate();
 
@@ -40,6 +46,8 @@ const SearchFormAdmin: React.FC = () => {
             tipo: 'todos',
             texto_compilado: false,
             situacao: 'todas',
+            fonte: 'todas',
+            origem: '',
         });
 
         // Também reseta o contexto se necessário
@@ -51,6 +59,8 @@ const SearchFormAdmin: React.FC = () => {
             tipo: 'todos',
             texto_compilado: false,
             situacao: 'todas',
+            fonte: 'todas',
+            origem: '',
         });
     };
 
@@ -127,6 +137,27 @@ const SearchFormAdmin: React.FC = () => {
                             <SelectItem value="Suspensa">Eficácia Suspensa</SelectItem>
                         </SelectContent>
                     </Select>
+            <Select
+                value={localQuery.fonte}
+                onValueChange={(value) => setLocalQuery({ ...localQuery, fonte: value })}
+            >
+                <SelectTrigger className="w-full sm:w-[220px]">
+                    <SelectValue placeholder="Diário Oficial" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="todas">Todos os Diários</SelectItem>
+                    <SelectItem value="DOE">DOE</SelectItem>
+                    <SelectItem value="DO-E/SEFA">DO-e/SEFA</SelectItem>
+                </SelectContent>
+            </Select>
+                    <Input
+                        placeholder={isOrigemApplicable(localQuery.tipo) ? "Origem / Secretaria (ex: SEDUC, SEPLAD)" : "Origem (não aplicável ao tipo)"}
+                        value={localQuery.origem}
+                        disabled={!isOrigemApplicable(localQuery.tipo)}
+                        onChange={(e) => setLocalQuery({ ...localQuery, origem: e.target.value })}
+                        className="w-full"
+                    />
+
 
                     <Input
                         placeholder="Busca avançada por termos"

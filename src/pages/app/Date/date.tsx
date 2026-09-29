@@ -15,6 +15,9 @@ import { Input } from "@/components/ui/input";
 interface DatePickerProps {
   date: Date | undefined;
   onChange: (date: Date | undefined) => void;
+  className?: string;
+  dateFormat?: string;
+  placeholder?: string;
 }
 
 // Função utilitária para converter uma data para UTC
@@ -28,11 +31,29 @@ function createUTCDate(year: number, month: number, day: number = 1): Date {
   return toUTCDate(date);
 }
 
-export function DatePicker({ date, onChange }: DatePickerProps) {
+export function DatePicker({
+  date,
+  onChange,
+  className,
+  dateFormat = "dd/MM/yyyy",
+  placeholder = "Escolha uma data",
+}: DatePickerProps) {
   const [selectedYear, setSelectedYear] = useState<number>(date ? getYear(date) : new Date().getUTCFullYear());
   const [selectedMonth, setSelectedMonth] = useState<number>(date ? getMonth(date) : new Date().getUTCMonth());
   const [inputValue, setInputValue] = useState<string>(date ? format(toUTCDate(date), "dd/MM/yyyy") : "");
   const [currentMonth, setCurrentMonth] = useState<Date>(createUTCDate(selectedYear, selectedMonth));
+
+  useEffect(() => {
+    if (date) {
+      const utcDate = toUTCDate(date);
+      setSelectedYear(getYear(utcDate));
+      setSelectedMonth(getMonth(utcDate));
+      setInputValue(format(utcDate, "dd/MM/yyyy"));
+      setCurrentMonth(createUTCDate(getYear(utcDate), getMonth(utcDate)));
+    } else {
+      setInputValue("");
+    }
+  }, [date]);
 
   useEffect(() => {
     setCurrentMonth(createUTCDate(selectedYear, selectedMonth));
@@ -87,15 +108,19 @@ export function DatePicker({ date, onChange }: DatePickerProps) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-auto justify-start text-left font-normal h-10",
-            !date && "text-muted-foreground"
+            "w-full justify-start text-left font-normal h-10 px-3 truncate",
+            !date && "text-muted-foreground",
+            className
           )}
+          title={date ? format(toUTCDate(date), "PPPP", { locale: ptBR }) : undefined}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(toUTCDate(date), "PPPP", { locale: ptBR }) : <span>Escolha uma data</span>}
+          <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+          <span className="truncate">
+            {date ? format(toUTCDate(date), dateFormat, { locale: ptBR }) : placeholder}
+          </span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0" align="start">
         {/* Campo de entrada para a data */}
         <div className="p-2">
           <Input
