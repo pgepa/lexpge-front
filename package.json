@@ -57,6 +57,7 @@
     "jodit": "^4.2.27",
     "jodit-react": "^4.1.2",
     "jspdf": "^2.5.1",
+    "jspdf-autotable": "^5.0.8",
     "label": "^0.2.2",
     "localforage": "^1.10.0",
     "lucide-react": "^0.396.0",
@@ -78,6 +79,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "tiptap-extension-resize-image": "^1.2.1",
+    "xlsx": "^0.18.5",
     "yup": "^1.4.0",
     "zod": "^3.23.8",
     "zustand": "^5.0.3"
