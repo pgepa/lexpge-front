@@ -44,6 +44,7 @@ import {
 } from "lucide-react";
 import GridLoader from "react-spinners/GridLoader";
 import { format, subDays, startOfMonth, endOfMonth, subMonths } from 'date-fns';
+import { ExportReportModal } from './ExportReportModal';
 
 interface TipoBreakdown {
   tipo: string;
@@ -137,6 +138,9 @@ export function TeamProductivity() {
   // Ordenação da tabela de produtividade
   const [ordenacao, setOrdenacao] = useState<'total' | 'criados' | 'editados' | 'nome'>('total');
   const [ordemDesc, setOrdemDesc] = useState<boolean>(true);
+
+  // Modal de Exportação de Relatórios
+  const [modalExportacaoAberto, setModalExportacaoAberto] = useState<boolean>(false);
 
   // Presets de data
   const aplicarPreset = (tipo: 'este_mes' | 'mes_anterior' | 'ultimos_30' | 'ano_atual' | 'tudo') => {
@@ -306,55 +310,6 @@ export function TeamProductivity() {
     return lista;
   }, [usuarios, buscaNome, ordenacao, ordemDesc]);
 
-  // Exportação para CSV / Excel
-  const exportarCSV = () => {
-    if (!usuariosFiltrados.length) return;
-
-    const headers = [
-      "Nome",
-      "Email",
-      "Perfil",
-      "Status",
-      "Atos Cadastrados",
-      "Atos Editados/Revisados",
-      "Total de Acoes",
-      "Ultima Atividade",
-      "Distribuicao por Tipo"
-    ];
-
-    const rows = usuariosFiltrados.map((u) => {
-      const tiposStr = u.tipos && u.tipos.length > 0
-        ? u.tipos.map((t) => `${t.tipo}: ${t.total}`).join(" | ")
-        : "Nenhum";
-
-      return [
-        `"${u.nome.replace(/"/g, '""')}"`,
-        `"${u.email}"`,
-        `"${u.perfil}"`,
-        `"${u.ativo ? "Ativo" : "Inativo"}"`,
-        u.total_criados,
-        u.total_editados,
-        u.total_acoes,
-        `"${u.ultima_acao || "-"}"`,
-        `"${tiposStr.replace(/"/g, '""')}"`
-      ].join(";");
-    });
-
-    // UTF-8 BOM (\uFEFF) para abrir no Excel em português sem quebrar acentuação
-    const csvContent = "\uFEFF" + [headers.join(";"), ...rows].join("\r\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    const periodoStr = dataInicio && dataFim
-      ? `${format(dataInicio, 'ddMMyyyy')}_a_${format(dataFim, 'ddMMyyyy')}`
-      : "periodo-completo";
-    link.href = url;
-    link.setAttribute("download", `relatorio_produtividade_lexpge_${periodoStr}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const alternarOrdenacao = (coluna: 'total' | 'criados' | 'editados' | 'nome') => {
     if (ordenacao === coluna) {
       setOrdemDesc(!ordemDesc);
@@ -394,13 +349,13 @@ export function TeamProductivity() {
               <Button
                 variant="default"
                 size="sm"
-                onClick={exportarCSV}
-                disabled={loading || usuariosFiltrados.length === 0}
-                className="gap-1.5 h-9 bg-emerald-600 hover:bg-emerald-700 text-white"
-                title="Exportar dados para planilha Excel (.csv)"
+                onClick={() => setModalExportacaoAberto(true)}
+                disabled={loading}
+                className="gap-1.5 h-9 bg-blue-600 hover:bg-blue-700 text-white shadow-xs"
+                title="Exportar relatórios gerenciais em PDF ou Excel (.xlsx)"
               >
                 <Download className="h-4 w-4" />
-                Exportar CSV
+                Exportar Relatórios
               </Button>
             </div>
           </div>
@@ -677,7 +632,7 @@ export function TeamProductivity() {
                 <TableHeader className="bg-slate-50 dark:bg-slate-900/60">
                   <TableRow>
                     <TableHead
-                      className="cursor-pointer hover:text-blue-600 transition-colors"
+                      className="cursor-pointer hover:text-blue-600 transition-colors pl-6"
                       onClick={() => alternarOrdenacao('nome')}
                     >
                       <div className="flex items-center gap-1.5">
@@ -685,38 +640,38 @@ export function TeamProductivity() {
                         <ArrowUpDown className="h-3 w-3 text-muted-foreground" />
                       </div>
                     </TableHead>
-                    <TableHead>Perfil</TableHead>
+                    <TableHead className="text-center">Perfil</TableHead>
                     <TableHead className="text-center">Status</TableHead>
                     <TableHead
-                      className="text-right cursor-pointer hover:text-blue-600 transition-colors"
+                      className="text-center cursor-pointer hover:text-blue-600 transition-colors"
                       onClick={() => alternarOrdenacao('criados')}
                     >
-                      <div className="flex items-center justify-end gap-1.5">
+                      <div className="flex items-center justify-center gap-1.5">
                         Cadastros
                         <ArrowUpDown className="h-3 w-3 text-muted-foreground" />
                       </div>
                     </TableHead>
                     <TableHead
-                      className="text-right cursor-pointer hover:text-blue-600 transition-colors"
+                      className="text-center cursor-pointer hover:text-blue-600 transition-colors"
                       onClick={() => alternarOrdenacao('editados')}
                     >
-                      <div className="flex items-center justify-end gap-1.5">
+                      <div className="flex items-center justify-center gap-1.5">
                         Edições/Revisões
                         <ArrowUpDown className="h-3 w-3 text-muted-foreground" />
                       </div>
                     </TableHead>
                     <TableHead
-                      className="text-right cursor-pointer hover:text-blue-600 transition-colors font-bold"
+                      className="text-center cursor-pointer hover:text-blue-600 transition-colors font-bold"
                       onClick={() => alternarOrdenacao('total')}
                     >
-                      <div className="flex items-center justify-end gap-1.5 text-blue-600 dark:text-blue-400">
+                      <div className="flex items-center justify-center gap-1.5 text-blue-600 dark:text-blue-400">
                         Total Ações
                         <ArrowUpDown className="h-3 w-3" />
                       </div>
                     </TableHead>
-                    <TableHead>Tipos Mais Frequentes</TableHead>
+                    <TableHead className="text-center">Tipos Mais Frequentes</TableHead>
                     <TableHead className="text-center">Última Ação</TableHead>
-                    <TableHead className="text-right pr-6">Ações</TableHead>
+                    <TableHead className="text-center pr-4">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -740,7 +695,7 @@ export function TeamProductivity() {
                     return (
                       <TableRow key={u.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-900/40">
                         {/* Servidor */}
-                        <TableCell className="font-medium">
+                        <TableCell className="font-medium pl-6">
                           <div className="flex items-center gap-3">
                             <div className="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-700 dark:text-slate-200 flex-shrink-0">
                               {initials || "U"}
@@ -757,7 +712,7 @@ export function TeamProductivity() {
                         </TableCell>
 
                         {/* Perfil */}
-                        <TableCell>
+                        <TableCell className="text-center">
                           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${badgeColor}`}>
                             {u.perfil}
                           </span>
@@ -766,7 +721,7 @@ export function TeamProductivity() {
                         {/* Status */}
                         <TableCell className="text-center">
                           <span
-                            className={`inline-flex items-center gap-1.5 text-xs ${
+                            className={`inline-flex items-center justify-center gap-1.5 text-xs ${
                               u.ativo ? "text-emerald-600 dark:text-emerald-400" : "text-slate-400"
                             }`}
                           >
@@ -780,28 +735,28 @@ export function TeamProductivity() {
                         </TableCell>
 
                         {/* Cadastros */}
-                        <TableCell className="text-right">
-                          <span className="inline-flex items-center justify-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                        <TableCell className="text-center">
+                          <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 min-w-[28px]">
                             {u.total_criados}
                           </span>
                         </TableCell>
 
                         {/* Edições */}
-                        <TableCell className="text-right">
-                          <span className="inline-flex items-center justify-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300">
+                        <TableCell className="text-center">
+                          <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 min-w-[28px]">
                             {u.total_editados}
                           </span>
                         </TableCell>
 
                         {/* Total de Ações */}
-                        <TableCell className="text-right font-bold text-slate-900 dark:text-slate-100">
+                        <TableCell className="text-center font-bold text-slate-900 dark:text-slate-100">
                           {u.total_acoes}
                         </TableCell>
 
                         {/* Tipos Mais Frequentes */}
-                        <TableCell className="max-w-xs">
+                        <TableCell className="text-center">
                           {u.tipos && u.tipos.length > 0 ? (
-                            <div className="flex flex-wrap gap-1">
+                            <div className="flex flex-wrap items-center justify-center gap-1 max-w-xs mx-auto">
                               {u.tipos.slice(0, 3).map((t, idx) => (
                                 <span
                                   key={idx}
@@ -828,7 +783,7 @@ export function TeamProductivity() {
                         </TableCell>
 
                         {/* Ações */}
-                        <TableCell className="text-right pr-6">
+                        <TableCell className="text-center pr-4">
                           <Button
                             variant="outline"
                             size="xs"
@@ -1045,6 +1000,18 @@ export function TeamProductivity() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Modal de Exportação de Relatórios Gerenciais */}
+      <ExportReportModal
+        open={modalExportacaoAberto}
+        onOpenChange={setModalExportacaoAberto}
+        usuariosEquipe={usuarios}
+        periodoEquipeLabel={
+          dataInicio && dataFim
+            ? `${format(dataInicio, 'dd/MM/yyyy')} a ${format(dataFim, 'dd/MM/yyyy')}`
+            : "Período Geral"
+        }
+      />
     </div>
   );
 }
