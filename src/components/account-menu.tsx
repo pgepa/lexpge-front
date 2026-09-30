@@ -52,6 +52,7 @@ export function AccountMenu() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("userProfile");
         navigate("/");
     };
 
