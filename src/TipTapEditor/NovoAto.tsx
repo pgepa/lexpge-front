@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { EditorTip } from '@/TipTapEditor/editor';
 import { EditorTipObservacao } from '@/TipTapEditor/Observacao';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { OrigemAutocomplete } from '@/components/OrigemAutocomplete';
 
 
 const novoRegistroForm = z.object({
@@ -193,11 +194,19 @@ export function NovoRegistro() {
 
                     <div className="col-span-1 space-y-2">
                         <Label htmlFor="origem">Origem (Secretaria/Órgão):</Label>
-                        <Input 
-                            id="origem" 
-                            placeholder={isOrigemApplicable ? "Ex: SEDUC, SEPLAD, PGE" : "Não aplicável a este tipo"} 
-                            disabled={!isOrigemApplicable}
-                            {...register('origem')} 
+                        <Controller
+                            name="origem"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <OrigemAutocomplete
+                                    id="origem"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    disabled={!isOrigemApplicable}
+                                    placeholder={isOrigemApplicable ? "Ex: SEDUC, SEPLAD, PGE" : "Não aplicável a este tipo"}
+                                />
+                            )}
                         />
                         {errors.origem && <p className="text-red-500 text-sm">{errors.origem.message}</p>}
                     </div>
