@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -7,11 +7,13 @@ import { api } from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const signInFormSchema = z.object({
   email: z.string().email('E-mail inválido'),
   senha: z.string().min(1, 'Senha é obrigatória'),
+  remember_me: z.boolean().default(false),
 });
 
 type SignInForm = z.infer<typeof signInFormSchema>;
@@ -20,13 +22,50 @@ export function SignIn() {
   const navigate = useNavigate();
   const [error, setError] = useState<string>('');
 
-  const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<SignInForm>({
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userProfile = (() => {
+      try {
+        return JSON.parse(localStorage.getItem('userProfile') || 'null') as number | null;
+      } catch {
+        return null;
+      }
+    })();
+
+    if (token && userProfile) {
+      switch (userProfile) {
+        case 1:
+          navigate('/admin', { replace: true });
+          break;
+        case 2:
+          navigate('/chefia', { replace: true });
+          break;
+        case 3:
+          navigate('/estagiario', { replace: true });
+          break;
+        default:
+          navigate('/', { replace: true });
+          break;
+      }
+    }
+  }, [navigate]);
+
+  const { register, control, handleSubmit, formState: { isSubmitting, errors } } = useForm<SignInForm>({
     resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      email: '',
+      senha: '',
+      remember_me: false,
+    },
   });
 
   const handleLogin = async (form: SignInForm) => {
     try {
-      const response = await api.post('/auth/login', { email: form.email, senha: form.senha });
+      const response = await api.post('/auth/login', {
+        email: form.email,
+        senha: form.senha,
+        remember_me: form.remember_me,
+      });
       const { access_token, id_perfil } = response.data;
 
       localStorage.setItem('token', access_token);
@@ -73,6 +112,26 @@ export function SignIn() {
               <Label htmlFor="senha">Senha:</Label>
               <Input id="senha" placeholder="******" type="password" {...register("senha")} />
               {errors.senha && <p className="text-red-500">{errors.senha.message}</p>}
+            </div>
+
+            <div className="flex items-center space-x-2 pt-1">
+              <Controller
+                name="remember_me"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    id="remember_me"
+                    checked={field.value}
+                    onCheckedChange={(checked) => field.onChange(!!checked)}
+                  />
+                )}
+              />
+              <Label
+                htmlFor="remember_me"
+                className="text-sm font-medium leading-none cursor-pointer text-muted-foreground select-none"
+              >
+                Lembrar de mim
+              </Label>
             </div>
 
             {error && <p className="text-red-500">{error}</p>}

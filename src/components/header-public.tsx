@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Scale, BookOpenText, List, Home, Menu, CalendarDays } from "lucide-react";
+import { Scale, BookOpenText, List, Home, Menu, CalendarDays, LayoutDashboard } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme/theme-toggle";
 import { Login } from './login';
+import { AccountMenu } from './account-menu';
 
 export function HeaderPublic() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +15,28 @@ export function HeaderPublic() {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const token = localStorage.getItem('token');
+  const userProfile = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('userProfile') || 'null') as number | null;
+    } catch {
+      return null;
+    }
+  })();
+
+  const getPanelPath = () => {
+    switch (userProfile) {
+      case 1:
+        return '/admin';
+      case 2:
+        return '/chefia';
+      case 3:
+        return '/estagiario';
+      default:
+        return '/admin';
+    }
   };
 
   return (
@@ -38,6 +61,12 @@ export function HeaderPublic() {
             isMenuOpen ? "flex" : "hidden"
           }`}
         >
+          {token && userProfile && (
+            <NavLink to={getPanelPath()} onClick={closeMenu}>
+              <LayoutDashboard className="h-4 w-4" />
+              Painel
+            </NavLink>
+          )}
           <NavLink to="/" onClick={closeMenu}>
             <Home className="h-4 w-4" />
             Início
@@ -58,7 +87,7 @@ export function HeaderPublic() {
 
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
-          <Login />
+          {token ? <AccountMenu /> : <Login />}
         </div>
       </div>
     </div>
