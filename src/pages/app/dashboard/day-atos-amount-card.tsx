@@ -48,6 +48,13 @@ export function DayAtosAmountCard() {
     return Array.from({ length: totalDias }, (_, i) => i + 1);
   };
 
+  useEffect(() => {
+    const totalDias = new Date(anoSelecionado, mesSelecionado, 0).getDate();
+    if (diaSelecionado > totalDias) {
+      setDiaSelecionado(totalDias);
+    }
+  }, [anoSelecionado, mesSelecionado, diaSelecionado]);
+
   const getData = async (ano: number, mes: number, dia: number) => {
     const token = localStorage.getItem("token");
     const response = await api.get<DashboardResponse>(
@@ -125,7 +132,7 @@ export function DayAtosAmountCard() {
               <SelectValue placeholder="Ano" />
             </SelectTrigger>
             <SelectContent>
-              {[2024, 2025, 2026].map((ano) => (
+              {[2024, 2025, 2026, 2027].map((ano) => (
                 <SelectItem key={ano} value={String(ano)}>
                   {ano}
                 </SelectItem>

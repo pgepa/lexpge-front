@@ -47,21 +47,38 @@ export function MonthAtosAmountCard() {
 
       try {
         setLoading(true);
-        const response = await api.get<DashboardResponse>(
-          `/dashboard/atos?ano=${anoSelecionado}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const [responseAtual, responseAnterior] = await Promise.all([
+          api.get<DashboardResponse>(
+            `/dashboard/atos?ano=${anoSelecionado}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          ),
+          mesSelecionado === 1
+            ? api.get<DashboardResponse>(
+                `/dashboard/atos?ano=${anoSelecionado - 1}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              )
+            : Promise.resolve(null),
+        ]);
 
-        const porMes = response.data.por_mes;
-        const mesAtualData = porMes.find((m) => m.mes === mesSelecionado);
-        const mesAnteriorData = porMes.find((m) => m.mes === mesSelecionado - 1);
-
+        const porMesAtual = responseAtual.data.por_mes || [];
+        const mesAtualData = porMesAtual.find((m) => m.mes === mesSelecionado);
         const totalAtual = mesAtualData?.total ?? 0;
-        const totalAnterior = mesAnteriorData?.total ?? 0;
+
+        let totalAnterior = 0;
+        if (mesSelecionado === 1) {
+          const porMesAnterior = responseAnterior?.data.por_mes || [];
+          totalAnterior = porMesAnterior.find((m) => m.mes === 12)?.total ?? 0;
+        } else {
+          totalAnterior = porMesAtual.find((m) => m.mes === mesSelecionado - 1)?.total ?? 0;
+        }
 
         const variacao =
           totalAnterior > 0
@@ -101,7 +118,7 @@ export function MonthAtosAmountCard() {
               <SelectValue placeholder="Ano" />
             </SelectTrigger>
             <SelectContent>
-              {[2024, 2025, 2026].map((ano) => (
+              {[2024, 2025, 2026, 2027].map((ano) => (
                 <SelectItem key={ano} value={String(ano)}>
                   {ano}
                 </SelectItem>
